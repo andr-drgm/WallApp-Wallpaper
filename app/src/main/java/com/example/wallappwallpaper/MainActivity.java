@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter wallPaperAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private WallPaperDB testDB;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
         testDB = new WallPaperDB();
 
-        //String imagePath, String author, String description, String title, String name
-        testDB.Add(new WallPaper("","Author", "Descriere 1", "Titlu fain", "Nume1"));
-        testDB.Add(new WallPaper("","Author2", "Descriere 2", "Titlu mai fain", "Nume2"));
-        testDB.Add(new WallPaper("","Author3", "Descriere 3", "Titlu mult mai fain", "Nume3"));
-        testDB.Add(new WallPaper("","Author", "Descriere 4", "Titlu ceva acolo", "Nume4"));
+        imageView = findViewById(R.id.imageView);
 
-        for(WallPaper wallPaper : testDB.GetAllWallPapers())
-        {
-            Log.i("test", wallPaper.getDescription());
-        }
+        //String imagePath, String author, String description, String title, String name
+        testDB.Add(new WallPaper(imageView,"Author", "Descriere 1", "Titlu fain", "Nume1"));
+        testDB.Add(new WallPaper(imageView,"Author2", "Descriere 2", "Titlu mai fain", "Nume2"));
+        testDB.Add(new WallPaper(imageView,"Author3", "Descriere 3", "Titlu mult mai fain", "Nume3"));
+        testDB.Add(new WallPaper(imageView,"Author", "Descriere 4", "Titlu ceva acolo", "Nume4"));
 
         recyclerView = (RecyclerView) findViewById(R.id.wallpapers_list);
         recyclerView.setHasFixedSize(true);

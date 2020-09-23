@@ -1,30 +1,21 @@
 package com.example.wallappwallpaper;
 
-import android.graphics.Bitmap;
+import android.net.Uri;
+import android.widget.ImageView;
 
 import java.util.Objects;
 
 public class WallPaper {
 
-    private Bitmap imageBitmap;
-    private String imagePath;
+    private ImageView imageView;
 
     private String author;
     private String description;
     private String title;
     private String name;
 
-    public WallPaper(String imagePath, String author, String description, String title, String name){
-        this.imagePath = imagePath;
-        this.author = author;
-        this.description = description;
-        this.title = title;
-        this.name = name;
-
-    }
-
-    public WallPaper(Bitmap imageBitmap, String author, String description, String title, String name){
-        this.imageBitmap = imageBitmap;
+    public WallPaper(ImageView imagePath, String author, String description, String title, String name){
+        this.imageView = imagePath;
         this.author = author;
         this.description = description;
         this.title = title;
@@ -58,12 +49,8 @@ public class WallPaper {
         return title;
     }
 
-    public Bitmap getImageBitmap() {
-        return imageBitmap;
-    }
-
-    public String getImagePath() {
-        return imagePath;
+    public ImageView getImagePath() {
+        return imageView;
     }
 
     public String getDescription() {
