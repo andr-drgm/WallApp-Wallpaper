@@ -3,6 +3,7 @@ package com.example.wallappwallpaper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,8 +18,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     List<WallPaper> wallpaperData;
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
+
         public TextView titleView;
         public TextView descriptionView;
+        public ImageView imageView;
 
         public WallPaperViewHolder(View v)
         {
