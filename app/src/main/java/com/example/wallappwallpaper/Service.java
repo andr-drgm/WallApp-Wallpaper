@@ -13,6 +13,11 @@ public class Service {
         wallPaperDB = myDatabase;
     }
 
+    public Service()
+    {
+        wallPaperDB = new WallPaperDB();
+    }
+
     public void AddWallPaper(ImageView imagePath, String author, String description, String title, String name)
     {
         WallPaper newWallPaper = new WallPaper(imagePath, author, description, title, name);
@@ -23,6 +28,14 @@ public class Service {
     {
         WallPaper newWallPaper = new WallPaper(imagePath, author, description, title, name);
         wallPaperDB.Remove(newWallPaper);
+    }
+
+    public void UpdateWallPaper(ImageView imagePath, String author, String description, String title, String name, ImageView newImagePath, String newAuthor, String newDescription, String newTitle, String newName)
+    {
+        WallPaper oldWallpaper =  new WallPaper(imagePath, author, description, title, name);
+        WallPaper newWallpaper =  new WallPaper(newImagePath, newAuthor, newDescription, newTitle, newName);
+
+        wallPaperDB.Update(oldWallpaper, newWallpaper);
     }
 
 
