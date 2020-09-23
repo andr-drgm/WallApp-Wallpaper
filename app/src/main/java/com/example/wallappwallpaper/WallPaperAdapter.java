@@ -41,7 +41,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-        holder.imageView.setImageResource(R.drawable.wall1);
+        holder.imageView.setImageResource(wallpaperData.get(position).getImagePath());
     }
 
     @Override

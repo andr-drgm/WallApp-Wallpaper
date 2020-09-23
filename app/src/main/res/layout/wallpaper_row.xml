@@ -14,9 +14,17 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="600px"
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/wall1" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

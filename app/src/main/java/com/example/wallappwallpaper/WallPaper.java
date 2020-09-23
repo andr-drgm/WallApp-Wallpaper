@@ -1,5 +1,6 @@
 package com.example.wallappwallpaper;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
@@ -7,14 +8,14 @@ import java.util.Objects;
 
 public class WallPaper {
 
-    private ImageView imageView;
+    private int imageView;
 
     private String author;
     private String description;
     private String title;
     private String name;
 
-    public WallPaper(ImageView imagePath, String author, String description, String title, String name){
+    public WallPaper(int imagePath, String author, String description, String title, String name){
         this.imageView = imagePath;
         this.author = author;
         this.description = description;
@@ -49,7 +50,7 @@ public class WallPaper {
         return title;
     }
 
-    public ImageView getImagePath() {
+    public int getImagePath() {
         return imageView;
     }
 
