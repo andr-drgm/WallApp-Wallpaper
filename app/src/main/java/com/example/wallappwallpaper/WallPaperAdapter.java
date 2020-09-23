@@ -3,6 +3,7 @@ package com.example.wallappwallpaper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,13 +18,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     List<WallPaper> wallpaperData;
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
-        public TextView textView;
+        public ImageView imageView;
 
         public WallPaperViewHolder(View v)
         {
             super(v);
             dataView = v;
-            textView = (TextView) dataView.findViewById(R.id.title_textView);
+            imageView = (ImageView) dataView.findViewById(R.id.imageView);
         }
     }
 
@@ -44,7 +45,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-        holder.textView.setText(wallpaperData.get(position).getDescription());
+        holder.imageView.setImageResource(R.drawable.wall1);
     }
 
     @Override
