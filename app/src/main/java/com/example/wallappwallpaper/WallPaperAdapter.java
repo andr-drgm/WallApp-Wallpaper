@@ -17,13 +17,15 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     List<WallPaper> wallpaperData;
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
-        public TextView textView;
+        public TextView titleView;
+        public TextView descriptionView;
 
         public WallPaperViewHolder(View v)
         {
             super(v);
             dataView = v;
-            textView = (TextView) dataView.findViewById(R.id.title_textView);
+            titleView = (TextView) dataView.findViewById(R.id.title_textView);
+            descriptionView = (TextView) dataView.findViewById(R.id.description_textView);
         }
     }
 
@@ -44,7 +46,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-        holder.textView.setText(wallpaperData.get(position).getDescription());
+        holder.titleView.setText(wallpaperData.get(position).getTitle());
+        holder.descriptionView.setText(wallpaperData.get(position).getDescription());
     }
 
     @Override
