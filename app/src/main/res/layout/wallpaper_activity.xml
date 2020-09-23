@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF"
+    android:backgroundTint="@color/cardview_shadow_end_color"
+    android:backgroundTintMode="add"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/wall_back_button"
-        android:layout_width="wrap_content"
+        android:layout_width="74dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="33dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/cardview_shadow_end_color"
         android:text="BACK"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textAlignment="viewStart" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="342dp"
         android:layout_height="359dp"
-        android:layout_marginTop="87dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="18dp"
+        android:scaleType="fitCenter"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -32,36 +33,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="61dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="36sp" />
 
     <TextView
         android:id="@+id/wall_author_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="464dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="18dp"
         android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/wall_description_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="341dp"
+        android:layout_height="162dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="507dp"
-        android:layout_marginEnd="317dp"
-        android:layout_marginBottom="205dp"
+        android:layout_marginTop="18dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textSize="18sp" />
+</LinearLayout>
