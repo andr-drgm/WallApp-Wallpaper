@@ -1,7 +1,10 @@
 package com.example.wallappwallpaper;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -11,8 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import java.io.IOException;
 
@@ -44,14 +49,36 @@ public class WallPaperActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                WallpaperManager wallpaperManager =
-                        WallpaperManager.getInstance(getApplicationContext());
-                try{
-                    wallpaperManager.setResource(wallpaper.getImagePath());
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Change wallpaper");
+
+                builder.setPositiveButton("Set wallpaper", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        WallpaperManager wallpaperManager =
+                                WallpaperManager.getInstance(getApplicationContext());
+                        try{
+                            wallpaperManager.setResource(wallpaper.getImagePath());
+                        } catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+
+                builder.show();
+
+
             }
         });
 
@@ -66,7 +93,8 @@ public class WallPaperActivity extends AppCompatActivity {
                 //intent.addCategory(Intent.CATEGORY_HOME);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 //context.startActivity(intent);
-                startActivityForResult(new Intent(getApplicationContext(), MainActivity.class), 0);
+                //startActivityForResult(new Intent(getApplicationContext(), MainActivity.class), 0);
+                onBackPressed();
             }
         });
 
@@ -81,11 +109,10 @@ public class WallPaperActivity extends AppCompatActivity {
         WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
 
         ImageView wallPaperImageView = findViewById(R.id.imageView2);
+        assert wallpaper != null;
         wallPaperImageView.setImageResource(wallpaper.getImagePath());
 
     }
 
-
-
-
 }
+
