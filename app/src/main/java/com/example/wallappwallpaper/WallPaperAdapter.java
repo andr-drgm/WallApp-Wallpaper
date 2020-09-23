@@ -52,13 +52,14 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-//          wallpaperData.get(position).getImagePath()
-//        Bitmap bm = BitmapFactory.decodeResource(Resources.getSystem() , wallpaperData.get(position).getImagePath());
-//        holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200, 200));
+//        wallpaperData.get(position).getImagePath()
+        Bitmap bm = BitmapFactory.decodeResource( holder.dataView.getResources() , wallpaperData.get(position).getImagePath());
+//        bm = Bitmap.createScaledBitmap(bm, 400, 400, false);
+        holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 300,600));
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
-        holder.imageView.setImageResource(currentWallPaper.getImagePath());
+        //holder.imageView.setImageResource(currentWallPaper.getImagePath());
         holder.cardTextView.setText(currentWallPaper.getTitle());
 
         holder.dataView.setOnClickListener(new View.OnClickListener(){
