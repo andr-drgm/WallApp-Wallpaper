@@ -96,9 +96,7 @@ public class WallPaperActivity extends AppCompatActivity {
                     }
                 });
 
-
                 builder.show();
-
 
             }
         });

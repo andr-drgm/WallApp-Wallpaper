@@ -1,5 +1,7 @@
 package com.example.wallappwallpaper;
 
+import android.net.Uri;
+
 public class WallPaperFetcher {
 
     Service wallPaperService;
@@ -8,8 +10,7 @@ public class WallPaperFetcher {
         this.wallPaperService = wallPaperService;
     }
 
-    void PopulateLocal()
-    {
+    void PopulateLocal() throws Exception {
 
         wallPaperService.AddWallPaper(R.drawable.wall1,"@adr_drgm", "Descriere 1", "Titlu fain", "Nume1");
         wallPaperService.AddWallPaper(R.drawable.wall2,"@adr_drgm", "Descriere 2", "Titlu mai fain", "Nume2");

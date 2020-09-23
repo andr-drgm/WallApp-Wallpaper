@@ -22,8 +22,8 @@ public class WallPaper implements Serializable {
         this.description = description;
         this.title = title;
         this.name = name;
-
     }
+
 
     @Override
     public boolean equals(Object o) {
