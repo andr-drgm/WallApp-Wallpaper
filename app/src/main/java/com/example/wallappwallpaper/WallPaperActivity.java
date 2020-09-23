@@ -1,5 +1,6 @@
 package com.example.wallappwallpaper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
@@ -13,6 +14,8 @@ public class WallPaperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.wallpaper_activity);
 
+        Intent intent = getIntent();
+        WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
 
 
     }

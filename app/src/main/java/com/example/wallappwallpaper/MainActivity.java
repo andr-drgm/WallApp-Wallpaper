@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView);
 
-        //String imagePath, String author, String description, String title, String name
+        //int imagePath, String author, String description, String title, String name
         testDB.Add(new WallPaper(R.drawable.wall1,"Author", "Descriere 1", "Titlu fain", "Nume1"));
         testDB.Add(new WallPaper(R.drawable.wall2,"Author2", "Descriere 2", "Titlu mai fain", "Nume2"));
         testDB.Add(new WallPaper(R.drawable.wall3,"Author3", "Descriere 3", "Titlu mult mai fain", "Nume3"));
