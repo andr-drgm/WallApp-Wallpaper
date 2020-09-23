@@ -33,7 +33,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             super(v);
             dataView = v;
 
-            cardTextView = (TextView) dataView.findViewById(R.id.textView);
+//            cardTextView = (TextView) dataView.findViewById(R.id.textView);
             imageView = (ImageView) dataView.findViewById(R.id.imageView);
         }
     }
@@ -62,7 +62,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
         //holder.imageView.setImageResource(currentWallPaper.getImagePath());
-        holder.cardTextView.setText(currentWallPaper.getTitle());
+//        holder.cardTextView.setText(currentWallPaper.getTitle());
 
         holder.dataView.setOnClickListener(new View.OnClickListener(){
 
