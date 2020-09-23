@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
@@ -48,10 +49,10 @@ public class WallPaperActivity extends AppCompatActivity {
         wallPaperImageView.setOnClickListener(new View.OnClickListener(){
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Change wallpaper");
 
                 builder.setPositiveButton("Set wallpaper", new DialogInterface.OnClickListener() {
@@ -61,6 +62,8 @@ public class WallPaperActivity extends AppCompatActivity {
                                 WallpaperManager.getInstance(getApplicationContext());
                         try{
                             wallpaperManager.setResource(wallpaper.getImagePath());
+                            Toast.makeText(v.getContext(), "Wallpaper set", 1).show();
+
                         } catch (IOException e)
                         {
                             e.printStackTrace();
