@@ -49,6 +49,11 @@ public class WallPaper {
         return author;
     }
 
+    public String getName(){
+        return name;
+    }
+
+
     public String getTitle() {
         return title;
     }
