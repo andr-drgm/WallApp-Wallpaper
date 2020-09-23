@@ -6,6 +6,7 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -45,6 +46,17 @@ public class WallPaperActivity extends AppCompatActivity {
         wallPaperDescView.setText(wallpaper.getDescription());
 
         // Set wallpaper code...
+/*
+        wallPaperAuthorView.setOnClickListener( new TextView.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("www.youtube.com"));
+                startActivity(intent);
+            }
+
+        });
+*/
+
 
         wallPaperImageView.setOnClickListener(new View.OnClickListener(){
 
@@ -62,7 +74,13 @@ public class WallPaperActivity extends AppCompatActivity {
                                 WallpaperManager.getInstance(getApplicationContext());
                         try{
                             wallpaperManager.setResource(wallpaper.getImagePath());
-                            Toast.makeText(v.getContext(), "Wallpaper set", 1).show();
+                            Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
+
+                            // Go to home screen
+                            Intent startMain = new Intent(Intent.ACTION_MAIN);
+                            startMain.addCategory(Intent.CATEGORY_HOME);
+                            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(startMain);
 
                         } catch (IOException e)
                         {
