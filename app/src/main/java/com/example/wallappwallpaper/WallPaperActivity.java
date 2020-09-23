@@ -12,6 +12,21 @@ import androidx.appcompat.app.AppCompatActivity;
 public class WallPaperActivity extends AppCompatActivity {
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        setContentView(R.layout.wallpaper_activity);
+
+        Intent intent = getIntent();
+        WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
+
+        Log.i("DEBUG", "test " + String.valueOf(wallpaper.getImagePath()));
+
+        ImageView wallPaperImageView = findViewById(R.id.imageView2);
+        wallPaperImageView.setImageResource(wallpaper.getImagePath());
+
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.wallpaper_activity);
@@ -19,12 +34,14 @@ public class WallPaperActivity extends AppCompatActivity {
         Intent intent = getIntent();
         WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
 
-        Log.i("DEBUG", String.valueOf(wallpaper.getImagePath()));
+        Log.i("DEBUG", "test " + String.valueOf(wallpaper.getImagePath()));
 
         ImageView wallPaperImageView = findViewById(R.id.imageView2);
         wallPaperImageView.setImageResource(wallpaper.getImagePath());
 
     }
+
+
 
 
 }
