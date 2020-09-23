@@ -24,11 +24,14 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
         public ImageView imageView;
+        public TextView cardTextView;
 
         public WallPaperViewHolder(View v)
         {
             super(v);
             dataView = v;
+
+            cardTextView = (TextView) dataView.findViewById(R.id.textView);
             imageView = (ImageView) dataView.findViewById(R.id.imageView);
         }
     }
@@ -44,8 +47,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         View testDataView = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wallpaper_row, parent, false);
 
-        WallPaperViewHolder wh = new WallPaperViewHolder(testDataView);
-        return wh;
+        return new WallPaperViewHolder(testDataView);
     }
 
     @Override
@@ -57,6 +59,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
         holder.imageView.setImageResource(currentWallPaper.getImagePath());
+        holder.cardTextView.setText(currentWallPaper.getTitle());
 
         holder.dataView.setOnClickListener(new View.OnClickListener(){
 
