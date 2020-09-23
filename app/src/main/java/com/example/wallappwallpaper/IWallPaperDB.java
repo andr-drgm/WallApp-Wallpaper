@@ -8,5 +8,7 @@ public interface IWallPaperDB {
     void Add(WallPaper wallPaper);
     boolean Remove(WallPaper wallPaper);
     boolean Update(WallPaper oldWallPaper, WallPaper newWallPaper);
+    WallPaper get(int index);
+    int size();
 
 }

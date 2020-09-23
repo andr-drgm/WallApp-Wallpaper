@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        wallPaperAdapter = new WallPaperAdapter(testDB.GetAllWallPapers());
+        wallPaperAdapter = new WallPaperAdapter(testDB);
         recyclerView.setAdapter(wallPaperAdapter);
 
 

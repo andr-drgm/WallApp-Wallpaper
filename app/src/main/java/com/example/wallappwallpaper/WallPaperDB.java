@@ -61,4 +61,14 @@ public class WallPaperDB implements IWallPaperDB {
 
     }
 
+    @Override
+    public WallPaper get(int index) {
+        return wallpaperList.get(index);
+    }
+
+    @Override
+    public int size() {
+        return wallpaperList.size();
+    }
+
 }

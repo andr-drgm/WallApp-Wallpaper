@@ -20,7 +20,9 @@ import java.util.List;
 
 public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.WallPaperViewHolder> {
 
-    List<WallPaper> wallpaperData;
+    //List<WallPaper> wallpaperData;
+    IWallPaperDB wallpaperData;
+
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
         public ImageView imageView;
@@ -36,7 +38,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         }
     }
 
-    public WallPaperAdapter(List<WallPaper> dataSet)
+    public WallPaperAdapter(IWallPaperDB dataSet)
     {
         wallpaperData = dataSet;
     }
