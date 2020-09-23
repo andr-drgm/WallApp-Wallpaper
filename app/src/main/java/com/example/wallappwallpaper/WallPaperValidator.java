@@ -14,7 +14,7 @@ public class WallPaperValidator {
 
         if(errorMessages.length() > 0)
         {
-            throw new Exception("Invalid wallpaper...");
+            throw new Exception(errorMessages);
         }
 
     }
