@@ -1,6 +1,7 @@
 package com.example.wallappwallpaper;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -15,11 +16,14 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     List<WallPaper> wallpaperData;
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
+        public View dataView;
         public TextView textView;
-        public WallPaperViewHolder(TextView v)
+
+        public WallPaperViewHolder(View v)
         {
             super(v);
-            textView = v;
+            dataView = v;
+            textView = (TextView) dataView.findViewById(R.id.title_textView);
         }
     }
 
@@ -31,10 +35,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     @Override
     public WallPaperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        TextView testTextView = (TextView) LayoutInflater.from(parent.getContext())
+        View testDataView = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wallpaper_row, parent, false);
 
-        WallPaperViewHolder wh = new WallPaperViewHolder(testTextView);
+        WallPaperViewHolder wh = new WallPaperViewHolder(testDataView);
         return wh;
     }
 
