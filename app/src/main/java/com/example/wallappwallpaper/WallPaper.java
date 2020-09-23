@@ -2,6 +2,8 @@ package com.example.wallappwallpaper;
 
 import android.graphics.Bitmap;
 
+import java.util.Objects;
+
 public class WallPaper {
 
     private Bitmap imageBitmap;
@@ -28,6 +30,19 @@ public class WallPaper {
         this.title = title;
         this.name = name;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WallPaper wallPaper = (WallPaper) o;
+        return name.equals(wallPaper.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     public String getAuthor() {
