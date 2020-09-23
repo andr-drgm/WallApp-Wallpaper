@@ -1,10 +1,17 @@
 package com.example.wallappwallpaper;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -41,6 +48,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
+//          wallpaperData.get(position).getImagePath()
+//        Bitmap bm = BitmapFactory.decodeResource(Resources.getSystem() , wallpaperData.get(position).getImagePath());
+//        holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200, 200));
         holder.imageView.setImageResource(wallpaperData.get(position).getImagePath());
     }
 
