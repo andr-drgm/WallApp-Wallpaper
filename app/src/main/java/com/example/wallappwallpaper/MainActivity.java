@@ -1,6 +1,7 @@
 package com.example.wallappwallpaper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.wallpapers_list);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
         wallPaperAdapter = new WallPaperAdapter(testDB.GetAllWallPapers());
