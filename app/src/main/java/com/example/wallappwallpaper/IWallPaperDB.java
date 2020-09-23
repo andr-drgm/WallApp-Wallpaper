@@ -3,9 +3,10 @@ package com.example.wallappwallpaper;
 import java.util.List;
 
 public interface IWallPaperDB {
-    public List<WallPaper> getAllWallPapers();
-    public void Add(WallPaper wallPaper);
-    public boolean Remove(WallPaper wallPaper);
-    public boolean Update(WallPaper oldWallPaper, WallPaper newWallPaper);
+    List<WallPaper> GetAllWallPapers();
+    WallPaper GetWallPaperByName(String name);
+    void Add(WallPaper wallPaper);
+    boolean Remove(WallPaper wallPaper);
+    boolean Update(WallPaper oldWallPaper, WallPaper newWallPaper);
 
 }

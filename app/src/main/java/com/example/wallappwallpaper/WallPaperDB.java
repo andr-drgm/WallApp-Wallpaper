@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WallPaperDB implements IWallPaperDB {
-
     List<WallPaper> wallpaperList;
 
     public WallPaperDB()
@@ -13,7 +12,20 @@ public class WallPaperDB implements IWallPaperDB {
     }
 
     @Override
-    public List<WallPaper> getAllWallPapers() {
+    public List<WallPaper> GetAllWallPapers() {
+        return wallpaperList;
+    }
+
+    @Override
+    public WallPaper GetWallPaperByName(String name) {
+        for( WallPaper wallPaper : wallpaperList)
+        {
+            if(wallPaper.getName().equals(name))
+            {
+                return wallPaper;
+            }
+        }
+
         return null;
     }
 
@@ -33,7 +45,20 @@ public class WallPaperDB implements IWallPaperDB {
 
     @Override
     public boolean Update(WallPaper oldWallPaper, WallPaper newWallPaper) {
+
+        String oldWallpaperName = oldWallPaper.getName();
+
+        for(int i =0;i<wallpaperList.size();++i)
+        {
+            if(wallpaperList.get(i).getName().equals(oldWallpaperName))
+            {
+                wallpaperList.set(i, newWallPaper);
+                return true;
+            }
+        }
+
         return false;
+
     }
 
 }
