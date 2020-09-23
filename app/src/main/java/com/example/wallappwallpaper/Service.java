@@ -14,6 +14,13 @@ public class Service {
         wallPaperDB = myDatabase;
     }
 
+    public Service()
+    {
+        wallPaperDB = new WallPaperDB();
+
+    }
+
+
     public void AddWallPaper(int imagePath, String author, String description, String title, String name)
     {
         WallPaper newWallPaper = new WallPaper(imagePath, author, description, title, name);
