@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
         wallPaperFetcher.PopulateLocal();
 
+
+
+
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
 
