@@ -1,5 +1,6 @@
 package com.example.wallappwallpaper;
 
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+
 public class WallPaperActivity extends AppCompatActivity {
 
     @Override
@@ -21,7 +24,7 @@ public class WallPaperActivity extends AppCompatActivity {
         setContentView(R.layout.wallpaper_activity);
 
         Intent intent = getIntent();
-        WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
+        final WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
 
         ImageView wallPaperImageView = findViewById(R.id.imageView2);
         TextView wallPaperTitleTextView = findViewById(R.id.wall_title_text_view);
@@ -34,6 +37,26 @@ public class WallPaperActivity extends AppCompatActivity {
         wallPaperTitleTextView.setText(wallpaper.getTitle());
         wallPaperAuthorView.setText(wallpaper.getAuthor());
         wallPaperDescView.setText(wallpaper.getDescription());
+
+        // Set wallpaper code...
+
+        wallPaperImageView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                WallpaperManager wallpaperManager =
+                        WallpaperManager.getInstance(getApplicationContext());
+                try{
+                    wallpaperManager.setResource(wallpaper.getImagePath());
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        ///
+
 
         backButton.setOnClickListener(new View.OnClickListener(){
             @Override
