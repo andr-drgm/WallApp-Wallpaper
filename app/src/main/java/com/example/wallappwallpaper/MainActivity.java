@@ -24,14 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         testDB = new WallPaperDB();
         Service wallPaperService = new Service(testDB);
-
-        //int imagePath, String author, String description, String title, String name
-        wallPaperService.AddWallPaper(R.drawable.wall1,"Author", "Descriere 1", "Titlu fain", "Nume1");
-        wallPaperService.AddWallPaper(R.drawable.wall2,"Author2", "Descriere 2", "Titlu mai fain", "Nume2");
-        wallPaperService.AddWallPaper(R.drawable.wall3,"Author3", "Descriere 3", "Titlu mult mai fain", "Nume3");
-        wallPaperService.AddWallPaper(R.drawable.wall4,"Author4", "Descriere 4", "Titlu ceva acolo", "Nume4");
-        wallPaperService.AddWallPaper(R.drawable.wall5,"Author5", "Descriere 4", "Titlu ceva acolo", "Nume4");
-        wallPaperService.AddWallPaper(R.drawable.wall6,"Author6", "Descriere 4", "Titlu ceva acolo", "Nume4");
+        WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
+        wallPaperFetcher.PopulateLocal();
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
