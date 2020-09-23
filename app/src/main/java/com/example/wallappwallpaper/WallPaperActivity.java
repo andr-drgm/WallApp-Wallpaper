@@ -47,7 +47,6 @@ public class WallPaperActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     @Override
