@@ -26,6 +26,14 @@ public class Service {
         wallPaperDB.Remove(newWallPaper);
     }
 
+    public void UpdateWallPaper(int imagePath, String author, String description, String title, String name,int newImagePath, String newAuthor, String newDescription, String newTitle, String newName)
+    {
+        WallPaper oldWallpaper = new WallPaper(imagePath, author, description, title, name);
+        WallPaper newWallpaper = new WallPaper(newImagePath, newAuthor, newDescription, newTitle, newName);
+
+        wallPaperDB.Update(oldWallpaper, newWallpaper);
+    }
+
 
 
 
