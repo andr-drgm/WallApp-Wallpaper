@@ -1,5 +1,7 @@
 package com.example.wallappwallpaper;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,7 +53,23 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 //          wallpaperData.get(position).getImagePath()
 //        Bitmap bm = BitmapFactory.decodeResource(Resources.getSystem() , wallpaperData.get(position).getImagePath());
 //        holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200, 200));
-        holder.imageView.setImageResource(wallpaperData.get(position).getImagePath());
+
+        final WallPaper currentWallPaper = wallpaperData.get(position);
+
+        holder.imageView.setImageResource(currentWallPaper.getImagePath());
+
+        holder.dataView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, WallPaperActivity.class);
+                intent.putExtra("wallPaper", currentWallPaper);
+
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
