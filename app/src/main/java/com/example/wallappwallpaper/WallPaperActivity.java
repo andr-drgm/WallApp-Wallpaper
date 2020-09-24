@@ -91,19 +91,10 @@ public class WallPaperActivity extends AppCompatActivity {
                         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
                         Task<Uri> testTask = ref.getDownloadUrl();
 
-
-
                         testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
 
                             @Override
                             public void onSuccess(final Uri uri) {
-
-                                Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
-                                intent.setAction(Intent.ACTION_ATTACH_DATA);
-                                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                intent.setDataAndType(ContactsContract.Contacts.CONTENT_URI, "image/*");
-                                intent.putExtra("mimeType","image/*");
-                                startActivity(Intent.createChooser(intent, "Set as:"));
 
                                 Glide.with(getApplicationContext())
                                         .asBitmap()
@@ -112,7 +103,11 @@ public class WallPaperActivity extends AppCompatActivity {
 
                                             @Override
                                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                                //WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource);
+                                                try {
+                                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                             }
                                         });
