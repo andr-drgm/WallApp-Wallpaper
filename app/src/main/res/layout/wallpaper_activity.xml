@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00FFFFFF"
+    android:background="#3C3F41"
     android:backgroundTint="@color/cardview_shadow_end_color"
     android:backgroundTintMode="add"
     android:orientation="vertical">
