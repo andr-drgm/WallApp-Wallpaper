@@ -35,11 +35,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }*/
 
-        try {
-            wallPaperFetcher.PopulateServer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
 
         Log.i("TEST", String.valueOf(testDB.size()));
 
@@ -55,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         wallPaperAdapter = new WallPaperAdapter(testDB);
         recyclerView.setAdapter(wallPaperAdapter);
 
+        try {
+            wallPaperFetcher.PopulateServer((WallPaperAdapter) wallPaperAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
