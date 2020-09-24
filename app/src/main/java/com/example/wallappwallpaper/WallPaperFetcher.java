@@ -39,6 +39,7 @@ public class WallPaperFetcher {
         // Get data from firebase or something...
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseRef = database.getReference("wallpapers");
+
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

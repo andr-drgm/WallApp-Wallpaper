@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
 
-
-
         Log.i("TEST", String.valueOf(testDB.size()));
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);

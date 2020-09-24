@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -56,16 +60,31 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     }
 
     @Override
-    public void onBindViewHolder(WallPaperViewHolder holder, int position) {
+    public void onBindViewHolder(final WallPaperViewHolder holder, int position) {
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
-        StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
+        final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
 
+        Task<Uri> testTask = ref.getDownloadUrl();
+
+        testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide
+                        .with(holder.dataView.getContext())
+                        .load(uri)
+                        .into(holder.imageView);
+            }
+        });
+
+
+/*
         Glide
                 .with(holder.dataView.getContext())
-                .load(ref)
+                .load(ref.getDownloadUrl().getResult())
                 .into(holder.imageView);
+*/
 
 
 
@@ -83,7 +102,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         });
     }
 
-
+    
     @Override
     public int getItemCount() {
         return wallpaperData.size();
