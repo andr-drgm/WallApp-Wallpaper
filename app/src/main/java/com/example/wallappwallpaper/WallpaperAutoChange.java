@@ -29,39 +29,20 @@ import java.util.Random;
 
 public class WallpaperAutoChange extends BroadcastReceiver {
 
-    ArrayList<WallPaper> wallPaperList;
-    WallPaper randomWallPaper;
+    ArrayList<String> urlList;
+    String randomUrl;
 
     @Override
     public void onReceive(final Context context, Intent intent) {
 
         // FIXME: CRAHES APP...
         Random random = new Random();
-        Bundle bundle = intent.getExtras();
-        Log.i("TEST", "bundle list...?: " + String.valueOf(bundle.getSerializable("list")));
+        urlList = intent.getStringArrayListExtra("list");
 
-        if(bundle.getSerializable("list") != null)
-        {
-            Log.i("TEST", "Bundle: " + String.valueOf(bundle));
-            Log.i("TEST", "Bundle ser: " + String.valueOf(bundle.getSerializable("list")));
+            if(urlList != null) {
+                randomUrl = urlList.get(random.nextInt(urlList.size()));
 
-            WallPaperIntentWrapper intentWrapper = (WallPaperIntentWrapper) bundle.getSerializable("list");
-            Log.i("TEST", "CALLING ONRECEIVE");
-
-            assert  intentWrapper != null;
-            Log.i("TEST", "Intent wrapper: " + String.valueOf(intentWrapper));
-
-            wallPaperList = new ArrayList<>();
-            wallPaperList = intentWrapper.getWallPaperList();
-
-            Log.i("TEST", String.valueOf( wallPaperList.size()));
-
-            if(wallPaperList != null) {
-                randomWallPaper = wallPaperList.get(random.nextInt(wallPaperList.size()));
-                Log.i("TEST", "Calling auto...");
-
-
-                final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(randomWallPaper.getImagePath());
+                final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(randomUrl);
                 Task<Uri> testTask = ref.getDownloadUrl();
 
 
@@ -92,6 +73,5 @@ public class WallpaperAutoChange extends BroadcastReceiver {
 
                 Toast.makeText(context, "Wallpaper set", Toast.LENGTH_SHORT).show();
             }
-        }
     }
 }

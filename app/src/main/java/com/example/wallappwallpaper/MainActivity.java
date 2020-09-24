@@ -63,21 +63,15 @@ public class MainActivity extends AppCompatActivity {
     public void autoChangeWallpaper(){
 
         Intent intent = new Intent(MainActivity.this, WallpaperAutoChange.class);
-        WallPaperIntentWrapper wallPaperIntentWrapper = new WallPaperIntentWrapper();
 
-        ArrayList<WallPaper> copyArray = new ArrayList<>(testDB.size());
+        ArrayList<String> myUrls = new ArrayList<>();
 
-        for(WallPaper wallPaper: testDB.GetAllWallPapers())
-        {
-            WallPaper wallPaperCopy = new WallPaper(wallPaper);
-            copyArray.add(wallPaperCopy);
+        for(WallPaper wallPaper : testDB.GetAllWallPapers()){
+            String url = wallPaper.getImagePath();
+            myUrls.add(url);
         }
 
-        wallPaperIntentWrapper.setWallPapers(copyArray);
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("list", wallPaperIntentWrapper);
-        intent.putExtras(bundle);
+        intent.putStringArrayListExtra("list", myUrls);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
