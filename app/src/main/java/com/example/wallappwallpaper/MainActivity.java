@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
 
-        recyclerView = (RecyclerView) findViewById(R.id.wallpapers_list);
+        recyclerView = findViewById(R.id.wallpapers_list);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
