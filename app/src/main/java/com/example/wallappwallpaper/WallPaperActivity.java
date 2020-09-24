@@ -45,7 +45,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
         ImageView wallPaperImageView = findViewById(R.id.imageView2);
         TextView wallPaperTitleTextView = findViewById(R.id.wall_title_text_view);
-        TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
+        final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
         TextView wallPaperDescView = findViewById(R.id.wall_description_text_view);
 
         Button backButton = findViewById(R.id.wall_back_button);
@@ -61,16 +61,18 @@ public class WallPaperActivity extends AppCompatActivity {
         wallPaperDescView.setText(wallpaper.getDescription());
 
         // Set wallpaper code...
-/*
-        wallPaperAuthorView.setOnClickListener( new TextView.OnClickListener(){
+
+         wallPaperAuthorView.setOnClickListener( new TextView.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("www.youtube.com"));
+                String val = wallPaperAuthorView.getText().toString();
+                val = val.substring(1);
+                Uri webpage = Uri.parse("https://instagram.com/" + val + "/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 startActivity(intent);
-            }
+            }});
 
-        });
-*/
+
 
 
         wallPaperImageView.setOnClickListener(new View.OnClickListener(){
