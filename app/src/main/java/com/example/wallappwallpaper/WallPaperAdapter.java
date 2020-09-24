@@ -55,10 +55,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-        Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaperData.get(position).getImagePath());
-        Bitmap bm = WallPaperUtils.drawableToBitmap(d);
+        //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaperData.get(position).getImagePath());
+        //Bitmap bm = WallPaperUtils.drawableToBitmap(d);
                 //holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200, 400));
-
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
         Glide

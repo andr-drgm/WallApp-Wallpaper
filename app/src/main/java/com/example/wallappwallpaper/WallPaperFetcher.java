@@ -47,6 +47,7 @@ public class WallPaperFetcher {
                 {
                     WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
 
+                    Log.i("TEST", "?" + wallpaper.getImagePath());
                     Log.i("TEST", String.valueOf(wallpaper.getAuthor()));
                     Log.i("TEST", String.valueOf(wallpaper.getDescription()));
 

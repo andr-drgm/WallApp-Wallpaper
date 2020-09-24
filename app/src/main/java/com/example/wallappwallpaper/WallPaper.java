@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class WallPaper implements Serializable {
 
-    private String imageView;
+    private String imagePath;
 
     private String author;
     private String description;
@@ -19,7 +19,7 @@ public class WallPaper implements Serializable {
     public WallPaper()
     {
         author = "";
-        imageView = "";
+        imagePath = "";
         title = "";
         name = "";
 
@@ -27,7 +27,7 @@ public class WallPaper implements Serializable {
 
 
     public WallPaper(String imagePath, String author, String description, String title, String name){
-        this.imageView = imagePath;
+        this.imagePath = imagePath;
         this.author = author;
         this.description = description;
         this.title = title;
@@ -62,7 +62,7 @@ public class WallPaper implements Serializable {
     }
 
     public String getImagePath() {
-        return imageView;
+        return imagePath;
     }
 
     public String getDescription() {

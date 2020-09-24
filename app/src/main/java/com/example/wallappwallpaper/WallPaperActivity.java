@@ -51,8 +51,8 @@ public class WallPaperActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.wall_back_button);
 
         // ??/
-        Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
-        wallPaperImageView.setImageDrawable(d);
+        //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
+        //wallPaperImageView.setImageDrawable(d);
         // ??/
 
         //wallPaperImageView.setImage(wallpaper.getImagePath());
@@ -86,23 +86,19 @@ public class WallPaperActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         WallpaperManager wallpaperManager =
                                 WallpaperManager.getInstance(getApplicationContext());
-                        try{
-                            Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
-                            Bitmap icon = WallPaperUtils.drawableToBitmap(d);
+                        //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
+                        //Bitmap icon = WallPaperUtils.drawableToBitmap(d);
 
-                            wallpaperManager.setBitmap(icon);
-                            Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
+                        //wallpaperManager.setBitmap(icon);
 
-                            // Go to home screen
-                            Intent startMain = new Intent(Intent.ACTION_MAIN);
-                            startMain.addCategory(Intent.CATEGORY_HOME);
-                            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(startMain);
+                        Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
 
-                        } catch (IOException e)
-                        {
-                            e.printStackTrace();
-                        }
+                        // Go to home screen
+                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+                        startMain.addCategory(Intent.CATEGORY_HOME);
+                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(startMain);
+
                     }
                 });
 
