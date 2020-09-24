@@ -63,7 +63,6 @@ public class WallPaperActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
 
-
                 final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Change wallpaper");
 

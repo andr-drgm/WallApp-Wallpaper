@@ -26,7 +26,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
         public ImageView imageView;
-        public TextView cardTextView;
+        //public TextView cardTextView;
 
         public WallPaperViewHolder(View v)
         {
@@ -54,15 +54,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-//        wallpaperData.get(position).getImagePath()
         Bitmap bm = BitmapFactory.decodeResource( holder.dataView.getResources() , wallpaperData.get(position).getImagePath());
-//        bm = Bitmap.createScaledBitmap(bm, 400, 400, false);
         holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 300,600));
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
-
-        //holder.imageView.setImageResource(currentWallPaper.getImagePath());
-//        holder.cardTextView.setText(currentWallPaper.getTitle());
 
         holder.dataView.setOnClickListener(new View.OnClickListener(){
 
