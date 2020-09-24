@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.UiModeManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +22,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import static android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,13 +58,28 @@ public class MainActivity extends AppCompatActivity {
         wallPaperAdapter = new WallPaperAdapter(testDB);
         recyclerView.setAdapter(wallPaperAdapter);
 
+        // Getting wallpapers
         try {
             wallPaperFetcher.PopulateServer((WallPaperAdapter) wallPaperAdapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        wallPaperAlarm = new WallPaperAlarm();
+        autoChangeWallpaper();
+
+    }
+
+    public void autoChangeWallpaper(){
+
+        Intent intent = new Intent(MainActivity.this, WallpaperAutoChange.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        long timeAtStart = System.currentTimeMillis();
+        long tenSecondsInMillis = 1000 * 10;
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, INTERVAL_FIFTEEN_MINUTES, pendingIntent);
 
     }
 
@@ -67,21 +87,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
     }
-
-    public void StartRepeatingTimer(View view)
-    {
-        Context context = this.getApplicationContext();
-        if( wallPaperAlarm != null)
-        {
-            wallPaperAlarm.setAlarm(context);
-        }
-        else {
-            Toast.makeText(context, "Alarm is null...", Toast.LENGTH_LONG).show();
-        }
-
-
-    }
-
-
 
 }

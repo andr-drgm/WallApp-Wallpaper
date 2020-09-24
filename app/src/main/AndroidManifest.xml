@@ -25,6 +25,8 @@
 
         </activity>
 
+        <receiver android:name=".WallpaperAutoChange"/>
+
     </application>
 
 </manifest>
