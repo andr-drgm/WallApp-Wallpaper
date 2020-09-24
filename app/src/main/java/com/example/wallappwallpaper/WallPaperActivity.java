@@ -23,11 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
@@ -107,12 +110,34 @@ public class WallPaperActivity extends AppCompatActivity {
                 builder.setPositiveButton("Set wallpaper", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
+                        Task<Uri> testTask = ref.getDownloadUrl();
+
+                        testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(getApplicationContext())
+                                        .asBitmap()
+                                        .load(uri)
+                                        .into(new SimpleTarget<Bitmap>(){
+
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                try {
+                                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                            }
+                        });
+
+
                         WallpaperManager wallpaperManager =
                                 WallpaperManager.getInstance(getApplicationContext());
-                        //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
-                        //Bitmap icon = WallPaperUtils.drawableToBitmap(d);
 
-                        //wallpaperManager.setBitmap(icon);
 
                         Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
 
