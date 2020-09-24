@@ -10,6 +10,7 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -27,27 +28,18 @@ public class MainActivity extends AppCompatActivity {
     private WallPaperDB testDB;
     private FirebaseAuth mAuth;
 
+    private WallPaperAlarm wallPaperAlarm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         mAuth = FirebaseAuth.getInstance();
 
         testDB = new WallPaperDB();
         Service wallPaperService = new Service(testDB);
         WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
-
-        /*try {
-            wallPaperFetcher.PopulateLocal();
-        } catch (Exception e) {
-            //.makeText( getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }*/
-
-
-        Log.i("TEST", String.valueOf(testDB.size()));
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
@@ -67,10 +59,29 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        wallPaperAlarm = new WallPaperAlarm();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
     }
+
+    public void StartRepeatingTimer(View view)
+    {
+        Context context = this.getApplicationContext();
+        if( wallPaperAlarm != null)
+        {
+            wallPaperAlarm.setAlarm(context);
+        }
+        else {
+            Toast.makeText(context, "Alarm is null...", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+
+
 }

@@ -47,12 +47,6 @@ public class WallPaperFetcher {
                 for(DataSnapshot wallpaperShot : snapshot.getChildren())
                 {
                     WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
-
-                    Log.i("TEST", "?" + wallpaper.getImagePath());
-                    Log.i("TEST", String.valueOf(wallpaper.getAuthor()));
-                    Log.i("TEST", String.valueOf(wallpaper.getDescription()));
-
-
                     try {
                         wallPaperService.AddWallPaper(wallpaper.getImagePath(), wallpaper.getAuthor(), wallpaper.getDescription(),
                                 wallpaper.getTitle(),wallpaper.getName());
