@@ -7,6 +7,11 @@ public class WallPaperIntentWrapper implements Serializable {
 
     private ArrayList<WallPaper> wallPapers;
 
+    public WallPaperIntentWrapper(ArrayList<WallPaper> wallPapers)
+    {
+        this.wallPapers = wallPapers;
+    }
+
     public WallPaperIntentWrapper()
     {
         wallPapers = new ArrayList<>();
