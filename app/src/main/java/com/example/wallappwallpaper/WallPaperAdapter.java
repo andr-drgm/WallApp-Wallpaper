@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.WallPaperViewHolder> {
@@ -58,6 +60,11 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
                 //holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200, 400));
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
+
+        Glide
+                .with(holder.dataView.getContext())
+                .load(currentWallPaper.getImagePath())
+                .into(holder.imageView);
 
         holder.dataView.setOnClickListener(new View.OnClickListener() {
 
