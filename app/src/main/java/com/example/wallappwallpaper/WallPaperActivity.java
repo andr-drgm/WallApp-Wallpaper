@@ -74,7 +74,6 @@ public class WallPaperActivity extends AppCompatActivity {
             }
         });
 
-        Button backButton = findViewById(R.id.wall_back_button);
 
         // ??/
         //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
@@ -162,21 +161,20 @@ public class WallPaperActivity extends AppCompatActivity {
             }
         });
 
-        ///
-
-
-        backButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //Context context = v.getContext();
-                //Intent intent = new Intent(Intent.ACTION_MAIN);
-                //intent.addCategory(Intent.CATEGORY_HOME);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //context.startActivity(intent);
-                //startActivityForResult(new Intent(getApplicationContext(), MainActivity.class), 0);
-                onBackPressed();
-            }
-        });
+//        BACK BUTTON
+//        Button backButton = findViewById(R.id.wall_back_button);
+//        backButton.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                //Context context = v.getContext();
+//                //Intent intent = new Intent(Intent.ACTION_MAIN);
+//                //intent.addCategory(Intent.CATEGORY_HOME);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                //context.startActivity(intent);
+//                //startActivityForResult(new Intent(getApplicationContext(), MainActivity.class), 0);
+//                onBackPressed();
+//            }
+//        });
 
     }
 
