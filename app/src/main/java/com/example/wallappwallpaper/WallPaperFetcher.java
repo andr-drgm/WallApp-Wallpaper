@@ -35,7 +35,6 @@ public class WallPaperFetcher {
                         Log.i("TEST", "Failed constructor");
                         e.printStackTrace();
                     }
-                    //Log.i("TEST", wallpaper.getName());
                 }
                 wallPaperAdapter.notifyDataSetChanged();
                 mainActivityReference.autoChangeWallpaper();
@@ -44,7 +43,6 @@ public class WallPaperFetcher {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                ///
 
             }
         });

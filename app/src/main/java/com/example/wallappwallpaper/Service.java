@@ -1,10 +1,5 @@
 package com.example.wallappwallpaper;
 
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
-import android.widget.ImageView;
-
 public class Service {
 
     private IWallPaperDB wallPaperDB;

@@ -1,9 +1,4 @@
 package com.example.wallappwallpaper;
-
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.widget.ImageView;
-
 import java.io.Serializable;
 import java.util.Objects;
 

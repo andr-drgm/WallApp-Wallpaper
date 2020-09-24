@@ -1,33 +1,20 @@
 package com.example.wallappwallpaper;
-
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.WallpaperManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.renderscript.ScriptGroup;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -35,10 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 public class WallPaperActivity extends AppCompatActivity {
 
@@ -57,8 +41,8 @@ public class WallPaperActivity extends AppCompatActivity {
         final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
         TextView wallPaperDescView = findViewById(R.id.wall_description_text_view);
 
-        setWallpaperButton = (Button) findViewById(R.id.setWallpaper_button);
-        wallpaperImage = (ImageView) findViewById(R.id.wall_image);
+        setWallpaperButton = findViewById(R.id.setWallpaper_button);
+        wallpaperImage = findViewById(R.id.wall_image);
 
         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
 
@@ -74,19 +58,11 @@ public class WallPaperActivity extends AppCompatActivity {
             }
         });
 
-
-        // ??/
-        //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
-        //wallPaperImageView.setImageDrawable(d);
-        // ??/
-
-        //wallPaperImageView.setImage(wallpaper.getImagePath());
         wallPaperTitleTextView.setText(wallpaper.getTitle());
         wallPaperAuthorView.setText(wallpaper.getAuthor());
         wallPaperDescView.setText(wallpaper.getDescription());
 
         // Set wallpaper code...
-
          wallPaperAuthorView.setOnClickListener( new TextView.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -176,21 +152,12 @@ public class WallPaperActivity extends AppCompatActivity {
 //                onBackPressed();
 //            }
 //        });
-
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.wallpaper_activity);
-/*
-        Intent intent = getIntent();
-        WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
-
-        ImageView wallPaperImageView = findViewById(R.id.imageView2);
-        assert wallpaper != null;
-        wallPaperImageView.setImageResource(wallpaper.getImagePath());*/
-
     }
 
 }
