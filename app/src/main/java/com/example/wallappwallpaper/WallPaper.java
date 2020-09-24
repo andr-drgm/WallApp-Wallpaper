@@ -16,6 +16,16 @@ public class WallPaper implements Serializable {
     private String title;
     private String name;
 
+    public WallPaper()
+    {
+        author = "";
+        imageView = 0;
+        title = "";
+        name = "";
+
+    }
+
+
     public WallPaper(int imagePath, String author, String description, String title, String name){
         this.imageView = imagePath;
         this.author = author;

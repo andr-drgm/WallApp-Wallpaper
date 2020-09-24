@@ -23,6 +23,10 @@ public class Service {
 
     }
 
+    public void AddWallPaper(WallPaper wallPaper){
+        wallPaperDB.Add(wallPaper);
+    }
+
 
     public void AddWallPaper(int imagePath, String author, String description, String title, String name) throws Exception {
 

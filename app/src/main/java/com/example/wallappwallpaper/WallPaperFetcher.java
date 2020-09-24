@@ -1,7 +1,16 @@
 package com.example.wallappwallpaper;
 import android.net.Uri;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 
 public class WallPaperFetcher {
@@ -32,7 +41,37 @@ public class WallPaperFetcher {
     {
         // Get data from firebase or something...
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseRef = database.getReference("wallpapers");
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                for(DataSnapshot wallpaperShot : snapshot.getChildren())
+                {
+                    WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
+
+                    Log.i("TEST", String.valueOf(wallpaper.getAuthor()));
+                    Log.i("TEST", String.valueOf(wallpaper.getDescription()));
+
+
+                    try {
+                        wallPaperService.AddWallPaper(wallpaper.getImagePath(), wallpaper.getAuthor(), wallpaper.getDescription(),
+                                wallpaper.getTitle(),wallpaper.getName());
+                    } catch (Exception e) {
+                        Log.i("TEST", "Failed constructor");
+                        e.printStackTrace();
+                    }
+                    //Log.i("TEST", wallpaper.getName());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                ///
+
+            }
+        });
 
     }
 
