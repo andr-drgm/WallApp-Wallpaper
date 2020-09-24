@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES;
@@ -63,7 +64,16 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, WallpaperAutoChange.class);
         WallPaperIntentWrapper wallPaperIntentWrapper = new WallPaperIntentWrapper();
-        wallPaperIntentWrapper.setWallPapers((ArrayList<WallPaper>) testDB.GetAllWallPapers());
+
+        ArrayList<WallPaper> copyArray = new ArrayList<>(testDB.size());
+
+        for(WallPaper wallPaper: testDB.GetAllWallPapers())
+        {
+            WallPaper wallPaperCopy = new WallPaper(wallPaper);
+            copyArray.add(wallPaperCopy);
+        }
+
+        wallPaperIntentWrapper.setWallPapers(copyArray);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("list", wallPaperIntentWrapper);

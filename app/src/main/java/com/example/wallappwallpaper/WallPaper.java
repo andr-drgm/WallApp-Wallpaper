@@ -1,8 +1,10 @@
 package com.example.wallappwallpaper;
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class WallPaper implements Serializable {
+public class WallPaper implements Serializable,Cloneable {
 
     private String imagePath;
 
@@ -19,6 +21,16 @@ public class WallPaper implements Serializable {
         name = "";
 
     }
+
+    public WallPaper(WallPaper other)
+    {
+        this.imagePath = other.imagePath;
+        this.description = other.description;
+        this.title = other.title;
+        this.name = other.name;
+        this.author = other.author;
+    }
+
 
 
     public WallPaper(String imagePath, String author, String description, String title, String name){

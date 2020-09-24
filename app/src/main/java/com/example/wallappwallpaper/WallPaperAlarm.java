@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.PowerManager;
 import android.widget.Toast;
 
+// TODO: Depricated...
 public class WallPaperAlarm extends BroadcastReceiver {
 
     @Override
