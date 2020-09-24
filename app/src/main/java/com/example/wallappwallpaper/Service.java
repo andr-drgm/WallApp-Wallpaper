@@ -28,7 +28,7 @@ public class Service {
     }
 
 
-    public void AddWallPaper(int imagePath, String author, String description, String title, String name) throws Exception {
+    public void AddWallPaper(String imagePath, String author, String description, String title, String name) throws Exception {
 
         WallPaper newWallPaper = new WallPaper(imagePath, author, description, title, name);
         wallPaperValidator.validate(newWallPaper);
@@ -36,14 +36,14 @@ public class Service {
     }
 
     public void RemoveWallPaper(String name) throws Exception {
-        WallPaper newWallPaper = new WallPaper(0, "", "", "", name);
+        WallPaper newWallPaper = new WallPaper("", "", "", "", name);
         wallPaperValidator.validate(newWallPaper);
         wallPaperDB.Remove(newWallPaper);
     }
 
-    public void UpdateWallPaper(String name,int newImagePath, String newAuthor, String newDescription, String newTitle, String newName) throws Exception {
+    public void UpdateWallPaper(String name,String newImagePath, String newAuthor, String newDescription, String newTitle, String newName) throws Exception {
 
-        WallPaper oldWallpaper = new WallPaper(0, "", "", "", name);
+        WallPaper oldWallpaper = new WallPaper("", "", "", "", name);
         WallPaper newWallpaper = new WallPaper(newImagePath, newAuthor, newDescription, newTitle, newName);
         wallPaperValidator.validate(newWallpaper);
         wallPaperDB.Update(oldWallpaper, newWallpaper);

@@ -6,9 +6,15 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +28,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class WallPaperActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onStart() {
@@ -40,7 +50,12 @@ public class WallPaperActivity extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.wall_back_button);
 
-        wallPaperImageView.setImageResource(wallpaper.getImagePath());
+        // ??/
+        Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
+        wallPaperImageView.setImageDrawable(d);
+        // ??/
+
+        //wallPaperImageView.setImage(wallpaper.getImagePath());
         wallPaperTitleTextView.setText(wallpaper.getTitle());
         wallPaperAuthorView.setText(wallpaper.getAuthor());
         wallPaperDescView.setText(wallpaper.getDescription());
@@ -72,7 +87,10 @@ public class WallPaperActivity extends AppCompatActivity {
                         WallpaperManager wallpaperManager =
                                 WallpaperManager.getInstance(getApplicationContext());
                         try{
-                            wallpaperManager.setResource(wallpaper.getImagePath());
+                            Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
+                            Bitmap icon = WallPaperUtils.drawableToBitmap(d);
+
+                            wallpaperManager.setBitmap(icon);
                             Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
 
                             // Go to home screen
@@ -122,13 +140,13 @@ public class WallPaperActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.wallpaper_activity);
-
+/*
         Intent intent = getIntent();
         WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
 
         ImageView wallPaperImageView = findViewById(R.id.imageView2);
         assert wallpaper != null;
-        wallPaperImageView.setImageResource(wallpaper.getImagePath());
+        wallPaperImageView.setImageResource(wallpaper.getImagePath());*/
 
     }
 

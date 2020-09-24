@@ -1,9 +1,6 @@
 package com.example.wallappwallpaper;
-import android.net.Uri;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +20,7 @@ public class WallPaperFetcher {
 
     void PopulateLocal() throws Exception {
 
-        wallPaperService.AddWallPaper(R.drawable.wall1,"@adr_drgm", "Descriere 1", "Titlu fain", "Nume1");
+/*       wallPaperService.AddWallPaper(R.drawable.wall1,"@adr_drgm", "Descriere 1", "Titlu fain", "Nume1");
         wallPaperService.AddWallPaper(R.drawable.wall2,"@adr_drgm", "Descriere 2", "Titlu mai fain", "Nume2");
         wallPaperService.AddWallPaper(R.drawable.wall3,"@adr_drgm", "Descriere 3", "Titlu mult mai fain", "Nume3");
         wallPaperService.AddWallPaper(R.drawable.wall4,"@adr_drgm", "Descriere 4", "Titlu ceva acolo", "Nume4");
@@ -34,7 +31,7 @@ public class WallPaperFetcher {
         wallPaperService.AddWallPaper(R.drawable.wall9,"@beyond_the_forest", "Mediaș downtown", "Mediaș", "Watchtower");
         wallPaperService.AddWallPaper(R.drawable.wall10,"@beyond_the_forest", "Constanța casino", "Constanța", "Old Casino");
         wallPaperService.AddWallPaper(R.drawable.wall11,"@beyond_the_forest", "Poiana  Brașov", "Ski slope", "Up we go");
-        wallPaperService.AddWallPaper(R.drawable.wall12,"@beyond_the_forest", "Idk, thought he looked cool ;)", "Random spider", "Night hunter");
+        wallPaperService.AddWallPaper(R.drawable.wall12,"@beyond_the_forest", "Idk, thought he looked cool ;)", "Random spider", "Night hunter");*/
     }
 
     void PopulateServer() throws Exception

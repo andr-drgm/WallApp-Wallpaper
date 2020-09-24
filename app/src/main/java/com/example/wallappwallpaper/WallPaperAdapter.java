@@ -20,7 +20,6 @@ import java.util.List;
 
 public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.WallPaperViewHolder> {
 
-    //List<WallPaper> wallpaperData;
     IWallPaperDB wallpaperData;
 
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
@@ -54,12 +53,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-        Bitmap bm = BitmapFactory.decodeResource( holder.dataView.getResources() , wallpaperData.get(position).getImagePath());
-        holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200,400));
+        Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaperData.get(position).getImagePath());
+        Bitmap bm = WallPaperUtils.drawableToBitmap(d);
+                //holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200, 400));
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
-        holder.dataView.setOnClickListener(new View.OnClickListener(){
+        holder.dataView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -72,6 +72,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
