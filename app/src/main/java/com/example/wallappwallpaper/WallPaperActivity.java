@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,21 +27,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.BufferUnderflowException;
 
 public class WallPaperActivity extends AppCompatActivity {
 
-    private ImageView wallpaperImageView;
-    private Button setWallpaperButton;
+
 
     @Override
     protected void onStart() {
@@ -52,33 +43,39 @@ public class WallPaperActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
 
+        ImageView wallPaperImageView = findViewById(R.id.imageView2);
         TextView wallPaperTitleTextView = findViewById(R.id.wall_title_text_view);
-        TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
+        final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
         TextView wallPaperDescView = findViewById(R.id.wall_description_text_view);
 
         Button backButton = findViewById(R.id.wall_back_button);
 
-        wallpaperImageView = (ImageView) findViewById(R.id.wall_image);
-        setWallpaperButton = (Button) findViewById(R.id.setWallpaper_button);
+        // ??/
+        //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaper.getImagePath());
+        //wallPaperImageView.setImageDrawable(d);
+        // ??/
 
-        final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
-
-        Task<Uri> testTask = ref.getDownloadUrl();
-
-        testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(getApplicationContext())
-                        .load(uri)
-                        .into(wallpaperImageView);
-            }
-        });
-
+        //wallPaperImageView.setImage(wallpaper.getImagePath());
         wallPaperTitleTextView.setText(wallpaper.getTitle());
         wallPaperAuthorView.setText(wallpaper.getAuthor());
         wallPaperDescView.setText(wallpaper.getDescription());
 
-        setWallpaperButton.setOnClickListener(new View.OnClickListener(){
+        // Set wallpaper code...
+
+         wallPaperAuthorView.setOnClickListener( new TextView.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String val = wallPaperAuthorView.getText().toString();
+                val = val.substring(1);
+                Uri webpage = Uri.parse("https://instagram.com/" + val + "/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                startActivity(intent);
+            }});
+
+
+
+
+        wallPaperImageView.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(final View v) {
@@ -119,6 +116,7 @@ public class WallPaperActivity extends AppCompatActivity {
             }
         });
 
+        ///
 
 
         backButton.setOnClickListener(new View.OnClickListener(){
