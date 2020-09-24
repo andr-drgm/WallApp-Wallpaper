@@ -55,7 +55,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
         Bitmap bm = BitmapFactory.decodeResource( holder.dataView.getResources() , wallpaperData.get(position).getImagePath());
-        holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 300,600));
+        holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200,400));
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
 

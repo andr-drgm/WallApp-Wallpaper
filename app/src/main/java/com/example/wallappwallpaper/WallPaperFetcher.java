@@ -1,6 +1,8 @@
 package com.example.wallappwallpaper;
-
 import android.net.Uri;
+
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class WallPaperFetcher {
 
@@ -26,9 +28,11 @@ public class WallPaperFetcher {
         wallPaperService.AddWallPaper(R.drawable.wall12,"@beyond_the_forest", "Idk, thought he looked cool ;)", "Random spider", "Night hunter");
     }
 
-    void PopulateServer()
+    void PopulateServer() throws Exception
     {
         // Get data from firebase or something...
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 
     }
 
