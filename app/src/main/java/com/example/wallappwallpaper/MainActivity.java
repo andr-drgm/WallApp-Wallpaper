@@ -12,6 +12,7 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import static android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES;
 
@@ -60,26 +64,31 @@ public class MainActivity extends AppCompatActivity {
 
         // Getting wallpapers
         try {
-            wallPaperFetcher.PopulateServer((WallPaperAdapter) wallPaperAdapter);
+            wallPaperFetcher.PopulateServer((WallPaperAdapter) wallPaperAdapter,this);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        //autoChangeWallpaper();
 
     }
 
     public void autoChangeWallpaper(){
 
         Intent intent = new Intent(MainActivity.this, WallpaperAutoChange.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
+        WallPaperIntentWrapper wallPaperIntentWrapper = new WallPaperIntentWrapper();
+        wallPaperIntentWrapper.setWallPapers((ArrayList<WallPaper>) testDB.GetAllWallPapers());
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("list", wallPaperIntentWrapper);
+        intent.putExtras(bundle);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         long timeAtStart = System.currentTimeMillis();
         long tenSecondsInMillis = 1000 * 10;
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, tenSecondsInMillis, pendingIntent);
 
     }
 

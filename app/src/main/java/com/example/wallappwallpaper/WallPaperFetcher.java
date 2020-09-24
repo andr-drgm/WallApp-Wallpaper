@@ -7,9 +7,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-
-
 public class WallPaperFetcher {
 
     Service wallPaperService;
@@ -34,7 +31,7 @@ public class WallPaperFetcher {
         wallPaperService.AddWallPaper(R.drawable.wall12,"@beyond_the_forest", "Idk, thought he looked cool ;)", "Random spider", "Night hunter");*/
     }
 
-    void PopulateServer(final WallPaperAdapter wallPaperAdapter) throws Exception
+    void PopulateServer(final WallPaperAdapter wallPaperAdapter, final MainActivity mainActivityReference) throws Exception
     {
         // Get data from firebase or something...
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -57,6 +54,7 @@ public class WallPaperFetcher {
                     //Log.i("TEST", wallpaper.getName());
                 }
                 wallPaperAdapter.notifyDataSetChanged();
+                mainActivityReference.autoChangeWallpaper();
 
             }
 
