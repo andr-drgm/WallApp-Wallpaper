@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTintMode="src_atop"
     android:orientation="vertical"
-    android:scaleType="fitCenter">
+    >
 
     <ImageView
         android:id="@+id/wall_image"
@@ -41,13 +41,14 @@
         <TextView
             android:id="@+id/wall_title_text_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textColor="#fff"
             android:textIsSelectable="false"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            app:autoSizeTextType="uniform" />
 
         <TextView
             android:id="@+id/wall_description_text_view"

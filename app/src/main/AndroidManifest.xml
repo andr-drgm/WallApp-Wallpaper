@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".WallPaperActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/AppThemeWallpaper">
 
         </activity>
 
