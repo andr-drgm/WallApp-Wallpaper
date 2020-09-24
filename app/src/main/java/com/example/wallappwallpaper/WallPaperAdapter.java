@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -55,15 +57,17 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(WallPaperViewHolder holder, int position) {
-        //Drawable d = WallPaperUtils.getDrawableFromUrl(wallpaperData.get(position).getImagePath());
-        //Bitmap bm = WallPaperUtils.drawableToBitmap(d);
-                //holder.imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(bm, 200, 400));
+
         final WallPaper currentWallPaper = wallpaperData.get(position);
+
+        StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
 
         Glide
                 .with(holder.dataView.getContext())
-                .load(currentWallPaper.getImagePath())
+                .load(ref)
                 .into(holder.imageView);
+
+
 
         holder.dataView.setOnClickListener(new View.OnClickListener() {
 
