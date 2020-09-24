@@ -78,16 +78,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             }
         });
 
-
-/*
-        Glide
-                .with(holder.dataView.getContext())
-                .load(ref.getDownloadUrl().getResult())
-                .into(holder.imageView);
-*/
-
-
-
         holder.dataView.setOnClickListener(new View.OnClickListener() {
 
             @Override

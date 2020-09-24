@@ -21,9 +21,8 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:background="@color/cardview_shadow_end_color"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/wall1" />
+            android:background="@android:drawable/ic_popup_sync"
+            android:scaleType="centerCrop" />
 
     </LinearLayout>
 

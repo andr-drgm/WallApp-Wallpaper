@@ -1,63 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3C3F41"
-    android:backgroundTint="@color/cardview_shadow_end_color"
-    android:backgroundTintMode="add"
-    android:orientation="vertical">
+    android:backgroundTintMode="src_atop"
+    android:orientation="vertical"
+    android:scaleType="fitCenter">
+
+    <ImageView
+        android:id="@+id/wall_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@android:drawable/ic_popup_sync" />
 
     <Button
         android:id="@+id/wall_back_button"
-        android:layout_width="74dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="18dp"
-        android:background="@color/cardview_shadow_end_color"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:backgroundTintMode="src_over"
         android:text="BACK"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        android:visibility="invisible" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="342dp"
-        android:layout_height="359dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="18dp"
-        android:scaleType="fitCenter"
-        tools:srcCompat="@tools:sample/avatars" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="#7C000000"
+        android:backgroundTintMode="src_atop"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/wall_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:text="TextView"
-        android:textAlignment="textEnd"
-        android:textIsSelectable="false"
-        android:textSize="36sp" />
+        <TextView
+            android:id="@+id/wall_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:textAlignment="textEnd"
+            android:textColor="#fff"
+            android:textIsSelectable="false"
+            android:textSize="36sp" />
 
-    <TextView
-        android:id="@+id/wall_author_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="18dp"
-        android:text="TextView"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/wall_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="36dp"
+            android:textColor="#fff"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/wall_description_text_view"
-        android:layout_width="341dp"
-        android:layout_height="162dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="18dp"
-        android:text="TextView"
-        android:textSize="18sp" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/wall_author_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="36dp"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/setWallpaper_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="36dp"
+            android:text="Set" />
+
+    </LinearLayout>
+
+</RelativeLayout>
