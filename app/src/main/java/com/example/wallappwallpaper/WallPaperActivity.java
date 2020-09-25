@@ -102,6 +102,9 @@ public class WallPaperActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(final Uri uri) {
                                 try {
+
+                                    Uri uri1 = getImageUri();
+
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver() , Uri.parse(uri.getEncodedPath()));
                                     WallpaperManager.getInstance(getApplicationContext()).setBitmap(bitmap);
                                 } catch (IOException e) {

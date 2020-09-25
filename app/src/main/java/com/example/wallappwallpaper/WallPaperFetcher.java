@@ -37,7 +37,7 @@ public class WallPaperFetcher {
                     }
                 }
                 wallPaperAdapter.notifyDataSetChanged();
-                mainActivityReference.autoChangeWallpaper();
+                //mainActivityReference.autoChangeWallpaper();
 
             }
 
