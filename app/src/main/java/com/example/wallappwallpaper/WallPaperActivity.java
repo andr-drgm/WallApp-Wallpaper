@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -100,22 +101,28 @@ public class WallPaperActivity extends AppCompatActivity {
 
                             @Override
                             public void onSuccess(final Uri uri) {
+                                try {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver() , Uri.parse(uri.getEncodedPath()));
+                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(bitmap);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
 
-                                Glide.with(getApplicationContext())
-                                        .asBitmap()
-                                        .load(uri)
-                                        .into(new SimpleTarget<Bitmap>(){
-
-                                            @Override
-                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                                try {
-                                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource);
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
+//                                Glide.with(getApplicationContext())
+//                                        .asBitmap()
+//                                        .load(uri)
+//                                        .into(new SimpleTarget<Bitmap>(){
+//
+//                                            @Override
+//                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                                                try {
+//                                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource);
+//                                                } catch (IOException e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                            }
+//                                        });
 
                             }
                         });
