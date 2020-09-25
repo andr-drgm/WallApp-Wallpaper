@@ -8,11 +8,18 @@
     android:layout_centerHorizontal="false"
     android:layout_centerVertical="false"
     android:backgroundTintMode="src_over"
+    android:baselineAligned="false"
     android:foregroundGravity="center_vertical|center|center_horizontal"
     android:orientation="horizontal"
-    android:weightSum="2"
-    android:baselineAligned="false">
+    android:weightSum="2">
 
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="50dp" />
 
     <RelativeLayout
         android:id="@+id/wallpaperLayout"
@@ -24,7 +31,6 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:background="@android:drawable/ic_popup_sync"
             android:contentDescription="@string/wallpaper_imageview_desc"
             android:scaleType="centerCrop" />
 

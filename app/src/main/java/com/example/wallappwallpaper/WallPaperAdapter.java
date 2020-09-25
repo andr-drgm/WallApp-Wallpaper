@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,9 +32,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     List<WallPaper> wallPaperDataFull;
 
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
-        public View dataView;
-        public ImageView imageView;
-        public TextView wallpaperTitle;
+        private View dataView;
+        private ImageView imageView;
+        private TextView wallpaperTitle;
+        private ProgressBar progressBar;
         //public TextView cardTextView;
 
         public WallPaperViewHolder(View v)
@@ -44,6 +46,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 //            cardTextView = (TextView) dataView.findViewById(R.id.textView);
             imageView = (ImageView) dataView.findViewById(R.id.imageView);
             wallpaperTitle = (TextView) dataView.findViewById(R.id.row_title_textView);
+            progressBar = (ProgressBar) dataView.findViewById(R.id.progressBar);
         }
     }
 
@@ -84,6 +87,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
                         .with(holder.dataView.getContext())
                         .load(uri)
                         .into(holder.imageView);
+
+                holder.progressBar.setVisibility(View.GONE);
             }
         });
 
