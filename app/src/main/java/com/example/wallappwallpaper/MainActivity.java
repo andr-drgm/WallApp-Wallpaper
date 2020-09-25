@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
     }
 
     // Search view and other menu stuff...
@@ -105,6 +103,11 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
 
+            case R.id.settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                this.startActivity(settingsIntent);
+
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
