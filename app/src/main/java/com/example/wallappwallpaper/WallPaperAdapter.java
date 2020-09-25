@@ -10,12 +10,16 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
         public ImageView imageView;
+        public TextView wallpaperTitle;
         //public TextView cardTextView;
 
         public WallPaperViewHolder(View v)
@@ -38,6 +43,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
 //            cardTextView = (TextView) dataView.findViewById(R.id.textView);
             imageView = (ImageView) dataView.findViewById(R.id.imageView);
+            wallpaperTitle = (TextView) dataView.findViewById(R.id.row_title_textView);
         }
     }
 
@@ -64,6 +70,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     public void onBindViewHolder(final WallPaperViewHolder holder, int position) {
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
+
+        holder.wallpaperTitle.setText(currentWallPaper.getTitle());
 
         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
 

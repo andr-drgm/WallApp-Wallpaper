@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private WallPaperDB testDB;
     private FirebaseAuth mAuth;
 
-    private WallPaperAlarm wallPaperAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,28 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
-    android:layout_width="210dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerInParent="false"
     android:layout_centerHorizontal="false"
     android:layout_centerVertical="false"
     android:backgroundTintMode="src_over"
     android:foregroundGravity="center_vertical|center|center_horizontal"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:weightSum="2"
+    android:baselineAligned="false">
 
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/wallpaperLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="400dp"
+        android:layout_weight="1">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:background="@android:drawable/ic_popup_sync"
+            android:contentDescription="@string/wallpaper_imageview_desc"
             android:scaleType="centerCrop" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/row_title_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@color/common_google_signin_btn_text_light_default"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
 
 </LinearLayout>
