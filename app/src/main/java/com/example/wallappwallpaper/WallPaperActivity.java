@@ -1,6 +1,7 @@
 package com.example.wallappwallpaper;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +25,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 public class WallPaperActivity extends AppCompatActivity {
@@ -96,6 +101,7 @@ public class WallPaperActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(final Uri uri) {
 
+
                                 Glide.with(getApplicationContext())
                                         .asBitmap()
                                         .load(uri)
@@ -108,15 +114,11 @@ public class WallPaperActivity extends AppCompatActivity {
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
-
                                             }
                                         });
+
                             }
                         });
-
-
-                        WallpaperManager wallpaperManager =
-                                WallpaperManager.getInstance(getApplicationContext());
 
 
                         Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
@@ -162,6 +164,14 @@ public class WallPaperActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.wallpaper_activity);
+    }
+
+    private Uri getImageUri(Bitmap inImage, Context inContext) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(),
+                inImage, "Title", null);
+        return Uri.parse(path);
     }
 
 }
