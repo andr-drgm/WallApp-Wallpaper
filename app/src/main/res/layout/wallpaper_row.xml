@@ -10,8 +10,7 @@
     android:backgroundTintMode="src_over"
     android:baselineAligned="false"
     android:foregroundGravity="center_vertical|center|center_horizontal"
-    android:orientation="horizontal"
-    android:weightSum="2">
+    android:orientation="horizontal">
 
 
     <ProgressBar
@@ -24,8 +23,7 @@
     <RelativeLayout
         android:id="@+id/wallpaperLayout"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_weight="1">
+        android:layout_height="400dp">
 
         <ImageView
             android:id="@+id/imageView"

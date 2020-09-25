@@ -1,10 +1,13 @@
 package com.example.wallappwallpaper;
+
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,10 +19,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +35,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class WallPaperActivity extends AppCompatActivity {
@@ -70,7 +78,7 @@ public class WallPaperActivity extends AppCompatActivity {
         wallPaperDescView.setText(wallpaper.getDescription());
 
         // Set wallpaper code...
-         wallPaperAuthorView.setOnClickListener( new TextView.OnClickListener(){
+        wallPaperAuthorView.setOnClickListener(new TextView.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String val = wallPaperAuthorView.getText().toString();
@@ -78,11 +86,11 @@ public class WallPaperActivity extends AppCompatActivity {
                 Uri webpage = Uri.parse("https://instagram.com/" + val + "/");
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 startActivity(intent);
-            }});
+            }
+        });
 
 
-
-        setWallpaperButton.setOnClickListener(new View.OnClickListener(){
+        setWallpaperButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(final View v) {
@@ -94,49 +102,52 @@ public class WallPaperActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+
                         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
                         Task<Uri> testTask = ref.getDownloadUrl();
-
+                        final Bitmap[] bitmap = new Bitmap[1];
                         testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
 
                             @Override
                             public void onSuccess(final Uri uri) {
-                                try {
 
 
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver() , Uri.parse(uri.getEncodedPath()));
-                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(bitmap);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                CustomTarget<Bitmap> result = Glide.with(getApplicationContext())
+                                        .asBitmap()
+                                        .load(uri)
+                                        .dontTransform()
+                                        .into(new CustomTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource)
+                                                Intent intent = new Intent(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
+                                                intent.addCategory(Intent.CATEGORY_APP_GALLERY);
+                                                intent.setDataAndType(uri, "image/jpeg");
+                                                intent.putExtra("mimeType", "image/jpeg");
+                                                startActivity(Intent.createChooser(intent, "Set as:"));
 
+                                            }
 
-//                                Glide.with(getApplicationContext())
-//                                        .asBitmap()
-//                                        .load(uri)
-//                                        .into(new SimpleTarget<Bitmap>(){
-//
-//                                            @Override
-//                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                                                try {
-//                                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource);
-//                                                } catch (IOException e) {
-//                                                    e.printStackTrace();
-//                                                }
-//                                            }
-//                                        });
+                                            @Override
+                                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                                            }
 
+                                        });
                             }
                         });
+
+//                        WallpaperManager wm = WallpaperManager.getInstance(getApplicationContext());
+//                        Intent setWallIntent = new Intent(wm.getCropAndSetWallpaperIntent(getImageUri(bitmap[0], getApplicationContext())));
+//                        startActivity(setWallIntent);
 
 
                         Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
 
                         // Go to home screen
-                        Intent startMain = new Intent(Intent.ACTION_MAIN);
-                        startMain.addCategory(Intent.CATEGORY_HOME);
-                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(startMain);
+//                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                        startMain.addCategory(Intent.CATEGORY_HOME);
+//                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(startMain);
 
                     }
                 });
@@ -168,6 +179,8 @@ public class WallPaperActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
