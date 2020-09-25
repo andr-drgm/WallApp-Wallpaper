@@ -1,5 +1,6 @@
 package com.example.wallappwallpaper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,16 @@ public class WallPaperDB implements IWallPaperDB {
     {
         wallpaperList = new ArrayList<>();
     }
+
+    public WallPaperDB(ArrayList<WallPaper> wallpaperList)
+    {
+        this.wallpaperList = new ArrayList<>(wallpaperList);
+    }
+
+    public void clear(){
+        this.wallpaperList.clear();
+    }
+
 
     @Override
     public List<WallPaper> GetAllWallPapers() {

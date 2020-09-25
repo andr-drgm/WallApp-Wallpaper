@@ -36,7 +36,10 @@ public class WallPaperFetcher {
                         e.printStackTrace();
                     }
                 }
+
+                wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
                 wallPaperAdapter.notifyDataSetChanged();
+
                 //mainActivityReference.autoChangeWallpaper();
 
             }

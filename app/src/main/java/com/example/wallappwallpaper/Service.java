@@ -1,5 +1,7 @@
 package com.example.wallappwallpaper;
 
+import java.util.List;
+
 public class Service {
 
     private IWallPaperDB wallPaperDB;
@@ -21,7 +23,9 @@ public class Service {
     public void AddWallPaper(WallPaper wallPaper){
         wallPaperDB.Add(wallPaper);
     }
-
+    public List<WallPaper> GetAllWallPapers(){
+        return this.wallPaperDB.GetAllWallPapers();
+    }
 
     public void AddWallPaper(String imagePath, String author, String description, String title, String name) throws Exception {
 

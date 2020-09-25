@@ -10,5 +10,5 @@ public interface IWallPaperDB {
     boolean Update(WallPaper oldWallPaper, WallPaper newWallPaper);
     WallPaper get(int index);
     int size();
-
+    void clear();
 }

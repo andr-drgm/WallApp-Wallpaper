@@ -3,9 +3,12 @@ package com.example.wallappwallpaper;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -14,9 +17,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.WallPaperViewHolder> {
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.WallPaperViewHolder> implements Filterable {
 
     IWallPaperDB wallpaperData;
+    List<WallPaper> wallPaperDataFull;
 
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         public View dataView;
@@ -36,6 +44,11 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     public WallPaperAdapter(IWallPaperDB dataSet)
     {
         wallpaperData = dataSet;
+        wallPaperDataFull = new ArrayList<>(wallpaperData.GetAllWallPapers());
+    }
+
+    public void setWallPaperDataFull(List<WallPaper> wallPapers){
+        this.wallPaperDataFull = new ArrayList<>(wallPapers);
     }
 
     @Override
@@ -85,6 +98,54 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     public int getItemCount() {
         return wallpaperData.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    public Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            IWallPaperDB filteredDb = new WallPaperDB();
+
+            Log.i("TEST", "all.size() + " + wallPaperDataFull.size());
+            Log.i("TEST", "my.size() + " + wallPaperDataFull.size());
+
+
+            if(constraint == null || constraint.toString().length() == 0)
+            {
+                filteredDb.GetAllWallPapers().addAll(wallPaperDataFull);
+
+            }
+            else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(WallPaper wallPaper: wallPaperDataFull){
+                    if( wallPaper.getTitle().toLowerCase().contains(filterPattern)){
+                        filteredDb.Add(wallPaper);
+                    }
+                }
+
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredDb.GetAllWallPapers();
+
+            return results;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            wallpaperData.clear();
+            // ...
+            wallpaperData.GetAllWallPapers().addAll((List)results.values);
+            notifyDataSetChanged();
+
+        }
+
+    };
 
 
 }
