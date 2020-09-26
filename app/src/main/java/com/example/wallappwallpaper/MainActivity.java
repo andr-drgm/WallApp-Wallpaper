@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     // EXAMPLE SAVE ARRAY LIST
     public void SaveData(HashMap<WallPaper, Boolean> arrayList)
     {
-        SharedPreferences sharedPreferences = getSharedPreferences("likedPreferences", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("wallApp:likedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         GsonBuilder builder = new GsonBuilder();
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     public HashMap<WallPaper, Boolean> LoadData()
     {
 
-        SharedPreferences sharedPreferences = getSharedPreferences("likedPreferences", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("wallApp:likedPreferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("Liked List", null);
         java.lang.reflect.Type type = new TypeToken<HashMap<WallPaper, Boolean> >() {}.getType();
