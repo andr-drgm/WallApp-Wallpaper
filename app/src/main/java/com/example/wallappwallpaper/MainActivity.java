@@ -118,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView)searchItem.getActionView();
+
+        searchView.setFocusable(true);
+        searchView.setIconified(false);
+
+        searchView.setIconifiedByDefault(false);
+        searchView.requestFocusFromTouch();
+
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
 
