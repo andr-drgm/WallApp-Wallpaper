@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -110,29 +111,30 @@ public class WallPaperActivity extends AppCompatActivity {
 
                             @Override
                             public void onSuccess(final Uri uri) {
+                                Log.i("TEST", ""+uri);
 
+                                Intent i = WallpaperManager.getInstance(getApplicationContext()).getCropAndSetWallpaperIntent(uri);
+                                startActivity(i);
 
-                                CustomTarget<Bitmap> result = Glide.with(getApplicationContext())
+/*                                CustomTarget<Bitmap> result = Glide.with(getApplicationContext())
                                         .asBitmap()
                                         .load(uri)
                                         .dontTransform()
                                         .into(new CustomTarget<Bitmap>() {
                                             @Override
                                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                                                    WallpaperManager.getInstance(getApplicationContext()).setBitmap(resource)
                                                 Intent intent = new Intent(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
                                                 intent.addCategory(Intent.CATEGORY_APP_GALLERY);
                                                 intent.setDataAndType(uri, "image/jpeg");
                                                 intent.putExtra("mimeType", "image/jpeg");
                                                 startActivity(Intent.createChooser(intent, "Set as:"));
-
                                             }
 
                                             @Override
                                             public void onLoadCleared(@Nullable Drawable placeholder) {
                                             }
 
-                                        });
+                                        });*/
                             }
                         });
 

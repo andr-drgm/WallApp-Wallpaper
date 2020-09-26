@@ -1,10 +1,17 @@
 package com.example.wallappwallpaper;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -20,7 +27,10 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
     }
+
+
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
