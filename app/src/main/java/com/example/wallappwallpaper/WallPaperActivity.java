@@ -158,6 +158,7 @@ public class WallPaperActivity extends AppCompatActivity {
                                                 Intent intent = new Intent();
                                                 intent.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
 //                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                                 intent.setDataAndType(myImageUri, "image/*");
                                                 intent.putExtra("mimeType", "image/*");
                                                 startActivity(Intent.createChooser(intent, "Set as:"));
