@@ -161,6 +161,11 @@ public class MainActivity extends AppCompatActivity {
         catch (com.google.gson.JsonSyntaxException e ){
             loadedData = new HashMap<>();
         }
+        if(loadedData == null)
+        {
+            loadedData = new HashMap<>();
+        }
+
         return loadedData;
     }
 

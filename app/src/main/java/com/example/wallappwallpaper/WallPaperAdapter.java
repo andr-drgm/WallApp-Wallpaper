@@ -161,8 +161,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         protected void publishResults(CharSequence constraint, FilterResults results) {
             wallpaperData.clear();
             // ...
-            wallpaperData.GetAllWallPapers().addAll((List)results.values);
-            notifyDataSetChanged();
+            if(results.values != null) {
+                wallpaperData.GetAllWallPapers().addAll((List) results.values);
+                notifyDataSetChanged();
+            }
         }
     };
 
