@@ -160,7 +160,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
                                 setWallpaperButton.setText("Loading...");
 
-                                CustomTarget<Bitmap> result = Glide.with(getApplicationContext())
+                                Glide.with(getApplicationContext())
                                         .asBitmap()
                                         .load(uri)
                                         .dontTransform()
@@ -170,7 +170,7 @@ public class WallPaperActivity extends AppCompatActivity {
                                                 Uri myImageUri = getImageUri(resource, getApplicationContext());
                                                 Intent intent = new Intent();
                                                 intent.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
-                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
+//                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
                                                 intent.setDataAndType(myImageUri, "image/*");
                                                 intent.putExtra("mimeType", "image/*");
                                                 startActivity(Intent.createChooser(intent, "Set as:"));
