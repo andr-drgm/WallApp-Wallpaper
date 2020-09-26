@@ -24,6 +24,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -50,7 +51,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mAuth = FirebaseAuth.getInstance();
+
+        // Liked list
+        likedWallpapers = LoadData();
+        //likedWallpapers = new HashMap<>();
 
         testDB = new WallPaperDB();
         final Service wallPaperService = new Service(testDB);
@@ -82,10 +88,14 @@ public class MainActivity extends AppCompatActivity {
              @Override
              public void onTabSelected(TabLayout.Tab tab) {
                  switch(tab.getPosition()){
+                     // All wallpapers tab
                      case 0:
                          wallPaperAdapter.getDownloadFilter().filter("");
                          break;
+                         // Popular tab
                      case 1:
+                         //wallPaperAdapter.getDownloadFilter().filter("");
+
                          Collections.sort(testDB.GetAllWallPapers(), new Comparator<WallPaper>() {
                              @Override
                              public int compare(WallPaper lhs, WallPaper rhs) {
@@ -96,7 +106,13 @@ public class MainActivity extends AppCompatActivity {
 
                          wallPaperAdapter.notifyDataSetChanged();
                          break;
-                     default:
+
+                         // Like tab
+                     case 2:
+                         wallPaperAdapter.getLikedFilter().filter("");
+                         SaveData(likedWallpapers);
+                         break;
+                         default:
 
                  }
              }
@@ -117,10 +133,14 @@ public class MainActivity extends AppCompatActivity {
     // EXAMPLE SAVE ARRAY LIST
     public void SaveData(HashMap<WallPaper, Boolean> arrayList)
     {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("likedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(arrayList );
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.enableComplexMapKeySerialization().setPrettyPrinting().create();
+        Type type = new TypeToken<HashMap<WallPaper, Boolean>>(){}.getType();
+
+        String json = gson.toJson(arrayList,type );
         editor.putString("Liked List", json);
         editor.apply();
     }
@@ -128,22 +148,21 @@ public class MainActivity extends AppCompatActivity {
     // EXAMPLE LOAD ARRAY LIST
     public HashMap<WallPaper, Boolean> LoadData()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("likedPreferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("Liked List", null);
-        Type type = new TypeToken<ArrayList<WallPaper>>() {}.getType();
+        java.lang.reflect.Type type = new TypeToken<HashMap<WallPaper, Boolean> >() {}.getType();
+        HashMap<WallPaper, Boolean> loadedData;
 
-        HashMap<WallPaper, Boolean> loadedData = gson.fromJson(json, type);
-
-        if(loadedData == null){
+        try {
+            loadedData = gson.fromJson(json, type);
+        }
+        catch (com.google.gson.JsonSyntaxException e ){
             loadedData = new HashMap<>();
         }
-
         return loadedData;
     }
-
-
-
 
 
     // Search view and other menu stuff...

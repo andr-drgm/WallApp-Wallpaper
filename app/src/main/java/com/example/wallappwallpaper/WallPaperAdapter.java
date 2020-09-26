@@ -114,12 +114,14 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.dataView.getContext(), "Test like ",Toast.LENGTH_SHORT).show();
-
+                likedMap.put(currentWallPaper, true);
 
             }
         });
 
     }
+
+
 
     
     @Override
@@ -136,6 +138,33 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     {
         return downloadFilter;
     }
+    public Filter getLikedFilter(){return likedFilter;}
+
+    public Filter likedFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            IWallPaperDB filteredDb = new WallPaperDB();
+            for(WallPaper wallPaper: wallPaperDataFull){
+                if( likedMap.containsKey(wallPaper)){
+                    filteredDb.Add(wallPaper);
+
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredDb.GetAllWallPapers();
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            wallpaperData.clear();
+            // ...
+            wallpaperData.GetAllWallPapers().addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public Filter downloadFilter = new Filter() {
         @Override

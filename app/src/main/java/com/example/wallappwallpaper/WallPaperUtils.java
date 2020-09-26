@@ -43,4 +43,7 @@ public class WallPaperUtils {
         drawable.draw(canvas);
         return bitmap;
     }
+
+
+
 }
