@@ -104,39 +104,25 @@ public class WallPaperActivity extends AppCompatActivity {
 
 
                         // Update database for new download value
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
                         final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("wallpapers");
 
+                        int downloads = wallpaper.getDownloads();
+                        wallpaper.setDownloads(downloads + 1);
 
-                        DatabaseReference wallPaperDownloads = databaseRef.child(wallpaper.getName()).child("downloads");
-
-                        wallPaperDownloads.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                int downloads = snapshot.getValue(int.class);
-                                wallpaper.setDownloads(downloads + 1);
-                                Log.i("TEST", "" + wallpaper.getDownloads());
-
-                                databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener(new OnCompleteListener<Void>() {
-
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.i("TEST", "Successfully updated wallpaper");
-                                        } else {
-                                            Log.i("TEST", "Failed updating wallpaper");
-
-                                        }
-                                    }
-
-                                });
-                            }
+                        databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener(new OnCompleteListener<Void>() {
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.i("TEST", "Successfully updated wallpaper");
+                                } else {
+                                    Log.i("TEST", "Failed updating wallpaper");
 
+                                }
                             }
+
                         });
+
 
                         // Get image from database storage
                         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());

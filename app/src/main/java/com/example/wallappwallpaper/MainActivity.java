@@ -33,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Tab layout stuff
     private TabLayout tabLayout;
-    private TabItem allWallpaperTab;
-    private TabItem popularWallpaperTab;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
 
          TabLayout tabLayout = findViewById(R.id.tab_layout);
-         TabItem allWallpaperTab = findViewById(R.id.allWallpaperTab);
-         TabItem popularWallpaperTab = findViewById(R.id.popularWallpaperTab);
 
          tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
              @Override
@@ -89,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
                              }
                          });
 
-                            wallPaperAdapter.notifyDataSetChanged();
-                         //wallPaperAdapter.getDownloadFilter().filter("3");
+                         wallPaperAdapter.notifyDataSetChanged();
                          break;
                      default:
 
@@ -109,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
          });
 
     }
+
 
     // Search view and other menu stuff...
     @Override
