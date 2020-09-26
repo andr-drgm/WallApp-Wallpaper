@@ -1,12 +1,5 @@
 package com.example.wallappwallpaper;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.UiModeManager;
@@ -19,17 +12,16 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import static android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.wallpapers_list);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
         wallPaperAdapter = new WallPaperAdapter(testDB);
