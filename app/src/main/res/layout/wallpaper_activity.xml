@@ -67,7 +67,8 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="36dp"
-            android:text="@string/set_wall_text" />
+            android:text="@string/set_wall_text" >
+        </Button>
 
     </LinearLayout>
 

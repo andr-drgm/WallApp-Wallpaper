@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -29,14 +30,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -109,70 +104,28 @@ public class WallPaperActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-
-                        // Update database for new download value
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("wallpapers");
-
-
-                           DatabaseReference wallPaperDownloads = databaseRef.child(wallpaper.getName()).child("downloads");
-
-                           wallPaperDownloads.addListenerForSingleValueEvent(new ValueEventListener() {
-                               @Override
-                               public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                   int  downloads = snapshot.getValue(int.class);
-                                   wallpaper.setDownloads(downloads + 1);
-                                   Log.i("TEST", "" + wallpaper.getDownloads());
-
-                                   databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener( new OnCompleteListener<Void>(){
-
-                                       @Override
-                                       public void onComplete(@NonNull Task<Void> task) {
-                                           if(task.isSuccessful()){
-                                               Log.i("TEST", "Successfully updated wallpaper");
-                                           }else{
-                                               Log.i("TEST", "Failed updating wallpaper");
-
-                                           }
-                                       }
-
-                                   });
-                               }
-
-                               @Override
-                               public void onCancelled(@NonNull DatabaseError error) {
-
-                               }
-                           });
-
-
-
-                        //
-
-                        // Get image from database storage
                         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
                         Task<Uri> testTask = ref.getDownloadUrl();
-
                         testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
 
                             @Override
                             public void onSuccess(final Uri uri) {
 
-                             /*   Intent i = WallpaperManager.getInstance(getApplicationContext()).getCropAndSetWallpaperIntent(uri);
-                                startActivity(i);*/
+                                setWallpaperButton.setText("Loading...");
 
-
-/*                                CustomTarget<Bitmap> result = Glide.with(getApplicationContext())
+                                CustomTarget<Bitmap> result = Glide.with(getApplicationContext())
                                         .asBitmap()
                                         .load(uri)
                                         .dontTransform()
                                         .into(new CustomTarget<Bitmap>() {
                                             @Override
                                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                                Intent intent = new Intent(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
-                                                intent.addCategory(Intent.CATEGORY_APP_GALLERY);
-                                                intent.setDataAndType(uri, "image/jpeg");
-                                                intent.putExtra("mimeType", "image/jpeg");
+                                                Uri myImageUri = getImageUri(resource, getApplicationContext());
+                                                Intent intent = new Intent();
+                                                intent.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
+                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                                intent.setDataAndType(myImageUri, "image/*");
+                                                intent.putExtra("mimeType", "image/*");
                                                 startActivity(Intent.createChooser(intent, "Set as:"));
                                             }
 
@@ -180,7 +133,7 @@ public class WallPaperActivity extends AppCompatActivity {
                                             public void onLoadCleared(@Nullable Drawable placeholder) {
                                             }
 
-                                        });*/
+                                        });
                             }
                         });
 
@@ -189,7 +142,7 @@ public class WallPaperActivity extends AppCompatActivity {
 //                        startActivity(setWallIntent);
 
 
-                        Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(v.getContext(), "Wallpaper set", Toast.LENGTH_SHORT).show();
 
                         // Go to home screen
 //                        Intent startMain = new Intent(Intent.ACTION_MAIN);
@@ -227,7 +180,6 @@ public class WallPaperActivity extends AppCompatActivity {
 //            }
 //        });
     }
-
 
 
     @Override
