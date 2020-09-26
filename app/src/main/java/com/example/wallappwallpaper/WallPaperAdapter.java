@@ -117,15 +117,58 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         return exampleFilter;
     }
 
+    public Filter getDownloadFilter()
+    {
+        return downloadFilter;
+    }
+
+    public Filter downloadFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            IWallPaperDB filteredDb = new WallPaperDB();
+            if(constraint == null || constraint.toString().length() == 0)
+            {
+                filteredDb.GetAllWallPapers().addAll(wallPaperDataFull);
+
+            }
+            else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                int downloads = Integer.parseInt(filterPattern);
+
+                Log.i("TEST", "" + downloads);
+
+                for(WallPaper wallPaper: wallPaperDataFull){
+                    Log.i("TEST", "wallpaperDownloads : " + wallPaper.getDownloads());
+                    Log.i("TEST", "Downloads : " + downloads);
+
+                    if( wallPaper.getDownloads() >= downloads){
+                        filteredDb.Add(wallPaper);
+                        Log.i("TEST", "Added : " + wallPaper.getName());
+
+                    }
+                }
+
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredDb.GetAllWallPapers();
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            wallpaperData.clear();
+            // ...
+            wallpaperData.GetAllWallPapers().addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     public Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             IWallPaperDB filteredDb = new WallPaperDB();
-
-            Log.i("TEST", "all.size() + " + wallPaperDataFull.size());
-            Log.i("TEST", "my.size() + " + wallPaperDataFull.size());
-
-
             if(constraint == null || constraint.toString().length() == 0)
             {
                 filteredDb.GetAllWallPapers().addAll(wallPaperDataFull);

@@ -30,7 +30,7 @@ public class WallPaperFetcher {
                     WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
                     try {
                         wallPaperService.AddWallPaper(wallpaper.getImagePath(), wallpaper.getAuthor(), wallpaper.getDescription(),
-                                wallpaper.getTitle(),wallpaper.getName());
+                                wallpaper.getTitle(),wallpaper.getName(),wallpaper.getDownloads());
                     } catch (Exception e) {
                         Log.i("TEST", "Failed constructor");
                         e.printStackTrace();

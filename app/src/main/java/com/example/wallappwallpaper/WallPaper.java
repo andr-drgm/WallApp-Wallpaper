@@ -47,7 +47,7 @@ public class WallPaper implements Serializable,Cloneable {
         this.description = description;
         this.title = title;
         this.name = name;
-        this.downloads =  0;
+        this.downloads = downloads;
     }
 
 

@@ -34,6 +34,13 @@ public class Service {
         wallPaperDB.Add(newWallPaper);
     }
 
+    public void AddWallPaper(String imagePath, String author, String description, String title, String name,int downloads) throws Exception {
+
+        WallPaper newWallPaper = new WallPaper(imagePath, author, description, title, name,downloads);
+        wallPaperValidator.validate(newWallPaper);
+        wallPaperDB.Add(newWallPaper);
+    }
+
     public void RemoveWallPaper(String name) throws Exception {
         WallPaper newWallPaper = new WallPaper("", "", "", "", name);
         wallPaperValidator.validate(newWallPaper);

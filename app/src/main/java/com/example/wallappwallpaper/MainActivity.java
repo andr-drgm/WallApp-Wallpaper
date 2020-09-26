@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -18,6 +20,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.lang.reflect.Array;
@@ -32,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private WallPaperDB testDB;
     private FirebaseAuth mAuth;
+
+    // Tab layout stuff
+    private TabLayout tabLayout;
+    private TabItem allWallpaperTab;
+    private TabItem popularWallpaperTab;
+
 
 
     @Override
@@ -63,6 +73,37 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+         TabLayout tabLayout = findViewById(R.id.tab_layout);
+         TabItem allWallpaperTab = findViewById(R.id.allWallpaperTab);
+         TabItem popularWallpaperTab = findViewById(R.id.popularWallpaperTab);
+
+         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+             @Override
+             public void onTabSelected(TabLayout.Tab tab) {
+                 switch(tab.getPosition()){
+                     case 0:
+                         wallPaperAdapter.getDownloadFilter().filter("");
+                         break;
+                     case 1:
+                         wallPaperAdapter.getDownloadFilter().filter("3");
+                         break;
+                     default:
+
+                 }
+             }
+
+             @Override
+             public void onTabUnselected(TabLayout.Tab tab) {
+
+             }
+
+             @Override
+             public void onTabReselected(TabLayout.Tab tab) {
+
+             }
+         });
 
     }
 
