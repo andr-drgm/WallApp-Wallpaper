@@ -30,4 +30,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="all_wallpapers_string">All Wallpapers</string>
     <string name="popular_wallpaper_string">Popular</string>
+    <string name="likedWallPaperString">Liked</string>
 </resources>

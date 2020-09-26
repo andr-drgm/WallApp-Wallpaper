@@ -5,31 +5,42 @@ import android.app.PendingIntent;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.tabs.TabItem;
+
 import com.google.android.material.tabs.TabLayout;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private WallPaperAdapter wallPaperAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private GridLayoutManager layoutManager;
     private WallPaperDB testDB;
     private FirebaseAuth mAuth;
+
+    private HashMap<WallPaper, Boolean> likedWallpapers;
 
     // Tab layout stuff
     private TabLayout tabLayout;
@@ -54,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
-        wallPaperAdapter = new WallPaperAdapter(testDB);
+        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
         recyclerView.setAdapter(wallPaperAdapter);
 
         // Getting wallpapers
@@ -102,6 +113,37 @@ public class MainActivity extends AppCompatActivity {
          });
 
     }
+
+    // EXAMPLE SAVE ARRAY LIST
+    public void SaveData(HashMap<WallPaper, Boolean> arrayList)
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList );
+        editor.putString("Liked List", json);
+        editor.apply();
+    }
+
+    // EXAMPLE LOAD ARRAY LIST
+    public HashMap<WallPaper, Boolean> LoadData()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("Liked List", null);
+        Type type = new TypeToken<ArrayList<WallPaper>>() {}.getType();
+
+        HashMap<WallPaper, Boolean> loadedData = gson.fromJson(json, type);
+
+        if(loadedData == null){
+            loadedData = new HashMap<>();
+        }
+
+        return loadedData;
+    }
+
+
+
 
 
     // Search view and other menu stuff...

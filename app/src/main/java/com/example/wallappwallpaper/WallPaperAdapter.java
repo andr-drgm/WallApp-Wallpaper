@@ -6,11 +6,13 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.WallPaperViewHolder> implements Filterable {
@@ -28,11 +31,14 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     IWallPaperDB wallpaperData;
     List<WallPaper> wallPaperDataFull;
 
+    HashMap<WallPaper, Boolean> likedMap;
+
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         private View dataView;
         private ImageView imageView;
         private TextView wallpaperTitle;
         private ProgressBar progressBar;
+        private Button likeButton;
         //public TextView cardTextView;
 
         public WallPaperViewHolder(View v)
@@ -40,6 +46,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             super(v);
             dataView = v;
 
+            likeButton = (Button) dataView.findViewById(R.id.like_button);
 ////            cardTextView = (TextView) dataView.findViewById(R.id.textView);
             imageView = (ImageView) dataView.findViewById(R.id.imageView);
             wallpaperTitle = (TextView) dataView.findViewById(R.id.row_title_textView);
@@ -47,10 +54,11 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         }
     }
 
-    public WallPaperAdapter(IWallPaperDB dataSet)
+    public WallPaperAdapter(IWallPaperDB dataSet, HashMap<WallPaper, Boolean> likedMap)
     {
         wallpaperData = dataSet;
         wallPaperDataFull = new ArrayList<>(wallpaperData.GetAllWallPapers());
+        this.likedMap = likedMap;
     }
 
     public void setWallPaperDataFull(List<WallPaper> wallPapers){
@@ -101,6 +109,16 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
             }
         });
+
+        holder.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(holder.dataView.getContext(), "Test like ",Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
     }
 
     
