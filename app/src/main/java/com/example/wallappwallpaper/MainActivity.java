@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         testDB = new WallPaperDB();
         Service wallPaperService = new Service(testDB);
-        WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
+        final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);

@@ -21,9 +21,12 @@ public class WallPaperFetcher {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseRef = database.getReference("wallpapers");
 
+
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                wallPaperService.Clear();
+                Log.i("TEST", "CALLING FETCH");
 
                 for(DataSnapshot wallpaperShot : snapshot.getChildren())
                 {
@@ -32,7 +35,6 @@ public class WallPaperFetcher {
                         wallPaperService.AddWallPaper(wallpaper.getImagePath(), wallpaper.getAuthor(), wallpaper.getDescription(),
                                 wallpaper.getTitle(),wallpaper.getName(),wallpaper.getDownloads());
                     } catch (Exception e) {
-                        Log.i("TEST", "Failed constructor");
                         e.printStackTrace();
                     }
                 }

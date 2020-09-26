@@ -43,7 +43,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             super(v);
             dataView = v;
 
-//            cardTextView = (TextView) dataView.findViewById(R.id.textView);
+////            cardTextView = (TextView) dataView.findViewById(R.id.textView);
             imageView = (ImageView) dataView.findViewById(R.id.imageView);
             wallpaperTitle = (TextView) dataView.findViewById(R.id.row_title_textView);
             progressBar = (ProgressBar) dataView.findViewById(R.id.progressBar);
@@ -129,21 +129,14 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             if(constraint == null || constraint.toString().length() == 0)
             {
                 filteredDb.GetAllWallPapers().addAll(wallPaperDataFull);
-
             }
             else{
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 int downloads = Integer.parseInt(filterPattern);
-
-                Log.i("TEST", "" + downloads);
-
                 for(WallPaper wallPaper: wallPaperDataFull){
-                    Log.i("TEST", "wallpaperDownloads : " + wallPaper.getDownloads());
-                    Log.i("TEST", "Downloads : " + downloads);
 
                     if( wallPaper.getDownloads() >= downloads){
                         filteredDb.Add(wallPaper);
-                        Log.i("TEST", "Added : " + wallPaper.getName());
 
                     }
                 }

@@ -20,6 +20,10 @@ public class Service {
 
     }
 
+    public void Clear(){
+        wallPaperDB.clear();
+    }
+
     public void AddWallPaper(WallPaper wallPaper){
         wallPaperDB.Add(wallPaper);
     }
