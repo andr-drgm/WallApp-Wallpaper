@@ -35,7 +35,7 @@ public class WallpaperAutoChange extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
 
-        // FIXME: CRAHES APP...
+
         Random random = new Random();
         urlList = intent.getStringArrayListExtra("list");
 
