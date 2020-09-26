@@ -12,6 +12,7 @@ public class WallPaper implements Serializable,Cloneable {
     private String description;
     private String title;
     private String name;
+    private int    downloads;
 
     public WallPaper()
     {
@@ -19,7 +20,7 @@ public class WallPaper implements Serializable,Cloneable {
         imagePath = "";
         title = "";
         name = "";
-
+        downloads = 0;
     }
 
     public WallPaper(WallPaper other)
@@ -29,9 +30,8 @@ public class WallPaper implements Serializable,Cloneable {
         this.title = other.title;
         this.name = other.name;
         this.author = other.author;
+        this.downloads = other.downloads;
     }
-
-
 
     public WallPaper(String imagePath, String author, String description, String title, String name){
         this.imagePath = imagePath;
@@ -39,6 +39,15 @@ public class WallPaper implements Serializable,Cloneable {
         this.description = description;
         this.title = title;
         this.name = name;
+    }
+
+    public WallPaper(String imagePath, String author, String description, String title, String name, int downloads){
+        this.imagePath = imagePath;
+        this.author = author;
+        this.description = description;
+        this.title = title;
+        this.name = name;
+        this.downloads =  0;
     }
 
 
@@ -54,6 +63,15 @@ public class WallPaper implements Serializable,Cloneable {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    public int getDownloads(){
+        return this.downloads;
+    }
+
+    public void setDownloads(int value){
+        this.downloads = value;
+    }
+
 
     public String getAuthor() {
         return author;
