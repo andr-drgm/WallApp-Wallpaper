@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
-        uiManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+        uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
 
         recyclerView = findViewById(R.id.wallpapers_list);
         recyclerView.setHasFixedSize(true);
