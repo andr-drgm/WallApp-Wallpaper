@@ -26,7 +26,6 @@ public class WallPaperFetcher {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 wallPaperService.Clear();
-                Log.i("TEST", "CALLING FETCH");
 
                 for(DataSnapshot wallpaperShot : snapshot.getChildren())
                 {

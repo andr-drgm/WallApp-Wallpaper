@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES;
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         testDB = new WallPaperDB();
-        Service wallPaperService = new Service(testDB);
+        final Service wallPaperService = new Service(testDB);
         final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
@@ -87,7 +89,16 @@ public class MainActivity extends AppCompatActivity {
                          wallPaperAdapter.getDownloadFilter().filter("");
                          break;
                      case 1:
-                         wallPaperAdapter.getDownloadFilter().filter("3");
+                         Collections.sort(testDB.GetAllWallPapers(), new Comparator<WallPaper>() {
+                             @Override
+                             public int compare(WallPaper lhs, WallPaper rhs) {
+                                 // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                                 return Integer.compare(rhs.getDownloads(), lhs.getDownloads());
+                             }
+                         });
+
+                            wallPaperAdapter.notifyDataSetChanged();
+                         //wallPaperAdapter.getDownloadFilter().filter("3");
                          break;
                      default:
 
