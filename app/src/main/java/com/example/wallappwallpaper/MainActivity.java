@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // EXAMPLE SAVE ARRAY LIST
     public void SaveData(HashMap<WallPaper, Boolean> arrayList)
     {
         SharedPreferences sharedPreferences = getSharedPreferences("wallApp:likedPreferences", MODE_PRIVATE);
@@ -145,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // EXAMPLE LOAD ARRAY LIST
     public HashMap<WallPaper, Boolean> LoadData()
     {
 
