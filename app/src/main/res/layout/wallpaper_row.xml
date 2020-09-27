@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/poppinsregular"
             android:text="Like" />
 
         <ImageView
@@ -52,6 +53,7 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
             android:background="@color/common_google_signin_btn_text_light_default"
+            android:fontFamily="@font/poppinsregular"
             android:paddingStart="8dp"
             android:paddingTop="8dp"
             android:paddingEnd="8dp"
