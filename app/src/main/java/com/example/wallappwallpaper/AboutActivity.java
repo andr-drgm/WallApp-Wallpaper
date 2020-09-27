@@ -29,5 +29,7 @@ public class AboutActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
     }
 }
