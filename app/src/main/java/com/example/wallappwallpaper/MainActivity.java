@@ -95,11 +95,9 @@ public class MainActivity extends AppCompatActivity {
                  TabType tabtype = TabType.values()[tab.getPosition()];
 
                  switch(tabtype){
-                     // All wallpapers tab
                      case ALL_WALLPAPERS_TAB:
                          wallPaperAdapter.getDownloadFilter().filter("");
                          break;
-                         // Popular tab
                      case POPULAR_TAB:
 
                          Collections.sort(testDB.GetAllWallPapers(), new Comparator<WallPaper>() {
@@ -114,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
                          break;
 
-                         // Like tab
                      case LIKED_TAB:
                          wallPaperAdapter.getLikedFilter().filter("");
                          SaveData(likedWallpapers);
