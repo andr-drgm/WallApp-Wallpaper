@@ -29,6 +29,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
+            android:fontFamily="@font/poppinsregular"
             android:textAlignment="textStart"
             android:textColor="#fff"
             android:textIsSelectable="false"
@@ -42,6 +43,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="36dp"
+            android:fontFamily="@font/poppinsregular"
             android:textColor="#fff"
             android:textSize="18sp" />
 
@@ -52,6 +54,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="36dp"
+            android:fontFamily="@font/poppinsregular"
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold"
