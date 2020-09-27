@@ -33,6 +33,13 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+    private enum TabType{
+        ALL_WALLPAPERS_TAB,
+        POPULAR_TAB,
+        LIKED_TAB
+    }
+
+
     private RecyclerView recyclerView;
     private WallPaperAdapter wallPaperAdapter;
     private GridLayoutManager layoutManager;
@@ -85,13 +92,15 @@ public class MainActivity extends AppCompatActivity {
          tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
              @Override
              public void onTabSelected(TabLayout.Tab tab) {
-                 switch(tab.getPosition()){
+                 TabType tabtype = TabType.values()[tab.getPosition()];
+
+                 switch(tabtype){
                      // All wallpapers tab
-                     case 0:
+                     case ALL_WALLPAPERS_TAB:
                          wallPaperAdapter.getDownloadFilter().filter("");
                          break;
                          // Popular tab
-                     case 1:
+                     case POPULAR_TAB:
 
                          Collections.sort(testDB.GetAllWallPapers(), new Comparator<WallPaper>() {
                              @Override
@@ -106,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                          break;
 
                          // Like tab
-                     case 2:
+                     case LIKED_TAB:
                          wallPaperAdapter.getLikedFilter().filter("");
                          SaveData(likedWallpapers);
                          break;
