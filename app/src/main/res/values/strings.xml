@@ -31,4 +31,5 @@
     <string name="all_wallpapers_string">All Wallpapers</string>
     <string name="popular_wallpaper_string">Popular</string>
     <string name="likedWallPaperString">Liked</string>
+    <string name="loading_set_wallpaper">Loading...</string>
 </resources>

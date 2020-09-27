@@ -103,7 +103,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
                 testTask1.addOnSuccessListener(uri -> {
 
-                    setWallpaperButton.setText("Loading...");
+                    setWallpaperButton.setText(R.string.loading_set_wallpaper);
 
                     Glide.with(getApplicationContext())
                             .asBitmap()
