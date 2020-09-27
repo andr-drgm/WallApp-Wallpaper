@@ -37,14 +37,12 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         private TextView wallpaperTitle;
         private ProgressBar progressBar;
         private Button likeButton;
-        //public TextView cardTextView;
-        private HashMap<WallPaper, Boolean> likedMap;
 
         public WallPaperViewHolder(View v, HashMap<WallPaper, Boolean> likedList)
         {
             super(v);
             dataView = v;
-            this.likedMap = likedList;
+            //public TextView cardTextView;
 
             likeButton = (Button) dataView.findViewById(R.id.like_button);
 ////            cardTextView = (TextView) dataView.findViewById(R.id.textView);
@@ -85,6 +83,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
         if(this.likedMap.containsKey(currentWallPaper)){
             holder.likeButton.setText("Liked");
+
         }
         else{
             holder.likeButton.setText("Like");

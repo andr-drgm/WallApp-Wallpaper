@@ -104,28 +104,16 @@ public class MainActivity extends AppCompatActivity {
 
                  switch(tabtype){
                      case ALL_WALLPAPERS_TAB:
-                         wallPaperAdapter.getDownloadFilter().filter("");
+                         AllWallpapersTab();
                          break;
                      case POPULAR_TAB:
 
-                         ArrayList<WallPaper> fullDBList = new ArrayList<>(wallPaperAdapter.GetWallpaperList());
-                         testDB.SetAllWallPapers(fullDBList);
-
-                         Collections.sort(testDB.GetAllWallPapers(), new Comparator<WallPaper>() {
-                             @Override
-                             public int compare(WallPaper lhs, WallPaper rhs) {
-                                 return Integer.compare(rhs.getDownloads(), lhs.getDownloads());
-                             }
-
-                         });
-
-                         wallPaperAdapter.notifyDataSetChanged();
+                        PopularWallpapersTab();
 
                          break;
 
                      case LIKED_TAB:
-                         wallPaperAdapter.getLikedFilter().filter("");
-                         SaveData(likedWallpapers);
+                         LikedTab();
                          break;
                          default:
 
@@ -144,6 +132,31 @@ public class MainActivity extends AppCompatActivity {
          });
 
     }
+
+    // Tabs
+    private void AllWallpapersTab(){
+        wallPaperAdapter.getDownloadFilter().filter("");
+    }
+
+    private void PopularWallpapersTab()
+    {
+        ArrayList<WallPaper> fullDBList = new ArrayList<>(wallPaperAdapter.GetWallpaperList());
+        testDB.SetAllWallPapers(fullDBList);
+
+        Collections.sort(testDB.GetAllWallPapers(), (lhs, rhs) -> Integer.compare(rhs.getDownloads(), lhs.getDownloads()));
+
+        wallPaperAdapter.notifyDataSetChanged();
+
+    }
+
+    private void LikedTab(){
+        wallPaperAdapter.getLikedFilter().filter("");
+        SaveData(likedWallpapers);
+    }
+
+    // end tabs
+
+
 
     public void SaveData(HashMap<WallPaper, Boolean> arrayList)
     {
