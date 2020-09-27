@@ -1,19 +1,5 @@
-//TODO Andrei - front end
-              - photoshop resizing of wallpapers
-              - fix adapter
-
-
-//TODO Cosmin - wallpaper artist and provider
-
-//TODO Dan - back end
-           - back end - front end connection
-
-//TODO Adi - apprentice
-           - TODO list organizer
-
-
-//TODO General - LOGO
-               - UI
-               - Resize app
-               - Dark theme for app
-               - Display info for authors
+TODO: Set wallpaper without saving the image
+TODO: Download wallpaper button (OPTIONAL)
+TODO: Change like button to a heart ( full  when liked, empty otherwise )
+TODO: More wallpapers
+TODO: More TODOs
