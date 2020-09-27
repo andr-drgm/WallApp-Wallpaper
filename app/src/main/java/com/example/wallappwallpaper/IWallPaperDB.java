@@ -11,4 +11,5 @@ public interface IWallPaperDB {
     WallPaper get(int index);
     int size();
     void clear();
+    void SetAllWallPapers(List<WallPaper> wallPaperList);
 }

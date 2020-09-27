@@ -35,9 +35,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Enum for tab names
     private enum TabType{
         ALL_WALLPAPERS_TAB,
         POPULAR_TAB,
@@ -52,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     private HashMap<WallPaper, Boolean> likedWallpapers;
 
-    // Tab layout stuff
-    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Liked list
         likedWallpapers = LoadData();
-        //likedWallpapers = new HashMap<>();
 
         testDB = new WallPaperDB();
         final Service wallPaperService = new Service(testDB);
@@ -108,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                          wallPaperAdapter.getDownloadFilter().filter("");
                          break;
                      case POPULAR_TAB:
+
+                         ArrayList<WallPaper> fullDBList = new ArrayList<>(wallPaperAdapter.GetWallpaperList());
+                         testDB.SetAllWallPapers(fullDBList);
 
                          Collections.sort(testDB.GetAllWallPapers(), new Comparator<WallPaper>() {
                              @Override
@@ -269,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
                 // ok cool
+                //Log.i("TEST", "Sign in successful: "+ authResult.getUser() );
             }
         })
                 .addOnFailureListener(this, new OnFailureListener() {

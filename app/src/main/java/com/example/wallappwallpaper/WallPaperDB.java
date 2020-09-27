@@ -21,6 +21,11 @@ public class WallPaperDB implements IWallPaperDB {
         this.wallpaperList.clear();
     }
 
+    @Override
+    public void SetAllWallPapers(List<WallPaper> wallPaperList) {
+        this.wallpaperList = wallPaperList;
+    }
+
 
     @Override
     public List<WallPaper> GetAllWallPapers() {
