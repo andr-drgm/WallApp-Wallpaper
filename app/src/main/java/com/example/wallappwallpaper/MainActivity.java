@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +27,6 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Getting wallpapers
         try {
-            wallPaperFetcher.PopulateServer((WallPaperAdapter) wallPaperAdapter,this);
+            wallPaperFetcher.PopulateServer((WallPaperAdapter) wallPaperAdapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,17 +92,17 @@ public class MainActivity extends AppCompatActivity {
                          break;
                          // Popular tab
                      case 1:
-                         //wallPaperAdapter.getDownloadFilter().filter("");
 
                          Collections.sort(testDB.GetAllWallPapers(), new Comparator<WallPaper>() {
                              @Override
                              public int compare(WallPaper lhs, WallPaper rhs) {
-                                 // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
                                  return Integer.compare(rhs.getDownloads(), lhs.getDownloads());
                              }
+
                          });
 
                          wallPaperAdapter.notifyDataSetChanged();
+
                          break;
 
                          // Like tab

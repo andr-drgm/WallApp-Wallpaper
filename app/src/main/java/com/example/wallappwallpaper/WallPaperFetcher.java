@@ -15,7 +15,7 @@ public class WallPaperFetcher {
         this.wallPaperService = wallPaperService;
     }
 
-    void PopulateServer(final WallPaperAdapter wallPaperAdapter, final MainActivity mainActivityReference) throws Exception
+    void PopulateServer(final WallPaperAdapter wallPaperAdapter) throws Exception
     {
         // Get data from firebase or something...
         FirebaseDatabase database = FirebaseDatabase.getInstance();

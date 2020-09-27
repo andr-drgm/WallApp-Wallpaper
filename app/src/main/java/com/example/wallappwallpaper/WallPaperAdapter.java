@@ -40,11 +40,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         private ProgressBar progressBar;
         private Button likeButton;
         //public TextView cardTextView;
+        private HashMap<WallPaper, Boolean> likedMap;
 
-        public WallPaperViewHolder(View v)
+        public WallPaperViewHolder(View v, HashMap<WallPaper, Boolean> likedList)
         {
             super(v);
             dataView = v;
+            this.likedMap = likedList;
 
             likeButton = (Button) dataView.findViewById(R.id.like_button);
 ////            cardTextView = (TextView) dataView.findViewById(R.id.textView);
@@ -65,19 +67,31 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         this.wallPaperDataFull = new ArrayList<>(wallPapers);
     }
 
+    public List<WallPaper> GetWallpaperList(){
+        return this.wallPaperDataFull;
+    }
+
     @Override
     public WallPaperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View testDataView = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wallpaper_row, parent, false);
 
-        return new WallPaperViewHolder(testDataView);
+        return new WallPaperViewHolder(testDataView,this.likedMap);
     }
 
     @Override
-    public void onBindViewHolder(final WallPaperViewHolder holder, int position) {
+    public void onBindViewHolder(final WallPaperViewHolder holder, final int position) {
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
+
+        if(this.likedMap.containsKey(currentWallPaper)){
+            holder.likeButton.setText("Liked");
+        }
+        else{
+            holder.likeButton.setText("Like");
+        }
+
 
         holder.wallpaperTitle.setText(currentWallPaper.getTitle());
 
@@ -113,9 +127,15 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.dataView.getContext(), "Test like ",Toast.LENGTH_SHORT).show();
-                likedMap.put(currentWallPaper, true);
+                if(likedMap.containsKey(currentWallPaper))
+                {
+                    likedMap.remove(currentWallPaper);
+                }
+                else {
+                    likedMap.put(currentWallPaper, true);
 
+                }
+                notifyItemChanged(position);
             }
         });
 
