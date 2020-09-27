@@ -267,19 +267,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void signInAnonymously()
     {
-        mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                // ok cool
-                //Log.i("TEST", "Sign in successful: "+ authResult.getUser() );
-            }
+        mAuth.signInAnonymously().addOnSuccessListener(this, authResult -> {
+            // ok cool
+            //Log.i("TEST", "Sign in successful: "+ authResult.getUser() );
         })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("TEST", "Firebase signin failed", e);
-                    }
-                });
+                .addOnFailureListener(this, e -> Log.e("TEST", "Firebase signin failed", e));
     }
 
 

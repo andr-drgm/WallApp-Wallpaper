@@ -46,25 +46,20 @@ public class WallpaperAutoChange extends BroadcastReceiver {
                 Task<Uri> testTask = ref.getDownloadUrl();
 
 
-                testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(context)
-                                .asBitmap()
-                                .load(uri)
-                                .into(new SimpleTarget<Bitmap>() {
+                testTask.addOnSuccessListener(uri -> Glide.with(context)
+                        .asBitmap()
+                        .load(uri)
+                        .into(new SimpleTarget<Bitmap>() {
 
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                        try {
-                                            WallpaperManager.getInstance(context).setBitmap(resource);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
-                    }
-                });
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                try {
+                                    WallpaperManager.getInstance(context).setBitmap(resource);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }));
 
 
                 WallpaperManager wallpaperManager =

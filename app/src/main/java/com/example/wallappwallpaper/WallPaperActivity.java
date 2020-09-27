@@ -3,7 +3,6 @@ package com.example.wallappwallpaper;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,20 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 
 public class WallPaperActivity extends AppCompatActivity {
 
@@ -63,122 +54,93 @@ public class WallPaperActivity extends AppCompatActivity {
 
         Task<Uri> testTask = ref.getDownloadUrl();
 
-        testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide
-                        .with(getApplicationContext())
-                        .load(uri)
-                        .into(wallpaperImage);
-            }
-        });
+        testTask.addOnSuccessListener(uri -> Glide
+                .with(getApplicationContext())
+                .load(uri)
+                .into(wallpaperImage));
 
         wallPaperTitleTextView.setText(wallpaper.getTitle());
         wallPaperAuthorView.setText(wallpaper.getAuthor());
         wallPaperDescView.setText(wallpaper.getDescription());
 
         // Set wallpaper code...
-        wallPaperAuthorView.setOnClickListener(new TextView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String val = wallPaperAuthorView.getText().toString();
-                val = val.substring(1);
-                Uri webpage = Uri.parse("https://instagram.com/" + val + "/");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                startActivity(intent);
-            }
+        wallPaperAuthorView.setOnClickListener(v -> {
+            String val = wallPaperAuthorView.getText().toString();
+            val = val.substring(1);
+            Uri webpage = Uri.parse("https://instagram.com/" + val + "/");
+            Intent intent12 = new Intent(Intent.ACTION_VIEW, webpage);
+            startActivity(intent12);
         });
 
 
-        setWallpaperButton.setOnClickListener(new View.OnClickListener() {
+        setWallpaperButton.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(final View v) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle("Change wallpaper");
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Change wallpaper");
-
-                builder.setPositiveButton("Set wallpaper", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            builder.setPositiveButton("Set wallpaper", (dialog, which) -> {
 
 
-                        // Update database for new download value
-                        final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("wallpapers");
+                // Update database for new download value
+                final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("wallpapers");
 
-                        int downloads = wallpaper.getDownloads();
-                        wallpaper.setDownloads(downloads + 1);
+                int downloads = wallpaper.getDownloads();
+                wallpaper.setDownloads(downloads + 1);
 
-                        databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener(new OnCompleteListener<Void>() {
+                databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.i("TEST", "Successfully updated wallpaper");
+                    } else {
+                        Log.i("TEST", "Failed updating wallpaper");
 
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.i("TEST", "Successfully updated wallpaper");
-                                } else {
-                                    Log.i("TEST", "Failed updating wallpaper");
-
-                                }
-                            }
-
-                        });
+                    }
+                });
 
 
-                        // Get image from database storage
-                        final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
-                        Task<Uri> testTask = ref.getDownloadUrl();
+                // Get image from database storage
+                final StorageReference ref1 = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
+                Task<Uri> testTask1 = ref1.getDownloadUrl();
 
-                        testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                testTask1.addOnSuccessListener(uri -> {
 
-                            @Override
-                            public void onSuccess(final Uri uri) {
+                    setWallpaperButton.setText("Loading...");
 
-                                setWallpaperButton.setText("Loading...");
-
-                                Glide.with(getApplicationContext())
-                                        .asBitmap()
-                                        .load(uri)
-                                        .dontTransform()
-                                        .into(new CustomTarget<Bitmap>() {
-                                            @Override
-                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                                Uri myImageUri = getImageUri(resource, getApplicationContext());
-                                                Intent intent = new Intent();
-                                                intent.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
+                    Glide.with(getApplicationContext())
+                            .asBitmap()
+                            .load(uri)
+                            .dontTransform()
+                            .into(new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    Uri myImageUri = getImageUri(resource, getApplicationContext());
+                                    Intent intent1 = new Intent();
+                                    intent1.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
 //                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                intent.setDataAndType(myImageUri, "image/*");
-                                                intent.putExtra("mimeType", "image/*");
-                                                startActivity(Intent.createChooser(intent, "Set as:"));
-                                            }
+                                    intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    intent1.setDataAndType(myImageUri, "image/*");
+                                    intent1.putExtra("mimeType", "image/*");
+                                    startActivity(Intent.createChooser(intent1, "Set as:"));
+                                }
 
-                                            @Override
-                                            public void onLoadCleared(@Nullable Drawable placeholder) {
-                                            }
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+                                }
 
-                                        });
-                            }
-                        });
+                            });
+                });
 
-                        // Go to home screen
+                // Go to home screen
 //                        Intent startMain = new Intent(Intent.ACTION_MAIN);
 //                        startMain.addCategory(Intent.CATEGORY_HOME);
 //                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                        startActivity(startMain);
 
-                    }
-                });
+            });
 
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-                builder.show();
+            builder.show();
 
-            }
         });
 
 //        BACK BUTTON

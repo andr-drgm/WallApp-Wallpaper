@@ -16,7 +16,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -98,44 +97,34 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
         Task<Uri> testTask = ref.getDownloadUrl();
 
-        testTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide
-                        .with(holder.dataView.getContext())
-                        .load(uri)
-                        .into(holder.imageView);
+        testTask.addOnSuccessListener(uri -> {
+            Glide
+                    .with(holder.dataView.getContext())
+                    .load(uri)
+                    .into(holder.imageView);
 
-                holder.progressBar.setVisibility(View.GONE);
-            }
+            holder.progressBar.setVisibility(View.GONE);
         });
 
-        holder.dataView.setOnClickListener(new View.OnClickListener() {
+        holder.dataView.setOnClickListener(v -> {
+            Context context = v.getContext();
+            Intent intent = new Intent(context, WallPaperActivity.class);
+            intent.putExtra("wallPaper", currentWallPaper);
 
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, WallPaperActivity.class);
-                intent.putExtra("wallPaper", currentWallPaper);
+            context.startActivity(intent);
 
-                context.startActivity(intent);
-
-            }
         });
 
-        holder.likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(likedMap.containsKey(currentWallPaper))
-                {
-                    likedMap.remove(currentWallPaper);
-                }
-                else {
-                    likedMap.put(currentWallPaper, true);
-
-                }
-                notifyItemChanged(position);
+        holder.likeButton.setOnClickListener(v -> {
+            if(likedMap.containsKey(currentWallPaper))
+            {
+                likedMap.remove(currentWallPaper);
             }
+            else {
+                likedMap.put(currentWallPaper, true);
+
+            }
+            notifyItemChanged(position);
         });
 
     }
