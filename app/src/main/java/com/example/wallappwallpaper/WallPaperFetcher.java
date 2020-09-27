@@ -41,7 +41,6 @@ public class WallPaperFetcher {
                 wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
                 wallPaperAdapter.notifyDataSetChanged();
 
-                //mainActivityReference.autoChangeWallpaper();
 
             }
 

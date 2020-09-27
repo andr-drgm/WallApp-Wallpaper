@@ -12,6 +12,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -117,10 +118,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         holder.likeButton.setOnClickListener(v -> {
             if(likedMap.containsKey(currentWallPaper))
             {
+                // TODO: Change this text
+                Toast.makeText(holder.dataView.getContext(), "Removed liked wallpaper",Toast.LENGTH_SHORT).show();
                 likedMap.remove(currentWallPaper);
             }
             else {
                 likedMap.put(currentWallPaper, true);
+                Toast.makeText(holder.dataView.getContext(), "Liked wallpaper",Toast.LENGTH_SHORT).show();
 
             }
             notifyItemChanged(position);
