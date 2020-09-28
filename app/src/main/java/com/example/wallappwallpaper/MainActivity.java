@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -103,7 +105,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-         TabLayout tabLayout = findViewById(R.id.tab_layout);
+
+        recyclerView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+
+            @Override
+            public void onSwipeRight() {
+                int nextTab = (currentTabIndex -1  ) % 4;
+                if(nextTab < 0)
+                {
+                    nextTab = 0;
+                }
+
+                currentTabIndex = nextTab;
+
+                tabLayout.getTabAt(nextTab).select();
+                //Toast.makeText(getApplicationContext(), "right" + nextTab, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                int nextTab = (currentTabIndex +1 ) % 3;
+                currentTabIndex = nextTab;
+
+                tabLayout.getTabAt(nextTab).select();
+                //Toast.makeText(getApplicationContext(), "left " + nextTab, Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
 
          tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
              @Override
@@ -139,27 +168,7 @@ public class MainActivity extends AppCompatActivity {
              }
          });
 
-        recyclerView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
 
-            public void onSwipeRight() {
-                int nextTab = (currentTabIndex + 1 ) % 3;
-
-                tabLayout.getTabAt(nextTab).select();
-                //Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeLeft() {
-                int nextTab = (currentTabIndex -1 ) % 3;
-                if(nextTab < 0)
-                {
-                    nextTab = 0;
-                }
-
-                tabLayout.getTabAt(nextTab).select();
-                //Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
-            }
-
-
-        });
 
     }
 
