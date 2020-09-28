@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 int nextTab = (currentTabIndex -1  ) % 4;
                 if(nextTab < 0)
                 {
-                    nextTab = 0;
+                    nextTab = 2;
                 }
 
                 currentTabIndex = nextTab;
