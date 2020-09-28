@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private GridLayoutManager layoutManager;
     private WallPaperDB testDB;
     private FirebaseAuth mAuth;
+
 
     private HashMap<WallPaper, Boolean> likedWallpapers;
 
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
         recyclerView.setAdapter(wallPaperAdapter);
+
 
         // Getting wallpapers
         try {
