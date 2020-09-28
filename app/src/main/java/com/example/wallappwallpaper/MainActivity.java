@@ -1,5 +1,6 @@
 package com.example.wallappwallpaper;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.UiModeManager;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,15 +55,17 @@ public class MainActivity extends AppCompatActivity {
     private WallPaperDB testDB;
     private FirebaseAuth mAuth;
 
+    private int currentTabIndex;
+
 
     private HashMap<WallPaper, Boolean> likedWallpapers;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         if(user == null){
             signInAnonymously();
         }
+        currentTabIndex = 0;
 
         // Liked list
         likedWallpapers = LoadData();
@@ -111,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                          break;
                      case POPULAR_TAB:
 
-                        PopularWallpapersTab();
+                         PopularWallpapersTab();
 
                          break;
 
@@ -133,6 +138,28 @@ public class MainActivity extends AppCompatActivity {
 
              }
          });
+
+        recyclerView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+
+            public void onSwipeRight() {
+                int nextTab = (currentTabIndex + 1 ) % 3;
+
+                tabLayout.getTabAt(nextTab).select();
+                //Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                int nextTab = (currentTabIndex -1 ) % 3;
+                if(nextTab < 0)
+                {
+                    nextTab = 0;
+                }
+
+                tabLayout.getTabAt(nextTab).select();
+                //Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
 
     }
 
