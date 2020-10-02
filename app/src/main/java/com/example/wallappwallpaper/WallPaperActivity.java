@@ -12,6 +12,7 @@ import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
     private Button setWallpaperButton;
     private ImageView wallpaperImage;
+    private CheckBox likeCheckbox;
 
     @Override
     protected void onStart() {
@@ -47,8 +49,9 @@ public class WallPaperActivity extends AppCompatActivity {
         final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
         TextView wallPaperDescView = findViewById(R.id.wall_description_text_view);
 
-        setWallpaperButton = findViewById(R.id.setWallpaper_button);
-        wallpaperImage = findViewById(R.id.wall_image);
+        setWallpaperButton = (Button) findViewById(R.id.setWallpaper_button);
+        wallpaperImage = (ImageView) findViewById(R.id.wall_image);
+        likeCheckbox = (CheckBox) findViewById(R.id.like_checkBox);
 
         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
 
