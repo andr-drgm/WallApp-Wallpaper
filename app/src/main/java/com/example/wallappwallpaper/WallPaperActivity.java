@@ -55,6 +55,8 @@ public class WallPaperActivity extends AppCompatActivity {
         wallpaperImage = (ImageView) findViewById(R.id.wall_image);
         likeCheckbox = (CheckBox) findViewById(R.id.like_checkBox);
 
+        likeCheckbox.setChecked(likedMap.containsKey(wallpaper));
+
         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
 
         Task<Uri> testTask = ref.getDownloadUrl();
@@ -81,8 +83,6 @@ public class WallPaperActivity extends AppCompatActivity {
         likeCheckbox.setOnClickListener(v ->{
 
         });
-
-
 
 
         setWallpaperButton.setOnClickListener(v -> {

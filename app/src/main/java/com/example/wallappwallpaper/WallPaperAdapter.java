@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -37,7 +38,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         private ImageView imageView;
         private TextView wallpaperTitle;
         private ProgressBar progressBar;
-        private Button likeButton;
+        private CheckBox likeCheckBox;
 
         public WallPaperViewHolder(View v, HashMap<WallPaper, Boolean> likedList)
         {
@@ -45,7 +46,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             dataView = v;
             //public TextView cardTextView;
 
-            likeButton = (Button) dataView.findViewById(R.id.like_button);
+            likeCheckBox = (CheckBox) dataView.findViewById(R.id.like_button);
 ////            cardTextView = (TextView) dataView.findViewById(R.id.textView);
             imageView = (ImageView) dataView.findViewById(R.id.imageView);
             wallpaperTitle = (TextView) dataView.findViewById(R.id.row_title_textView);
@@ -82,13 +83,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
-        if(this.likedMap.containsKey(currentWallPaper)){
-            holder.likeButton.setText("Liked");
-
-        }
-        else{
-            holder.likeButton.setText("Like");
-        }
+        holder.likeCheckBox.setChecked(likedMap.containsKey(currentWallPaper));
 
 
         holder.wallpaperTitle.setText(currentWallPaper.getTitle());
@@ -116,7 +111,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
         });
 
-        holder.likeButton.setOnClickListener(v -> {
+        holder.likeCheckBox.setOnClickListener(v -> {
             if(likedMap.containsKey(currentWallPaper))
             {
                 // TODO: Change this text
