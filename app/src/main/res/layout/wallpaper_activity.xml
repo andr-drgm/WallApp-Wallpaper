@@ -30,7 +30,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="9dp"
             android:layout_marginEnd="36dp"
-            android:fontFamily="@font/poppinsregular"
+            android:fontFamily="@font/robotomonomedium"
             android:textAlignment="textStart"
             android:textColor="#fff"
             android:textIsSelectable="false"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
-            android:fontFamily="@font/poppinsregular"
+            android:fontFamily="@font/robotomonoregular"
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -59,7 +59,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="36dp"
-            android:fontFamily="@font/poppinsregular"
+            android:fontFamily="@font/robotomonoregular"
             android:textColor="#fff"
             android:textSize="18sp" />
 
