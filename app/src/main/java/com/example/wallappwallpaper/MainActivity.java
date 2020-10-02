@@ -53,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private WallPaperAdapter wallPaperAdapter;
     private GridLayoutManager layoutManager;
     private WallPaperDB testDB;
+    private WallPaperDB fullTestDB;
     private FirebaseAuth mAuth;
 
     private int currentTabIndex;
     private HashMap<WallPaper, Boolean> likedWallpapers;
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         likedWallpapers = LoadData();
 
         testDB = new WallPaperDB();
+        fullTestDB = testDB;
+
         final Service wallPaperService = new Service(testDB);
         final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
 
@@ -188,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void LikedTab(){
+        fullTestDB = new WallPaperDB((ArrayList<WallPaper>) testDB.GetAllWallPapers());
         wallPaperAdapter.getLikedFilter().filter("");
         SaveData(likedWallpapers);
     }
@@ -214,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         likedWallpapers = LoadData();
 
-        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
+        wallPaperAdapter = new WallPaperAdapter(fullTestDB, likedWallpapers);
         recyclerView.setAdapter(wallPaperAdapter);
 
 

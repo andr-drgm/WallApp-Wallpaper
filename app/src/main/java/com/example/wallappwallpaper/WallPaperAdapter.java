@@ -2,6 +2,7 @@ package com.example.wallappwallpaper;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Task;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +80,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         View testDataView = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wallpaper_row, parent, false);
 
+
+
         return new WallPaperViewHolder(testDataView,this.likedMap);
     }
 
@@ -124,10 +131,15 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
             }
             notifyItemChanged(position);
+
         });
 
     }
 
+    public void SaveData(HashMap<WallPaper, Boolean> arrayList)
+    {
+
+    }
 
 
     
