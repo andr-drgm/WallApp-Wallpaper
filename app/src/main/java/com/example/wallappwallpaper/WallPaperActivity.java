@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
 public class WallPaperActivity extends AppCompatActivity {
 
@@ -44,6 +45,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
+        HashMap<WallPaper,Boolean> likedMap = (HashMap<WallPaper, Boolean>) intent.getSerializableExtra("exists");
 
         TextView wallPaperTitleTextView = findViewById(R.id.wall_title_text_view);
         final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
@@ -74,6 +76,13 @@ public class WallPaperActivity extends AppCompatActivity {
             Intent intent12 = new Intent(Intent.ACTION_VIEW, webpage);
             startActivity(intent12);
         });
+
+        // Like checkbox
+        likeCheckbox.setOnClickListener(v ->{
+
+        });
+
+
 
 
         setWallpaperButton.setOnClickListener(v -> {

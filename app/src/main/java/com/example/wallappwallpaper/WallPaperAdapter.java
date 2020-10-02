@@ -110,6 +110,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             Context context = v.getContext();
             Intent intent = new Intent(context, WallPaperActivity.class);
             intent.putExtra("wallPaper", currentWallPaper);
+            intent.putExtra("exists",    likedMap);
 
             context.startActivity(intent);
 
@@ -119,7 +120,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             if(likedMap.containsKey(currentWallPaper))
             {
                 // TODO: Change this text
-                Toast.makeText(holder.dataView.getContext(), "Removed liked wallpaper",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(holder.dataView.getContext(), "Removed liked wallpaper",Toast.LENGTH_SHORT).show();
                 likedMap.remove(currentWallPaper);
             }
             else {
