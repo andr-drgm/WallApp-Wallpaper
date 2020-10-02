@@ -94,10 +94,6 @@ public class WallPaperActivity extends AppCompatActivity {
                 likedMap.put(wallpaper, true);
                 Toast.makeText(getApplicationContext(), "LIKED", Toast.LENGTH_SHORT).show();
 
-                for (WallPaper wall : likedMap.keySet()) {
-                    Log.i("TEST", wall.getTitle());
-                }
-
             }
             else{
                 likedMap.remove(wallpaper);

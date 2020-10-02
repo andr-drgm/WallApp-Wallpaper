@@ -212,14 +212,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i("TEST", "ON RESTART");
-
         likedWallpapers = LoadData();
-
-        for(WallPaper wall: likedWallpapers.keySet())
-        {
-            Log.i("TEST", wall.getTitle());
-        }
 
         wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
         recyclerView.setAdapter(wallPaperAdapter);
