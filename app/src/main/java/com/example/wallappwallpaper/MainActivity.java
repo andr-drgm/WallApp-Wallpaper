@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         SaveData(likedWallpapers);
     }
 
+
     // end tabs
 
     public void SaveData(HashMap<WallPaper, Boolean> arrayList)
@@ -206,6 +207,24 @@ public class MainActivity extends AppCompatActivity {
         String json = gson.toJson(arrayList,type );
         editor.putString("Liked List", json);
         editor.apply();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("TEST", "ON RESTART");
+
+        likedWallpapers = LoadData();
+
+        for(WallPaper wall: likedWallpapers.keySet())
+        {
+            Log.i("TEST", wall.getTitle());
+        }
+
+        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
+        recyclerView.setAdapter(wallPaperAdapter);
+
+
     }
 
     public HashMap<WallPaper, Boolean> LoadData()

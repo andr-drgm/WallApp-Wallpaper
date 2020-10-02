@@ -95,7 +95,7 @@ public class WallPaperActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "LIKED", Toast.LENGTH_SHORT).show();
 
                 for (WallPaper wall : likedMap.keySet()) {
-                    Log.i("TEST", wall.getName());
+                    Log.i("TEST", wall.getTitle());
                 }
 
             }
@@ -194,10 +194,12 @@ public class WallPaperActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("liked", likedMap);
+        //Intent intent = new Intent(this, MainActivity.class);
+        //intent.putExtra("liked", likedMap);
+
         SaveData(likedMap);
-        startActivity(intent);
+        super.onBackPressed();
+        //startActivity(intent);
     }
 
     public void SaveData(HashMap<WallPaper, Boolean> arrayList)
