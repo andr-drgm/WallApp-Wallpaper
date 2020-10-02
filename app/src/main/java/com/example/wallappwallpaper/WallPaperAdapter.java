@@ -70,6 +70,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         this.wallPaperDataFull = new ArrayList<>(wallPapers);
     }
 
+    public List<WallPaper> GetWallPaperDataFull(){
+        return this.wallPaperDataFull;
+    }
+
     public List<WallPaper> GetWallpaperList(){
         return this.wallPaperDataFull;
     }

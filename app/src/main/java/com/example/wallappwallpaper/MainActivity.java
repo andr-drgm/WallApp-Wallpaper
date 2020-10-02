@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Tabs
     private void AllWallpapersTab(){
+
         wallPaperAdapter.getDownloadFilter().filter("");
     }
 
@@ -186,13 +187,13 @@ public class MainActivity extends AppCompatActivity {
         testDB.SetAllWallPapers(fullDBList);
 
         Collections.sort(testDB.GetAllWallPapers(), (lhs, rhs) -> Integer.compare(rhs.getDownloads(), lhs.getDownloads()));
-
         wallPaperAdapter.notifyDataSetChanged();
 
     }
 
     private void LikedTab(){
-        fullTestDB = new WallPaperDB((ArrayList<WallPaper>) testDB.GetAllWallPapers());
+        ArrayList<WallPaper> fullDBList = new ArrayList<>(wallPaperAdapter.GetWallpaperList());
+        testDB.SetAllWallPapers(fullDBList);
         wallPaperAdapter.getLikedFilter().filter("");
         SaveData(likedWallpapers);
     }
@@ -219,8 +220,11 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         likedWallpapers = LoadData();
 
-        wallPaperAdapter = new WallPaperAdapter(fullTestDB, likedWallpapers);
+        testDB.SetAllWallPapers(wallPaperAdapter.GetWallPaperDataFull());
+
+        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
         recyclerView.setAdapter(wallPaperAdapter);
+
 
 
     }

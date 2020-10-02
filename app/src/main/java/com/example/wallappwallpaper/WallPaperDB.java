@@ -23,7 +23,7 @@ public class WallPaperDB implements IWallPaperDB {
 
     @Override
     public void SetAllWallPapers(List<WallPaper> wallPaperList) {
-        this.wallpaperList = wallPaperList;
+        this.wallpaperList = new ArrayList<>(wallPaperList);
     }
 
 
