@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private int currentTabIndex;
-
-
     private HashMap<WallPaper, Boolean> likedWallpapers;
 
 
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
 
+        Log.i("TEST", "CALLED ON CREATE");
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -195,8 +194,6 @@ public class MainActivity extends AppCompatActivity {
 
     // end tabs
 
-
-
     public void SaveData(HashMap<WallPaper, Boolean> arrayList)
     {
         SharedPreferences sharedPreferences = getSharedPreferences("wallApp:likedPreferences", MODE_PRIVATE);
@@ -269,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
@@ -316,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
     }
+
 
     private void signInAnonymously()
     {

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +26,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.Task;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class WallPaperActivity extends AppCompatActivity {
@@ -38,6 +44,8 @@ public class WallPaperActivity extends AppCompatActivity {
     private ImageView wallpaperImage;
     private CheckBox likeCheckbox;
 
+    HashMap<WallPaper, Boolean> likedMap;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -45,7 +53,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
-        HashMap<WallPaper,Boolean> likedMap = (HashMap<WallPaper, Boolean>) intent.getSerializableExtra("exists");
+        likedMap = (HashMap<WallPaper, Boolean>) intent.getSerializableExtra("exists");
 
         TextView wallPaperTitleTextView = findViewById(R.id.wall_title_text_view);
         final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
@@ -54,8 +62,6 @@ public class WallPaperActivity extends AppCompatActivity {
         setWallpaperButton = (Button) findViewById(R.id.setWallpaper_button);
         wallpaperImage = (ImageView) findViewById(R.id.wall_image);
         likeCheckbox = (CheckBox) findViewById(R.id.like_checkBox);
-
-        likeCheckbox.setChecked(likedMap.containsKey(wallpaper));
 
         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
 
@@ -79,11 +85,26 @@ public class WallPaperActivity extends AppCompatActivity {
             startActivity(intent12);
         });
 
+        likeCheckbox.setChecked( likedMap.containsKey(wallpaper));
+
         // Like checkbox
         likeCheckbox.setOnClickListener(v ->{
 
-        });
+            if(!likedMap.containsKey(wallpaper)) {
+                likedMap.put(wallpaper, true);
+                Toast.makeText(getApplicationContext(), "LIKED", Toast.LENGTH_SHORT).show();
 
+                for (WallPaper wall : likedMap.keySet()) {
+                    Log.i("TEST", wall.getName());
+                }
+
+            }
+            else{
+                likedMap.remove(wallpaper);
+
+            }
+
+        });
 
         setWallpaperButton.setOnClickListener(v -> {
 
@@ -171,6 +192,28 @@ public class WallPaperActivity extends AppCompatActivity {
 //        });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("liked", likedMap);
+        SaveData(likedMap);
+        startActivity(intent);
+    }
+
+    public void SaveData(HashMap<WallPaper, Boolean> arrayList)
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("wallApp:likedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.enableComplexMapKeySerialization().setPrettyPrinting().create();
+        Type type = new TypeToken<HashMap<WallPaper, Boolean>>(){}.getType();
+
+        String json = gson.toJson(arrayList,type );
+        editor.putString("Liked List", json);
+        editor.apply();
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -185,6 +228,7 @@ public class WallPaperActivity extends AppCompatActivity {
                 inImage, "Title", null);
         return Uri.parse(path);
     }
+
 
 }
 
