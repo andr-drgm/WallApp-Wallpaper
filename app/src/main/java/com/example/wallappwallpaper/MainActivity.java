@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
 
-        Log.i("TEST", "CALLED ON CREATE");
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
