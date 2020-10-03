@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Getting wallpapers
         try {
-            wallPaperFetcher.PopulateServer((WallPaperAdapter) wallPaperAdapter);
+            wallPaperFetcher.PopulateServer(wallPaperAdapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 currentTabIndex = nextTab;
 
                 tabLayout.getTabAt(nextTab).select();
-                //Toast.makeText(getApplicationContext(), "right" + nextTab, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -134,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 currentTabIndex = nextTab;
 
                 tabLayout.getTabAt(nextTab).select();
-                //Toast.makeText(getApplicationContext(), "left " + nextTab, Toast.LENGTH_SHORT).show();
             }
 
 
@@ -311,7 +309,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void autoChangeWallpaper(){
+    // Moved in WallpaperFetcher
+/*    public void autoChangeWallpaper(){
 
         Intent intent = new Intent(MainActivity.this, WallpaperAutoChange.class);
 
@@ -332,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, tenSecondsInMillis, pendingIntent);
 
-    }
+    }*/
 
     @Override
     protected void onStart() {
