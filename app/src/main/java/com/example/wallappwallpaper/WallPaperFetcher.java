@@ -23,12 +23,8 @@ public class WallPaperFetcher {
 
     public WallPaperFetcher(Service wallPaperService,Context context){
         this.wallPaperService = wallPaperService;
-        urlList = new ArrayList<String>();
+        urlList = new ArrayList<>();
         this.context = context;
-    }
-
-    List<String> getUrlList(){
-        return this.urlList;
     }
 
     void PopulateServer(final WallPaperAdapter wallPaperAdapter) throws Exception
@@ -64,7 +60,6 @@ public class WallPaperFetcher {
                 wallPaperAdapter.notifyDataSetChanged();
 
                 SetupChangeWallpaper(urlList);
-
             }
 
             @Override
