@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -39,6 +42,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int currentTabIndex;
     private HashMap<WallPaper, Boolean> likedWallpapers;
+
 
 
 
@@ -80,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
         likedWallpapers = LoadData();
 
         testDB = new WallPaperDB();
-        WallPaperDB fullTestDB = testDB;
 
         final Service wallPaperService = new Service(testDB);
-        final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService);
+        final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService, MainActivity.this);
+
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
