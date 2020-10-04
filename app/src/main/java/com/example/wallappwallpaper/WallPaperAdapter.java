@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.WallPaperViewHolder> implements Filterable {
 
     IWallPaperDB wallpaperData;
@@ -89,6 +91,20 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         return new WallPaperViewHolder(testDataView,this.likedMap);
     }
 
+    public void SaveData(HashMap<WallPaper, Boolean> arrayList, Context context)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("wallApp:likedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.enableComplexMapKeySerialization().setPrettyPrinting().create();
+        Type type = new TypeToken<HashMap<WallPaper, Boolean>>(){}.getType();
+
+        String json = gson.toJson(arrayList,type );
+        editor.putString("Liked List", json);
+        editor.apply();
+    }
+
     @Override
     public void onBindViewHolder(final WallPaperViewHolder holder, final int position) {
 
@@ -128,12 +144,15 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
                 // TODO: Change this text
                         Toast.makeText(holder.dataView.getContext(), "Removed liked wallpaper",Toast.LENGTH_SHORT).show();
                 likedMap.remove(currentWallPaper);
+
             }
             else {
                 likedMap.put(currentWallPaper, true);
                 Toast.makeText(holder.dataView.getContext(), "Liked wallpaper",Toast.LENGTH_SHORT).show();
 
             }
+
+            SaveData(likedMap, holder.dataView.getContext());
             notifyItemChanged(position);
 
         });

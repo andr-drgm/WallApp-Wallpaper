@@ -1,6 +1,7 @@
 TODO: Set wallpaper without saving the image
 TODO: Random wallpaper everyday
 TODO: Download wallpaper button (OPTIONAL)
-TODO: Fix swipe to change being null at startup sometimes...
+TODO: UI RECYCLERVIEWS IN OTHER TABS DON'T UPDATE WHEN NEEDED
+TODO: REFACTOR WALLPAPERFETCHER, it's terrible...
 TODO: More wallpapers
 TODO: More TODOs

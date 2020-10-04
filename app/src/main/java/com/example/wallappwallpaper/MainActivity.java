@@ -71,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -87,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
         testDB = new WallPaperDB();
 
         final Service wallPaperService = new Service(testDB);
-        final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService, MainActivity.this);
-
+        final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallPaperService, getApplicationContext());
 
         UiModeManager uiManager = (UiModeManager) getApplicationContext().getSystemService(Context.UI_MODE_SERVICE);
         uiManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
