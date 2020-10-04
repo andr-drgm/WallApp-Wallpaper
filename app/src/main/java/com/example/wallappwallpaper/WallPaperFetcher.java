@@ -1,6 +1,8 @@
 package com.example.wallappwallpaper;
+
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -63,13 +65,14 @@ public class WallPaperFetcher {
     {
         // Get data from firebase or something...
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         DatabaseReference databaseRef = database.getReference("wallpapers");
 
-        if(wallPaperService.GetAllWallPapers().size() == 0) {
-            databaseRef.addValueEventListener(new ValueEventListener() {
+        databaseRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     wallPaperService.Clear();
+                    Log.i("TEST", "CALLED DB");
 
                     List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
                     for (WallPaper wallPaper : wallpapers) {
@@ -86,8 +89,8 @@ public class WallPaperFetcher {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
-        }
+        });
+
     }
 
     List<WallPaper> getDataFromDatabase(DataSnapshot snapshot){

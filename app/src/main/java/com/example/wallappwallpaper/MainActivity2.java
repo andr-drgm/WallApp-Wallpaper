@@ -43,7 +43,6 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i("TEST","Calling options menu...");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.example_menu, menu);
 

@@ -39,6 +39,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     List<WallPaper> wallPaperDataFull;
 
     HashMap<WallPaper, Boolean> likedMap;
+    HashMap<String, Uri> uriMap;
 
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         private View dataView;
@@ -66,6 +67,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         wallpaperData = dataSet;
         wallPaperDataFull = new ArrayList<>(wallpaperData.GetAllWallPapers());
         this.likedMap = likedMap;
+        uriMap = new HashMap<>();
     }
 
     public void setWallPaperDataFull(List<WallPaper> wallPapers){
@@ -111,22 +113,29 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         final WallPaper currentWallPaper = wallpaperData.get(position);
 
         holder.likeCheckBox.setChecked(likedMap.containsKey(currentWallPaper));
-
-
         holder.wallpaperTitle.setText(currentWallPaper.getTitle());
 
-        final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
+        if(!uriMap.containsKey(currentWallPaper.getImagePath())) {
+            final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
+            Task<Uri> testTask = ref.getDownloadUrl();
 
-        Task<Uri> testTask = ref.getDownloadUrl();
+            testTask.addOnSuccessListener(uri -> {
+                Glide
+                        .with(holder.dataView.getContext())
+                        .load(uri)
+                        .into(holder.imageView);
 
-        testTask.addOnSuccessListener(uri -> {
+                holder.progressBar.setVisibility(View.GONE);
+                uriMap.put(currentWallPaper.getImagePath(),uri);
+            });
+        }else{
             Glide
                     .with(holder.dataView.getContext())
-                    .load(uri)
+                    .load(uriMap.get(currentWallPaper.getImagePath()))
                     .into(holder.imageView);
-
             holder.progressBar.setVisibility(View.GONE);
-        });
+
+        }
 
         holder.dataView.setOnClickListener(v -> {
             Context context = v.getContext();

@@ -54,6 +54,12 @@ public class PlaceholderFragment extends Fragment {
         this.setArguments(bundle);
     }
 
+    public void update()
+    {
+        wallPaperAdapter.notifyDataSetChanged();
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
