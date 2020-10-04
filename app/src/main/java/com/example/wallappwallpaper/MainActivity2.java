@@ -3,6 +3,7 @@ package com.example.wallappwallpaper;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.wallappwallpaper.ui.main.PlaceholderFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -10,6 +11,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.Menu;
@@ -23,16 +25,19 @@ import com.example.wallappwallpaper.ui.main.SectionsPagerAdapter;
 
 public class MainActivity2 extends AppCompatActivity {
 
+    TabLayout tabs;
+    ViewPager viewPager;
+    SectionsPagerAdapter sectionsPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
+        tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
 
     }
 
@@ -62,7 +67,12 @@ public class MainActivity2 extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 //wallPaperAdapter.getFilter().filter(newText);
+                Log.i("TEST", "" +  sectionsPagerAdapter.getItem(0));
+                WallPaperAdapter wallpaperAdapter = ((PlaceholderFragment)sectionsPagerAdapter.getmCurrentFragment()).getWallPaperAdapter();
+                wallpaperAdapter.getFilter().filter(newText);
+
                 return false;
             }
         });

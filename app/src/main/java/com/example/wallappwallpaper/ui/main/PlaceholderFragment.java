@@ -43,6 +43,7 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private HashMap<WallPaper, Boolean> likedWallpapers;
     int tabIndex;
+    WallPaperAdapter wallPaperAdapter;
 
     private PageViewModel pageViewModel;
 
@@ -102,6 +103,9 @@ public class PlaceholderFragment extends Fragment {
         return loadedData;
     }
 
+    public WallPaperAdapter getWallPaperAdapter() {
+        return wallPaperAdapter;
+    }
 
     @Override
     public View onCreateView(
@@ -120,10 +124,8 @@ public class PlaceholderFragment extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
 
-        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
+        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
         recyclerView.setAdapter(wallPaperAdapter);
-
-        Log.i("TEST", "INDEX: " + tabIndex);
 
         switch (tabIndex){
             // All wallpapers

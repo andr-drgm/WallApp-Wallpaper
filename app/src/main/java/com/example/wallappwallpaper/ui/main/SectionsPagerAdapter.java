@@ -1,7 +1,10 @@
 package com.example.wallappwallpaper.ui.main;
 
 import android.content.Context;
+import android.view.FrameMetrics;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -19,11 +22,23 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
     private final Context mContext;
-    private Fragment currentFragment;
+    private Fragment mCurrentFragment;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+    }
+
+    public Fragment getmCurrentFragment() {
+        return mCurrentFragment;
+    }
+
+    @Override
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        if(getmCurrentFragment() != object){
+            mCurrentFragment = ((Fragment)object);
+        }
+        super.setPrimaryItem(container, position, object);
     }
 
     @Override
@@ -31,13 +46,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         PlaceholderFragment newFragment = new PlaceholderFragment(position);
-        currentFragment = newFragment;
-
         return newFragment;
-    }
-
-    public Fragment getCurrentFragment() {
-        return currentFragment;
     }
 
     @Nullable
@@ -48,7 +57,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
         return 3;
     }
 }
