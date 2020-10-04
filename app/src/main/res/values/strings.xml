@@ -33,7 +33,7 @@
     <string name="likedWallPaperString">Liked</string>
     <string name="loading_set_wallpaper">Loading…</string>
     <string name="title_activity_main2">WallApp Wallpaper</string>
-    <string name="tab_text_1">All Wallpapers</string>
+    <string name="tab_text_1">All \nWallpapers</string>
     <string name="tab_text_2">Popular</string>
     <string name="tab_text_3">Liked</string>
 </resources>

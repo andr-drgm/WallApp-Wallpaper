@@ -11,11 +11,14 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <com.google.android.material.tabs.TabLayout
+        <com.example.wallappwallpaper.CustomTabLayout
             android:id="@+id/tabs"
+            style="@style/MyTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark" />
+            android:background="@color/colorPrimaryDark"
+            app:tabIndicator="@color/colorPrimary"
+            app:tabMode="auto" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

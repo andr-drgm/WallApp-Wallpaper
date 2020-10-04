@@ -13,6 +13,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyTabLayout" parent="Base.Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
+    </style>
+
+    <style name="MyTabTextAppearance" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
