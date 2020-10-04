@@ -65,29 +65,29 @@ public class WallPaperFetcher {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseRef = database.getReference("wallpapers");
 
+        if(wallPaperService.GetAllWallPapers().size() == 0) {
+            databaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    wallPaperService.Clear();
 
-        databaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                wallPaperService.Clear();
+                    List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
+                    for (WallPaper wallPaper : wallpapers) {
+                        wallPaperService.AddWallPaper(wallPaper);
+                    }
 
-                List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
-                for(WallPaper wallPaper: wallpapers){
-                    wallPaperService.AddWallPaper(wallPaper);
+                    wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
+                    wallPaperAdapter.notifyDataSetChanged();
+
+                    SetupChangeWallpaper(urlList);
                 }
 
-                wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
-                wallPaperAdapter.notifyDataSetChanged();
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                SetupChangeWallpaper(urlList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+                }
+            });
+        }
     }
 
     List<WallPaper> getDataFromDatabase(DataSnapshot snapshot){

@@ -117,7 +117,7 @@ public class PlaceholderFragment extends Fragment {
 
         likedWallpapers = LoadData(root.getContext());
 
-        GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(),3);
+        GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
 
         WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
