@@ -69,7 +69,6 @@ public class MainActivity2 extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
 
                 //wallPaperAdapter.getFilter().filter(newText);
-                Log.i("TEST", "" +  sectionsPagerAdapter.getItem(0));
                 WallPaperAdapter wallpaperAdapter = ((PlaceholderFragment)sectionsPagerAdapter.getmCurrentFragment()).getWallPaperAdapter();
                 wallpaperAdapter.getFilter().filter(newText);
 
