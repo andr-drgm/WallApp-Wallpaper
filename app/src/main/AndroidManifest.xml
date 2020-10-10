@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.wallappwallpaper">
+    package="com.adrw.wallappwallpaper">
 
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity2"
+            android:name="com.adrw.wallappwallpaper.MainActivity2"
             android:label="@string/title_activity_main2">
             <!--android:theme="@style/AppTheme.NoActionBar"-->
             <intent-filter>
@@ -25,14 +25,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name="com.adrw.wallappwallpaper.AboutActivity"
             android:label="@string/title_activity_about"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.adrw.wallappwallpaper.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+            android:parentActivityName="com.adrw.wallappwallpaper.MainActivity" />
+        <activity android:name="com.adrw.wallappwallpaper.MainActivity">
            <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,10 +40,10 @@
             </intent-filter>-->
         </activity>
         <activity
-            android:name=".WallPaperActivity"
+            android:name="com.adrw.wallappwallpaper.WallPaperActivity"
             android:theme="@style/AppThemeWallpaper" />
 
-        <receiver android:name=".WallpaperAutoChange" />
+        <receiver android:name="com.adrw.wallappwallpaper.WallpaperAutoChange" />
     </application>
 
 </manifest>

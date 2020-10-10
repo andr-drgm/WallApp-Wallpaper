@@ -8,12 +8,49 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:796959273389:android:3d769d96ee18f95fc63124",
+        "android_client_info": {
+          "package_name": "com.adrw.wallappwallpaper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796959273389-lblfa8gc6d4ap1khvi86pbiafaqu31ts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyfOdtts2rFU4SW0kmLFXddJJuxI_V9_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796959273389-lblfa8gc6d4ap1khvi86pbiafaqu31ts.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:796959273389:android:0ddfb13de04d943bc63124",
         "android_client_info": {
           "package_name": "com.example.wallappwallpaper"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "796959273389-rv6lk0h862fjrd0q9di2o4n94riaa4v7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wallappwallpaper",
+            "certificate_hash": "bac4f3aca95fbffd36138517bba05cf48e2a4067"
+          }
+        },
         {
           "client_id": "796959273389-lblfa8gc6d4ap1khvi86pbiafaqu31ts.apps.googleusercontent.com",
           "client_type": 3
