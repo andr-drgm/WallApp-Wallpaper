@@ -34,6 +34,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         cachedFragmentMap = new HashMap<>();
     }
 
+
+
     public Fragment getmCurrentFragment() {
         return mCurrentFragment;
     }
@@ -72,6 +74,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         return newFragment;
     }
 
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         super.destroyItem(container, position, object);
@@ -83,6 +86,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mContext.getResources().getString(TAB_TITLES[position]);
     }
+
+
 
     @Override
     public int getCount() {
