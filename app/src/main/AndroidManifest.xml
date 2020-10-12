@@ -31,14 +31,8 @@
         <activity
             android:name="com.adrw.wallappwallpaper.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.adrw.wallappwallpaper.MainActivity" />
-        <activity android:name="com.adrw.wallappwallpaper.MainActivity">
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:parentActivityName="com.adrw.wallappwallpaper.MainActivity2" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
         <activity
             android:name="com.adrw.wallappwallpaper.WallPaperActivity"
             android:theme="@style/AppThemeWallpaper" />
