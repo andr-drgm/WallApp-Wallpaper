@@ -136,7 +136,7 @@ public class PlaceholderFragment extends Fragment {
                 catch (Exception e ){
                     e.printStackTrace();
                 }
-
+                
                 break;
                 // Popular tab
             case 1:

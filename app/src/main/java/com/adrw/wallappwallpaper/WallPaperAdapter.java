@@ -51,13 +51,11 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         {
             super(v);
             dataView = v;
-            //public TextView cardTextView;
 
-            likeCheckBox = (CheckBox) dataView.findViewById(R.id.like_button);
-////            cardTextView = (TextView) dataView.findViewById(R.id.textView);
-            imageView = (ImageView) dataView.findViewById(R.id.imageView);
-            wallpaperTitle = (TextView) dataView.findViewById(R.id.row_title_textView);
-            progressBar = (ProgressBar) dataView.findViewById(R.id.progressBar);
+            likeCheckBox = dataView.findViewById(R.id.like_button);
+            imageView = dataView.findViewById(R.id.imageView);
+            wallpaperTitle = dataView.findViewById(R.id.row_title_textView);
+            progressBar = dataView.findViewById(R.id.progressBar);
         }
     }
 
