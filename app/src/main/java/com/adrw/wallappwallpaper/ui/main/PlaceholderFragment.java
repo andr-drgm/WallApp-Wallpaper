@@ -45,6 +45,7 @@ public class PlaceholderFragment extends Fragment {
     private HashMap< Integer, PlaceholderFragment> cachedFragments;
     private RecyclerView recyclerView;
     private WallPaperDB testDB;
+    private WallPaperFetcher wallPaperFetcher;
 
     PlaceholderFragment(int index,HashMap< Integer, PlaceholderFragment> cachedFragments ){
         tabIndex = index;
@@ -68,6 +69,16 @@ public class PlaceholderFragment extends Fragment {
                     wallPaperAdapter.notifyItemChanged(i);
                 }
             }
+
+            if(tabIndex == 2){
+                wallPaperAdapter.setWallPaperDataFull(wallPaperAdapter.GetWallPaperDataFull());
+                wallPaperAdapter.getLikedFilter().filter("");
+
+                wallPaperAdapter.notifyDataSetChanged();
+
+            }
+
+
         });
 
     }
@@ -126,6 +137,7 @@ public class PlaceholderFragment extends Fragment {
         return wallPaperAdapter;
     }
 
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -135,7 +147,7 @@ public class PlaceholderFragment extends Fragment {
         recyclerView = root.findViewById(R.id.wallpapers_tab_list);
         testDB = new WallPaperDB();
         final Service wallpaperService = new Service(testDB);
-        final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallpaperService, root.getContext());
+        wallPaperFetcher = new WallPaperFetcher(wallpaperService, root.getContext());
         recyclerView.setHasFixedSize(true);
 
         HashMap<WallPaper, Boolean> likedWallpapers = LoadData(root.getContext());
