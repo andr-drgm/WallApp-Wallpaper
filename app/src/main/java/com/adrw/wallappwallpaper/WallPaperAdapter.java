@@ -76,6 +76,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         this.cachedFragments = cachedFragments;
     }
 
+    public void setLikedMap(HashMap<WallPaper, Boolean> likedMap){
+        this.likedMap = likedMap;
+    }
+
     public void setWallPaperDataFull(List<WallPaper> wallPapers){
         this.wallPaperDataFull = new ArrayList<>(wallPapers);
     }
@@ -168,11 +172,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             SaveData(likedMap, holder.dataView.getContext());
 
             notifyItemChanged(position);
-
-            Log.i("TEST", "Number of fragments: " + this.cachedFragments.size());
             for(PlaceholderFragment fragment : this.cachedFragments.values())
             {
-                Log.i("TEST","Fragment: " + ""+fragment.toString());
                 fragment.update(currentWallPaper);
                 //fragment.getWallPaperAdapter().notifyDataSetChanged();
         }

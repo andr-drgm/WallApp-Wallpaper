@@ -30,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -43,6 +44,7 @@ public class PlaceholderFragment extends Fragment {
     WallPaperAdapter wallPaperAdapter;
     private HashMap< Integer, PlaceholderFragment> cachedFragments;
     private RecyclerView recyclerView;
+    private WallPaperDB testDB;
 
     PlaceholderFragment(int index,HashMap< Integer, PlaceholderFragment> cachedFragments ){
         tabIndex = index;
@@ -55,15 +57,19 @@ public class PlaceholderFragment extends Fragment {
     public void update(WallPaper wallpaper)
     {
         // This doesn't work...
-        List<WallPaper> wallPapers = wallPaperAdapter.GetWallpaperList();
+        Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
 
-        for(int i =0;i<wallPapers.size();++i){
-            if(wallPapers.get(i).equals(wallpaper)){
-                Log.i("TEST","Found: " + wallpaper + " at " + i);
-                wallPaperAdapter.notifyItemChanged(i);
+            HashMap<WallPaper, Boolean> likedWallpapers = LoadData(getContext());
+            wallPaperAdapter.setLikedMap(likedWallpapers);
+            List<WallPaper> wallPapers = wallPaperAdapter.GetWallpaperList();
+
+            for(int i =0;i<wallPapers.size();++i){
+                if(wallPapers.get(i).equals(wallpaper)){
+                    Log.i("TEST","Found: " + wallpaper + " at " + i);
+                    wallPaperAdapter.notifyItemChanged(i);
+                }
             }
-        }
-
+        });
 
     }
 
@@ -128,7 +134,7 @@ public class PlaceholderFragment extends Fragment {
     {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = root.findViewById(R.id.wallpapers_tab_list);
-        WallPaperDB testDB = new WallPaperDB();
+        testDB = new WallPaperDB();
         final Service wallpaperService = new Service(testDB);
         final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallpaperService, root.getContext());
         recyclerView.setHasFixedSize(true);
