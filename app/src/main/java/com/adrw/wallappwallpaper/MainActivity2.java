@@ -33,14 +33,13 @@ public class MainActivity2 extends AppCompatActivity {
         mAuth.signInAnonymously();
 
         setContentView(R.layout.activity_main2);
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         viewPager = findViewById(R.id.view_pager);
+        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(sectionsPagerAdapter);
-        //viewPager.setOffscreenPageLimit(1);
-
 
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
 
     }
 

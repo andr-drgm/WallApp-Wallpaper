@@ -93,4 +93,15 @@ public class WallPaper implements Serializable,Cloneable {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return "WallPaper{" +
+                "imagePath='" + imagePath + '\'' +
+                ", author='" + author + '\'' +
+                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
+                ", downloads=" + downloads +
+                '}';
+    }
 }

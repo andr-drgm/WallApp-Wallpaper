@@ -10,9 +10,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.adrw.wallappwallpaper.R;
 import com.adrw.wallappwallpaper.Service;
@@ -26,6 +29,7 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -35,28 +39,39 @@ import static android.content.Context.MODE_PRIVATE;
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private HashMap<WallPaper, Boolean> likedWallpapers;
     int tabIndex;
     WallPaperAdapter wallPaperAdapter;
+    private HashMap< Integer, PlaceholderFragment> cachedFragments;
+    private RecyclerView recyclerView;
 
-    private PageViewModel pageViewModel;
-
-    PlaceholderFragment(int index){
+    PlaceholderFragment(int index,HashMap< Integer, PlaceholderFragment> cachedFragments ){
         tabIndex = index;
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         this.setArguments(bundle);
+        this.cachedFragments = cachedFragments;
     }
 
-    public void update()
+    public void update(WallPaper wallpaper)
     {
-        wallPaperAdapter.notifyDataSetChanged();
+        // This doesn't work...
+        List<WallPaper> wallPapers = wallPaperAdapter.GetWallpaperList();
+
+        for(int i =0;i<wallPapers.size();++i){
+            if(wallPapers.get(i).equals(wallpaper)){
+                Log.i("TEST","Found: " + wallpaper + " at " + i);
+                wallPaperAdapter.notifyItemChanged(i);
+            }
+        }
+
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        PageViewModel pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -112,18 +127,18 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState)
     {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        final RecyclerView recyclerView = root.findViewById(R.id.wallpapers_tab_list);
+        recyclerView = root.findViewById(R.id.wallpapers_tab_list);
         WallPaperDB testDB = new WallPaperDB();
         final Service wallpaperService = new Service(testDB);
         final WallPaperFetcher wallPaperFetcher = new WallPaperFetcher(wallpaperService, root.getContext());
         recyclerView.setHasFixedSize(true);
 
-        likedWallpapers = LoadData(root.getContext());
+        HashMap<WallPaper, Boolean> likedWallpapers = LoadData(root.getContext());
 
         GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
 
-        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers);
+        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers, cachedFragments);
         recyclerView.setAdapter(wallPaperAdapter);
 
         switch (tabIndex){

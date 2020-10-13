@@ -3,7 +3,9 @@ package com.adrw.wallappwallpaper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.ICUUncheckedIOException;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.adrw.wallappwallpaper.ui.main.PlaceholderFragment;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Task;
 import com.google.common.reflect.TypeToken;
@@ -39,6 +46,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     HashMap<WallPaper, Boolean> likedMap;
     HashMap<String, Uri> uriMap;
+    HashMap< Integer, PlaceholderFragment> cachedFragments;
 
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
         private View dataView;
@@ -59,12 +67,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         }
     }
 
-    public WallPaperAdapter(IWallPaperDB dataSet, HashMap<WallPaper, Boolean> likedMap)
+    public WallPaperAdapter(IWallPaperDB dataSet, HashMap<WallPaper, Boolean> likedMap, HashMap< Integer, PlaceholderFragment> cachedFragments)
     {
         wallpaperData = dataSet;
         wallPaperDataFull = new ArrayList<>(wallpaperData.GetAllWallPapers());
         this.likedMap = likedMap;
         uriMap = new HashMap<>();
+        this.cachedFragments = cachedFragments;
     }
 
     public void setWallPaperDataFull(List<WallPaper> wallPapers){
@@ -84,8 +93,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
         View testDataView = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wallpaper_row, parent, false);
-
-
 
         return new WallPaperViewHolder(testDataView,this.likedMap);
     }
@@ -148,7 +155,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             if(likedMap.containsKey(currentWallPaper))
             {
                 // TODO: Change this text
-                        Toast.makeText(holder.dataView.getContext(), "Removed liked wallpaper",Toast.LENGTH_SHORT).show();
+                Toast.makeText(holder.dataView.getContext(), "Removed liked wallpaper",Toast.LENGTH_SHORT).show();
                 likedMap.remove(currentWallPaper);
 
             }
@@ -159,19 +166,21 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             }
 
             SaveData(likedMap, holder.dataView.getContext());
+
             notifyItemChanged(position);
+
+            Log.i("TEST", "Number of fragments: " + this.cachedFragments.size());
+            for(PlaceholderFragment fragment : this.cachedFragments.values())
+            {
+                Log.i("TEST","Fragment: " + ""+fragment.toString());
+                fragment.update(currentWallPaper);
+                //fragment.getWallPaperAdapter().notifyDataSetChanged();
+        }
 
         });
 
     }
 
-    public void SaveData(HashMap<WallPaper, Boolean> arrayList)
-    {
-
-    }
-
-
-    
     @Override
     public int getItemCount() {
         return wallpaperData.size();
