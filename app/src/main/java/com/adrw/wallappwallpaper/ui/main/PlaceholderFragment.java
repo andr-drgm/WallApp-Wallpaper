@@ -56,7 +56,6 @@ public class PlaceholderFragment extends Fragment {
 
     public void update(WallPaper wallpaper)
     {
-        // This doesn't work...
         Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
 
             HashMap<WallPaper, Boolean> likedWallpapers = LoadData(getContext());
