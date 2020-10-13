@@ -1,3 +1,5 @@
+TODO: CHANGE FragmentPagerAdapter to FragmentStatePagerAdapter because the recycler view won't update
+
 TODO: Set wallpaper without saving the image
 TODO: Random wallpaper everyday
 TODO: Download wallpaper button (OPTIONAL)

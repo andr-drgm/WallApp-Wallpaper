@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
 import com.adrw.wallappwallpaper.ui.main.SectionsPagerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -27,10 +28,17 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously();
+
         setContentView(R.layout.activity_main2);
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+        //viewPager.setOffscreenPageLimit(1);
+
+
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
@@ -51,7 +59,6 @@ public class MainActivity2 extends AppCompatActivity {
         searchView.requestFocusFromTouch();
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
