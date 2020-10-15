@@ -1,7 +1,6 @@
 package com.adrw.wallappwallpaper;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -72,7 +71,6 @@ public class WallPaperFetcher {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     wallPaperService.Clear();
-                    Log.i("TEST", "CALLED DB");
 
                     List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
                     for (WallPaper wallPaper : wallpapers) {
