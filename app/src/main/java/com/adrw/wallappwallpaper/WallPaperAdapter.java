@@ -49,7 +49,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         private ProgressBar progressBar;
         private CheckBox likeCheckBox;
 
-        public WallPaperViewHolder(View v, HashMap<WallPaper, Boolean> likedList)
+        public WallPaperViewHolder(View v)
         {
             super(v);
             dataView = v;
@@ -92,7 +92,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         View testDataView = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wallpaper_row, parent, false);
 
-        return new WallPaperViewHolder(testDataView,this.likedMap);
+        return new WallPaperViewHolder(testDataView);
     }
 
     public void SaveData(HashMap<WallPaper, Boolean> arrayList, Context context)
@@ -170,7 +170,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             {
                 fragment.update(currentWallPaper);
                 //fragment.getWallPaperAdapter().notifyDataSetChanged();
-        }
+            }
 
         });
 

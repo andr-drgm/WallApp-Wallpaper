@@ -46,6 +46,7 @@ public class PlaceholderFragment extends Fragment {
     private RecyclerView recyclerView;
     private WallPaperDB testDB;
     private WallPaperFetcher wallPaperFetcher;
+    private  HashMap<WallPaper, Boolean> likedWallpapers;
 
     PlaceholderFragment(int index,HashMap< Integer, PlaceholderFragment> cachedFragments ){
         tabIndex = index;
@@ -53,6 +54,26 @@ public class PlaceholderFragment extends Fragment {
         bundle.putInt(ARG_SECTION_NUMBER, index);
         this.setArguments(bundle);
         this.cachedFragments = cachedFragments;
+    }
+
+    public void update()
+    {
+        if(wallPaperAdapter != null) {
+            likedWallpapers = LoadData(getContext());
+            Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                wallPaperAdapter.setLikedMap(likedWallpapers);
+                wallPaperAdapter.notifyDataSetChanged();
+
+                if(tabIndex == 2){
+                    wallPaperAdapter.setWallPaperDataFull(wallPaperAdapter.GetWallPaperDataFull());
+                    wallPaperAdapter.getLikedFilter().filter("");
+
+                    wallPaperAdapter.notifyDataSetChanged();
+                }
+
+                }
+            );
+        }
     }
 
     public void update(WallPaper wallpaper)
@@ -65,7 +86,6 @@ public class PlaceholderFragment extends Fragment {
 
             for(int i =0;i<wallPapers.size();++i){
                 if(wallPapers.get(i).equals(wallpaper)){
-                    Log.i("TEST","Found: " + wallpaper + " at " + i);
                     wallPaperAdapter.notifyItemChanged(i);
                 }
             }
@@ -137,12 +157,24 @@ public class PlaceholderFragment extends Fragment {
         return wallPaperAdapter;
     }
 
+    @Override
+    public void onResume() {
+
+        for(PlaceholderFragment fragment: this.cachedFragments.values()){
+            fragment.update();
+        }
+
+        super.onResume();
+    }
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
+
+        Log.i("TEST", "CREATEVIEW ");
+
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = root.findViewById(R.id.wallpapers_tab_list);
         testDB = new WallPaperDB();
@@ -150,7 +182,7 @@ public class PlaceholderFragment extends Fragment {
         wallPaperFetcher = new WallPaperFetcher(wallpaperService, root.getContext());
         recyclerView.setHasFixedSize(true);
 
-        HashMap<WallPaper, Boolean> likedWallpapers = LoadData(root.getContext());
+        likedWallpapers = LoadData(root.getContext());
 
         GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
@@ -161,7 +193,6 @@ public class PlaceholderFragment extends Fragment {
         switch (tabIndex){
             // All wallpapers
             case 0:
-                Log.i("TEST", "test");
                 try{
                     wallPaperFetcher.PopulateServer(wallPaperAdapter);
                 }

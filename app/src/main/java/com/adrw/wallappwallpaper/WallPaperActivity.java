@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.adrw.wallappwallpaper.ui.main.PlaceholderFragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -43,8 +44,7 @@ public class WallPaperActivity extends AppCompatActivity {
     private Button setWallpaperButton;
     private ImageView wallpaperImage;
     private CheckBox likeCheckbox;
-
-    HashMap<WallPaper, Boolean> likedMap;
+    private HashMap<WallPaper, Boolean> likedMap;
 
     @Override
     protected void onStart() {
@@ -53,7 +53,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
-        likedMap = (HashMap<WallPaper, Boolean>) intent.getSerializableExtra("exists");
+        likedMap        = (HashMap<WallPaper, Boolean>) intent.getSerializableExtra("exists");
 
         TextView wallPaperTitleTextView = findViewById(R.id.wall_title_text_view);
         final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
@@ -100,6 +100,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
             }
 
+
         });
 
         setWallpaperButton.setOnClickListener(v -> {
@@ -121,7 +122,6 @@ public class WallPaperActivity extends AppCompatActivity {
                         Log.i("TEST", "Successfully updated wallpaper");
                     } else {
                         Log.i("TEST", "Failed updating wallpaper");
-
                     }
                 });
 
