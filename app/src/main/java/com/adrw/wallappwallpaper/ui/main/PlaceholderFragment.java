@@ -60,7 +60,10 @@ public class PlaceholderFragment extends Fragment {
     public void update()
     {
         if(wallPaperAdapter != null) {
-            likedWallpapers = LoadData(getContext());
+            Context context = getContext();
+            if(context != null)
+                likedWallpapers = LoadData(context);
+
             Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
                 wallPaperAdapter.setLikedMap(likedWallpapers);
                 wallPaperAdapter.notifyDataSetChanged();
