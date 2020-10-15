@@ -56,6 +56,7 @@ public class PlaceholderFragment extends Fragment {
         this.cachedFragments = cachedFragments;
     }
 
+    // TODO: Find better solution than wallPaperAdapter.notifyDataSetChanged();
     public void update()
     {
         if(wallPaperAdapter != null) {
