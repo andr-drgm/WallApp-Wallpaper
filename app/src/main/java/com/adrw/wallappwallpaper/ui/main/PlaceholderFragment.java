@@ -173,8 +173,6 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState)
     {
 
-        Log.i("TEST", "CREATEVIEW ");
-
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = root.findViewById(R.id.wallpapers_tab_list);
         testDB = new WallPaperDB();
