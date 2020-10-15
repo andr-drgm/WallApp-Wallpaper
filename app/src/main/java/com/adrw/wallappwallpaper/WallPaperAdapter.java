@@ -275,7 +275,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for(WallPaper wallPaper: wallPaperDataFull){
-                    if( wallPaper.getTitle().toLowerCase().contains(filterPattern)){
+                    if( wallPaper.getTitle().toLowerCase().contains(filterPattern) || wallPaper.getAuthor().toLowerCase().contains(filterPattern)){
                         filteredDb.Add(wallPaper);
                     }
                 }
