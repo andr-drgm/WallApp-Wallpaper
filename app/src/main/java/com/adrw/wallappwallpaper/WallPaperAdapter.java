@@ -110,6 +110,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
         Type type = new TypeToken<HashMap<WallPaper, Boolean>>(){}.getType();
 
+
         String json = gson.toJson(arrayList,type );
         editor.putString("Liked List", json);
         editor.apply();
