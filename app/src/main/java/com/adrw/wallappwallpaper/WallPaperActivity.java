@@ -125,6 +125,7 @@ public class WallPaperActivity extends AppCompatActivity {
                     }
                 });
 
+
                 // Get image from database storage
                 final StorageReference ref1 = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
                 Task<Uri> testTask1 = ref1.getDownloadUrl();

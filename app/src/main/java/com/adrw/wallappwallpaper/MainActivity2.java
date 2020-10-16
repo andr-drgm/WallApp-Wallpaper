@@ -1,8 +1,12 @@
 package com.adrw.wallappwallpaper;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,6 +15,7 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.adrw.wallappwallpaper.ui.main.PlaceholderFragment;
@@ -48,12 +53,21 @@ public class MainActivity2 extends AppCompatActivity {
 
         HashMap<String, Uri> uriMap = new HashMap<>();
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.i("TEST", "Permission granted");
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+
+        }
+
+
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for(DataSnapshot wallpaperShot : snapshot.getChildren())
-                {
+                for (DataSnapshot wallpaperShot : snapshot.getChildren()) {
                     WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
                     if (wallpaper != null) {
                         if (!uriMap.containsKey(wallpaper.getImagePath())) {
