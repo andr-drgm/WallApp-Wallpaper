@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,26 +21,29 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class WallpaperAutoChange extends BroadcastReceiver {
 
-    ArrayList<String> urlList;
-    String randomUrl;
+    HashMap<String, Uri> urlList;
+    Uri randomUrl;
+
 
     @Override
     public void onReceive(final Context context, Intent intent) {
 
+        Toast.makeText(context, "Wallpaper set", Toast.LENGTH_SHORT).show();
 
-        Random random = new Random();
-        urlList = intent.getStringArrayListExtra("list");
+
+        String url = (String) intent.getStringExtra("url");
+        Log.i("UrlImage", url);
 
             if(urlList != null) {
-                randomUrl = urlList.get(random.nextInt(urlList.size()));
 
-                final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(randomUrl);
+                final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+
                 Task<Uri> testTask = ref.getDownloadUrl();
-
 
                 testTask.addOnSuccessListener(uri -> Glide.with(context)
                         .asBitmap()
@@ -49,16 +53,13 @@ public class WallpaperAutoChange extends BroadcastReceiver {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                 try {
+                                    Toast.makeText(context, "O fost setat", Toast.LENGTH_SHORT).show();
                                     WallpaperManager.getInstance(context).setBitmap(resource);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
                         }));
-
-
-                WallpaperManager wallpaperManager =
-                        WallpaperManager.getInstance(context);
 
 
                 Toast.makeText(context, "Wallpaper set", Toast.LENGTH_SHORT).show();

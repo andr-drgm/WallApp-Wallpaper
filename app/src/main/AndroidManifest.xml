@@ -41,7 +41,7 @@
             android:name="com.adrw.wallappwallpaper.WallPaperActivity"
             android:theme="@style/AppThemeWallpaper" />
 
-        <receiver android:name="com.adrw.wallappwallpaper.WallpaperAutoChange" />
+        <receiver android:name=".WallpaperAutoChange" />
     </application>
 
 </manifest>

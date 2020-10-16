@@ -1,6 +1,8 @@
 package com.adrw.wallappwallpaper;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -31,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class MainActivity2 extends AppCompatActivity {
@@ -77,6 +80,9 @@ public class MainActivity2 extends AppCompatActivity {
                         }
                     }
                 }
+
+
+
             }
 
             @Override
@@ -92,6 +98,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
 
     }
 
