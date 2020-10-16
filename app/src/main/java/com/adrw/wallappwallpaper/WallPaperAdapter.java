@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adrw.wallappwallpaper.ui.main.PlaceholderFragment;
@@ -43,11 +44,11 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
     HashMap< Integer, PlaceholderFragment> cachedFragments;
 
     public static class WallPaperViewHolder extends RecyclerView.ViewHolder {
-        private View dataView;
-        private ImageView imageView;
-        private TextView wallpaperTitle;
-        private ProgressBar progressBar;
-        private CheckBox likeCheckBox;
+        private final View dataView;
+        private final ImageView imageView;
+        private final TextView wallpaperTitle;
+        private final ProgressBar progressBar;
+        private final CheckBox likeCheckBox;
 
         public WallPaperViewHolder(View v)
         {
@@ -61,13 +62,15 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         }
     }
 
-    public WallPaperAdapter(IWallPaperDB dataSet, HashMap<WallPaper, Boolean> likedMap, HashMap< Integer, PlaceholderFragment> cachedFragments)
+    public WallPaperAdapter(IWallPaperDB dataSet, HashMap<WallPaper, Boolean> likedMap, HashMap< Integer, PlaceholderFragment> cachedFragments,HashMap<String, Uri> uriMap)
     {
         wallpaperData = dataSet;
         wallPaperDataFull = new ArrayList<>(wallpaperData.GetAllWallPapers());
         this.likedMap = likedMap;
-        uriMap = new HashMap<>();
+        //uriMap = new HashMap<>();
         this.cachedFragments = cachedFragments;
+        this.uriMap = uriMap;
+
     }
 
     public void setLikedMap(HashMap<WallPaper, Boolean> likedMap){
@@ -86,11 +89,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         return this.wallPaperDataFull;
     }
 
+    @NonNull
     @Override
     public WallPaperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View testDataView = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wallpaper_row, parent, false);
+
 
         return new WallPaperViewHolder(testDataView);
     }
@@ -102,6 +107,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.enableComplexMapKeySerialization().setPrettyPrinting().create();
+
         Type type = new TypeToken<HashMap<WallPaper, Boolean>>(){}.getType();
 
         String json = gson.toJson(arrayList,type );
@@ -117,27 +123,35 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         holder.likeCheckBox.setChecked(likedMap.containsKey(currentWallPaper));
         holder.wallpaperTitle.setText(currentWallPaper.getTitle());
 
-        if(!uriMap.containsKey(currentWallPaper.getImagePath())) {
-            final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
-            Task<Uri> testTask = ref.getDownloadUrl();
+            if (!uriMap.containsKey(currentWallPaper.getImagePath())) {
+                final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
+                Task<Uri> testTask = ref.getDownloadUrl();
 
-            testTask.addOnSuccessListener(uri -> {
+                testTask.addOnSuccessListener(uri -> {
+                    Glide
+                            .with(holder.dataView.getContext())
+                            .load(uri)
+                            .into(holder.imageView);
+
+                    holder.progressBar.setVisibility(View.GONE);
+                    uriMap.put(currentWallPaper.getImagePath(), uri);
+                });
+            } else {
                 Glide
                         .with(holder.dataView.getContext())
-                        .load(uri)
+                        .load(uriMap.get(currentWallPaper.getImagePath()))
                         .into(holder.imageView);
-
                 holder.progressBar.setVisibility(View.GONE);
-                uriMap.put(currentWallPaper.getImagePath(),uri);
-            });
-        }else{
+
+            }
+/*
+
             Glide
                     .with(holder.dataView.getContext())
-                    .load(uriMap.get(currentWallPaper.getImagePath()))
+                    .load(currentWallPaper.getParsedUri())
                     .into(holder.imageView);
-            holder.progressBar.setVisibility(View.GONE);
+*/
 
-        }
 
         holder.dataView.setOnClickListener(v -> {
             Context context = v.getContext();

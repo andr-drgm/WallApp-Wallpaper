@@ -1,17 +1,26 @@
 package com.adrw.wallappwallpaper;
 
+import android.net.Uri;
+import android.view.View;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public class WallPaper implements Serializable,Cloneable {
 
-    private String imagePath;
-
-    private String author;
+    private final String imagePath;
+    private final String author;
     private String description;
-    private String title;
-    private String name;
+    private final String title;
+    private final String name;
     private int    downloads;
+
+    private String parsedUri;
 
     public WallPaper()
     {
@@ -20,6 +29,7 @@ public class WallPaper implements Serializable,Cloneable {
         title = "";
         name = "";
         downloads = 0;
+        parsedUri = "";
     }
 
     public WallPaper(WallPaper other)
@@ -30,6 +40,7 @@ public class WallPaper implements Serializable,Cloneable {
         this.name = other.name;
         this.author = other.author;
         this.downloads = other.downloads;
+        this.parsedUri = other.parsedUri;
     }
 
     public WallPaper(String imagePath, String author, String description, String title, String name){
@@ -38,6 +49,7 @@ public class WallPaper implements Serializable,Cloneable {
         this.description = description;
         this.title = title;
         this.name = name;
+        this.parsedUri = "";
     }
 
     public WallPaper(String imagePath, String author, String description, String title, String name, int downloads){
@@ -47,6 +59,7 @@ public class WallPaper implements Serializable,Cloneable {
         this.title = title;
         this.name = name;
         this.downloads = downloads;
+        this.parsedUri = "";
     }
 
 
@@ -71,23 +84,31 @@ public class WallPaper implements Serializable,Cloneable {
         this.downloads = value;
     }
 
-
     public String getAuthor() {
         return author;
     }
-
     public String getName(){
         return name;
     }
-
-
     public String getTitle() {
         return title;
     }
-
     public String getImagePath() {
         return imagePath;
     }
+
+    public Uri getParsedUri(){
+        return Uri.parse(this.parsedUri);
+    }
+
+    public void parseUri(){
+        if(this.parsedUri.equals("")){
+            final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(getImagePath());
+            Task<Uri> testTask = ref.getDownloadUrl();
+            testTask.addOnSuccessListener(uri -> this.parsedUri = uri.toString());
+        }
+    }
+
 
     public String getDescription() {
         return description;

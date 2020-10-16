@@ -1,6 +1,8 @@
 package com.adrw.wallappwallpaper;
 
+import android.app.WallpaperManager;
 import android.content.Context;
+import android.service.wallpaper.WallpaperService;
 
 import androidx.annotation.NonNull;
 
@@ -41,6 +43,7 @@ public class WallPaperFetcher {
 
                 List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
                 for(WallPaper wallPaper: wallpapers){
+                    //wallPaper.parseUri();
                     wallPaperService.AddWallPaper(wallPaper);
                 }
 
@@ -74,6 +77,8 @@ public class WallPaperFetcher {
 
                     List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
                     for (WallPaper wallPaper : wallpapers) {
+                        //wallPaper.parseUri();
+
                         wallPaperService.AddWallPaper(wallPaper);
                     }
 
@@ -91,7 +96,7 @@ public class WallPaperFetcher {
 
     }
 
-    List<WallPaper> getDataFromDatabase(DataSnapshot snapshot){
+    private List<WallPaper> getDataFromDatabase(DataSnapshot snapshot){
         List<WallPaper> wallpaperList = new ArrayList<>();
 
         for(DataSnapshot wallpaperShot : snapshot.getChildren())
@@ -116,6 +121,7 @@ public class WallPaperFetcher {
 
                 List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
                 for(WallPaper wallPaper: wallpapers){
+                    //wallPaper.parseUri();
                     wallPaperService.AddWallPaper(wallPaper);
                 }
 

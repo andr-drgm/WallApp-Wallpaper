@@ -1,6 +1,7 @@
 package com.adrw.wallappwallpaper.ui.main;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -29,11 +30,13 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     private final Context mContext;
     private Fragment mCurrentFragment;
     HashMap< Integer, PlaceholderFragment> cachedFragmentMap;
+    HashMap<String, Uri> uriMap;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public SectionsPagerAdapter(Context context, FragmentManager fm,HashMap<String, Uri> uriMap) {
         super(fm);
         mContext = context;
         cachedFragmentMap = new HashMap<>();
+        this.uriMap = uriMap;
     }
 
     public Fragment getmCurrentFragment() {
@@ -58,7 +61,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        PlaceholderFragment newFragment = new PlaceholderFragment(position,cachedFragmentMap);
+        PlaceholderFragment newFragment = new PlaceholderFragment(position,cachedFragmentMap,this.uriMap);
         Bundle args = new Bundle();
         args.putInt("INDEX", position);
         newFragment.setArguments(args);

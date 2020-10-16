@@ -2,6 +2,7 @@ package com.adrw.wallappwallpaper.ui.main;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,12 +11,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.adrw.wallappwallpaper.R;
 import com.adrw.wallappwallpaper.Service;
@@ -30,7 +28,6 @@ import com.google.gson.GsonBuilder;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -40,6 +37,15 @@ import static android.content.Context.MODE_PRIVATE;
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    private static enum TabName
+    {
+        ALLTAB,
+        POPULARTAB,
+        LIKEDTAB,
+    };
+
+
     int tabIndex;
     WallPaperAdapter wallPaperAdapter;
     private HashMap< Integer, PlaceholderFragment> cachedFragments;
@@ -47,13 +53,15 @@ public class PlaceholderFragment extends Fragment {
     private WallPaperDB testDB;
     private WallPaperFetcher wallPaperFetcher;
     private  HashMap<WallPaper, Boolean> likedWallpapers;
+    private HashMap<String, Uri> uriMap;
 
-    PlaceholderFragment(int index,HashMap< Integer, PlaceholderFragment> cachedFragments ){
+    PlaceholderFragment(int index,HashMap< Integer, PlaceholderFragment> cachedFragments, HashMap<String, Uri> uriMap){
         tabIndex = index;
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         this.setArguments(bundle);
         this.cachedFragments = cachedFragments;
+        this.uriMap = uriMap;
     }
 
     // TODO: Find better solution than wallPaperAdapter.notifyDataSetChanged();
@@ -64,16 +72,15 @@ public class PlaceholderFragment extends Fragment {
             if(context != null)
                 likedWallpapers = LoadData(context);
 
-            Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+            requireActivity().runOnUiThread(() -> {
                 wallPaperAdapter.setLikedMap(likedWallpapers);
-                wallPaperAdapter.notifyDataSetChanged();
 
                 if(tabIndex == 2){
                     wallPaperAdapter.setWallPaperDataFull(wallPaperAdapter.GetWallPaperDataFull());
                     wallPaperAdapter.getLikedFilter().filter("");
 
-                    wallPaperAdapter.notifyDataSetChanged();
                 }
+                wallPaperAdapter.notifyDataSetChanged();
 
                 }
             );
@@ -82,7 +89,7 @@ public class PlaceholderFragment extends Fragment {
 
     public void update(WallPaper wallpaper)
     {
-        Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
 
             HashMap<WallPaper, Boolean> likedWallpapers = LoadData(getContext());
             wallPaperAdapter.setLikedMap(likedWallpapers);
@@ -97,12 +104,8 @@ public class PlaceholderFragment extends Fragment {
             if(tabIndex == 2){
                 wallPaperAdapter.setWallPaperDataFull(wallPaperAdapter.GetWallPaperDataFull());
                 wallPaperAdapter.getLikedFilter().filter("");
-
                 wallPaperAdapter.notifyDataSetChanged();
-
             }
-
-
         });
 
     }
@@ -111,7 +114,10 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        PageViewModel pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+
+        //PageViewModel pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        PageViewModel pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
+
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -161,13 +167,16 @@ public class PlaceholderFragment extends Fragment {
         return wallPaperAdapter;
     }
 
-    @Override
-    public void onResume() {
-
+    public void updateFragments(){
         for(PlaceholderFragment fragment: this.cachedFragments.values()){
             fragment.update();
         }
+    }
 
+    @Override
+    public void onResume() {
+
+        updateFragments();
         super.onResume();
     }
 
@@ -189,12 +198,14 @@ public class PlaceholderFragment extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
 
-        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers, cachedFragments);
+        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers, cachedFragments,this.uriMap);
         recyclerView.setAdapter(wallPaperAdapter);
 
-        switch (tabIndex){
+        TabName tabName = TabName.values()[tabIndex];
+
+        switch (tabName) {
             // All wallpapers
-            case 0:
+            case ALLTAB:
                 try{
                     wallPaperFetcher.PopulateServer(wallPaperAdapter);
                 }
@@ -204,7 +215,7 @@ public class PlaceholderFragment extends Fragment {
 
                 break;
                 // Popular tab
-            case 1:
+            case POPULARTAB:
 
                 try{
                     wallPaperFetcher.PopulateServerSorted(wallPaperAdapter);
@@ -215,7 +226,7 @@ public class PlaceholderFragment extends Fragment {
 
                 break;
                 // Liked ( WIP )
-            case 2:
+            case LIKEDTAB:
 
                 try{
                     wallPaperFetcher.PopulateServerLiked(wallPaperAdapter);
