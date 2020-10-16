@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
@@ -16,7 +15,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.adrw.wallappwallpaper.ui.main.PlaceholderFragment;
 import com.adrw.wallappwallpaper.ui.main.SectionsPagerAdapter;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,10 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -60,11 +55,12 @@ public class MainActivity2 extends AppCompatActivity {
                 for(DataSnapshot wallpaperShot : snapshot.getChildren())
                 {
                     WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
-                    if(!uriMap.containsKey(wallpaper.getImagePath()))
-                    {
-                        final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
-                        Task<Uri> testTask = ref.getDownloadUrl();
-                        testTask.addOnSuccessListener(uri -> uriMap.put(wallpaper.getImagePath(), uri));
+                    if (wallpaper != null) {
+                        if (!uriMap.containsKey(wallpaper.getImagePath())) {
+                            final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
+                            Task<Uri> testTask = ref.getDownloadUrl();
+                            testTask.addOnSuccessListener(uri -> uriMap.put(wallpaper.getImagePath(), uri));
+                        }
                     }
                 }
             }

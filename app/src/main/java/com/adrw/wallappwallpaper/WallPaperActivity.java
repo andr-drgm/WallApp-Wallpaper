@@ -22,7 +22,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.adrw.wallappwallpaper.ui.main.PlaceholderFragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -53,15 +52,15 @@ public class WallPaperActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final WallPaper wallpaper = (WallPaper) intent.getSerializableExtra("wallPaper");
-        likedMap        = (HashMap<WallPaper, Boolean>) intent.getSerializableExtra("exists");
+        likedMap = (HashMap<WallPaper, Boolean>) intent.getSerializableExtra("exists");
 
         TextView wallPaperTitleTextView = findViewById(R.id.wall_title_text_view);
         final TextView wallPaperAuthorView = findViewById(R.id.wall_author_text_view);
         TextView wallPaperDescView = findViewById(R.id.wall_description_text_view);
 
-        setWallpaperButton = (Button) findViewById(R.id.setWallpaper_button);
-        wallpaperImage = (ImageView) findViewById(R.id.wall_image);
-        likeCheckbox = (CheckBox) findViewById(R.id.like_checkBox);
+        setWallpaperButton = findViewById(R.id.setWallpaper_button);
+        wallpaperImage = findViewById(R.id.wall_image);
+        likeCheckbox = findViewById(R.id.like_checkBox);
 
         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
 
@@ -116,6 +115,7 @@ public class WallPaperActivity extends AppCompatActivity {
 
                 int downloads = wallpaper.getDownloads();
                 wallpaper.setDownloads(downloads + 1);
+                Log.i("TEST", "Doenst crash here...");
 
                 databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -124,7 +124,6 @@ public class WallPaperActivity extends AppCompatActivity {
                         Log.i("TEST", "Failed updating wallpaper");
                     }
                 });
-
 
                 // Get image from database storage
                 final StorageReference ref1 = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
@@ -141,7 +140,10 @@ public class WallPaperActivity extends AppCompatActivity {
                             .into(new CustomTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    Log.i("TEST", "res ready ");
                                     Uri myImageUri = getImageUri(resource, getApplicationContext());
+                                    Log.i("TEST", "wha " + myImageUri);
+
                                     Intent intent1 = new Intent();
                                     intent1.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
 //                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -222,8 +224,18 @@ public class WallPaperActivity extends AppCompatActivity {
     private Uri getImageUri(Bitmap inImage, Context inContext) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(),
                 inImage, "Title", null);
+/*        Log.i("TEST", "dude what?: " );
+
+        ContentValues values=new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE,"Title");
+        values.put(MediaStore.Images.Media.DESCRIPTION,"From WallApp");
+        Uri path=getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);*/
+
+        Log.i("TEST", "path: " + path);
+
         return Uri.parse(path);
     }
 
