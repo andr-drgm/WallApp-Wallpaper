@@ -48,15 +48,12 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         super.setPrimaryItem(container, position, object);
     }
 
-    public HashMap<Integer, PlaceholderFragment> getCachedFragmentMap() {
-        return cachedFragmentMap;
-    }
-
     @Override
     public int getItemPosition(@NonNull Object object) {
         return POSITION_NONE;
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.

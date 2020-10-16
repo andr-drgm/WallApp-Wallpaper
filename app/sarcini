@@ -1,9 +1,5 @@
-TODO: CHANGE FragmentPagerAdapter to FragmentStatePagerAdapter because the recycler view won't update
-
 TODO: Set wallpaper without saving the image
 TODO: Random wallpaper everyday
-TODO: Download wallpaper button (OPTIONAL)
-TODO: UI RECYCLERVIEWS IN OTHER TABS DON'T UPDATE WHEN NEEDED
 TODO: REFACTOR WALLPAPERFETCHER, it's terrible...
 TODO: More wallpapers
 TODO: More TODOs
