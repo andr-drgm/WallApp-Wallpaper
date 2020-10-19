@@ -22,6 +22,7 @@ import com.adrw.wallappwallpaper.WallPaperAdapter;
 import com.adrw.wallappwallpaper.WallPaperDB;
 import com.adrw.wallappwallpaper.WallPaperFetcher;
 import com.google.common.reflect.TypeToken;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -38,24 +39,82 @@ public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private static enum TabName
-    {
-        ALLTAB,
-        POPULARTAB,
-        LIKEDTAB,
-    };
+    private final HashMap<Integer, PlaceholderFragment> cachedFragments;
 
 
     int tabIndex;
     WallPaperAdapter wallPaperAdapter;
-    private HashMap< Integer, PlaceholderFragment> cachedFragments;
+    private final HashMap<String, Uri> uriMap;
     private RecyclerView recyclerView;
     private WallPaperDB testDB;
     private WallPaperFetcher wallPaperFetcher;
-    private  HashMap<WallPaper, Boolean> likedWallpapers;
-    private HashMap<String, Uri> uriMap;
+    private HashMap<WallPaper, Boolean> likedWallpapers;
 
-    PlaceholderFragment(int index,HashMap< Integer, PlaceholderFragment> cachedFragments, HashMap<String, Uri> uriMap){
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        recyclerView = root.findViewById(R.id.wallpapers_tab_list);
+        testDB = new WallPaperDB();
+        final Service wallpaperService = new Service(testDB);
+        wallPaperFetcher = new WallPaperFetcher(wallpaperService, root.getContext());
+        recyclerView.setHasFixedSize(true);
+
+        likedWallpapers = LoadData(root.getContext());
+
+        GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+
+        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers, cachedFragments, this.uriMap);
+        recyclerView.setAdapter(wallPaperAdapter);
+
+        TabName tabName = TabName.values()[tabIndex];
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        Log.i("TEST", auth.getCurrentUser().getUid() + " f" + tabIndex);
+
+        switch (tabName) {
+            // All wallpapers
+            case ALLTAB:
+                try {
+                    wallPaperFetcher.PopulateServer(wallPaperAdapter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            // Popular tab
+            case POPULARTAB:
+
+                try {
+                    wallPaperFetcher.PopulateServerSorted(wallPaperAdapter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            // Liked ( WIP )
+            case LIKEDTAB:
+
+                try {
+                    wallPaperFetcher.PopulateServerLiked(wallPaperAdapter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                break;
+
+
+        }
+
+
+        return root;
+    }
+
+    PlaceholderFragment(int index, HashMap<Integer, PlaceholderFragment> cachedFragments, HashMap<String, Uri> uriMap) {
         tabIndex = index;
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
@@ -180,69 +239,10 @@ public class PlaceholderFragment extends Fragment {
         super.onResume();
     }
 
-    @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
-    {
-
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
-        recyclerView = root.findViewById(R.id.wallpapers_tab_list);
-        testDB = new WallPaperDB();
-        final Service wallpaperService = new Service(testDB);
-        wallPaperFetcher = new WallPaperFetcher(wallpaperService, root.getContext());
-        recyclerView.setHasFixedSize(true);
-
-        likedWallpapers = LoadData(root.getContext());
-
-        GridLayoutManager layoutManager = new GridLayoutManager(root.getContext(),2);
-        recyclerView.setLayoutManager(layoutManager);
-
-        wallPaperAdapter = new WallPaperAdapter(testDB, likedWallpapers, cachedFragments,this.uriMap);
-        recyclerView.setAdapter(wallPaperAdapter);
-
-        TabName tabName = TabName.values()[tabIndex];
-
-        switch (tabName) {
-            // All wallpapers
-            case ALLTAB:
-                try{
-                    wallPaperFetcher.PopulateServer(wallPaperAdapter);
-                }
-                catch (Exception e ){
-                    e.printStackTrace();
-                }
-
-                break;
-                // Popular tab
-            case POPULARTAB:
-
-                try{
-                    wallPaperFetcher.PopulateServerSorted(wallPaperAdapter);
-                }
-                catch (Exception e ){
-                    e.printStackTrace();
-                }
-
-                break;
-                // Liked ( WIP )
-            case LIKEDTAB:
-
-                try{
-                    wallPaperFetcher.PopulateServerLiked(wallPaperAdapter);
-                }
-                catch (Exception e ){
-                    e.printStackTrace();
-                }
-
-
-                break;
-
-
-        }
-
-
-        return root;
+    private enum TabName {
+        ALLTAB,
+        POPULARTAB,
+        LIKEDTAB,
     }
 
 

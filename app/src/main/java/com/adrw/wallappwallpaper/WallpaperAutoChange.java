@@ -20,26 +20,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
 
 public class WallpaperAutoChange extends BroadcastReceiver {
-
-    HashMap<String, Uri> urlList;
-    Uri randomUrl;
-
 
     @Override
     public void onReceive(final Context context, Intent intent) {
 
         Toast.makeText(context, "Wallpaper set", Toast.LENGTH_SHORT).show();
-
-
-        String url = (String) intent.getStringExtra("url");
+        String url = intent.getStringExtra("url");
         Log.i("UrlImage", url);
 
-            if(urlList != null) {
 
                 final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(url);
 
@@ -63,6 +53,6 @@ public class WallpaperAutoChange extends BroadcastReceiver {
 
 
                 Toast.makeText(context, "Wallpaper set", Toast.LENGTH_SHORT).show();
-            }
+
     }
 }

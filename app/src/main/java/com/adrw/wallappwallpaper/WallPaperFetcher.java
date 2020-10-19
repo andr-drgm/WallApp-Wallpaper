@@ -2,11 +2,9 @@ package com.adrw.wallappwallpaper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -163,9 +161,8 @@ public class WallPaperFetcher {
 
         if(autoChangeSet){
             // Setup alarm manager
-            Log.i("TEST", "Setting up autochange");
             Random random = new Random();
-            String randomUrl = urlList.get(3);
+            String randomUrl = urlList.get(random.nextInt(urlList.size()));
 
             // AutoChangeWallpaper
             Intent intent = new Intent(context, WallpaperAutoChange.class);

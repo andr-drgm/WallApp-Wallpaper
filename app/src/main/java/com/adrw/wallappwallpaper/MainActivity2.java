@@ -1,14 +1,12 @@
 package com.adrw.wallappwallpaper;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +23,7 @@ import com.adrw.wallappwallpaper.ui.main.SectionsPagerAdapter;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class MainActivity2 extends AppCompatActivity {
@@ -46,58 +44,98 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mAuth.signInAnonymously();
-
-        setContentView(R.layout.activity_main2);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseRef = database.getReference("wallpapers");
-
-        HashMap<String, Uri> uriMap = new HashMap<>();
-
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Log.i("TEST", "Permission granted");
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
-
         }
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously().addOnCompleteListener(
+                task -> {
+                    FirebaseUser user = task.getResult().getUser();
 
-        databaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference databaseRef = database.getReference("wallpapers");
+                    HashMap<String, Uri> uriMap = new HashMap<>();
 
-                for (DataSnapshot wallpaperShot : snapshot.getChildren()) {
-                    WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
-                    if (wallpaper != null) {
-                        if (!uriMap.containsKey(wallpaper.getImagePath())) {
-                            final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
-                            Task<Uri> testTask = ref.getDownloadUrl();
-                            testTask.addOnSuccessListener(uri -> uriMap.put(wallpaper.getImagePath(), uri));
+
+                    databaseRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            for (DataSnapshot wallpaperShot : snapshot.getChildren()) {
+                                WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
+                                if (wallpaper != null) {
+                                    if (!uriMap.containsKey(wallpaper.getImagePath())) {
+                                        final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
+                                        Task<Uri> testTask = ref.getDownloadUrl();
+                                        testTask.addOnSuccessListener(uri -> {
+                                            uriMap.put(wallpaper.getImagePath(), uri);
+                                        });
+                                    }
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                    });
+
+                    viewPager = findViewById(R.id.view_pager);
+                    sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), uriMap);
+                    viewPager.setAdapter(sectionsPagerAdapter);
+
+                    tabs = findViewById(R.id.tabs);
+                    tabs.setupWithViewPager(viewPager);
+
+                }
+        );
+
+        setContentView(R.layout.activity_main2);
+
+    /*    FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseRef = database.getReference("wallpapers");
+        HashMap<String, Uri> uriMap = new HashMap<>();
+
+
+            databaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    for (DataSnapshot wallpaperShot : snapshot.getChildren()) {
+                        WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
+                        if (wallpaper != null) {
+                            if (!uriMap.containsKey(wallpaper.getImagePath())) {
+                                final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
+                                Task<Uri> testTask = ref.getDownloadUrl();
+                                testTask.addOnSuccessListener(uri -> {
+                                    uriMap.put(wallpaper.getImagePath(), uri);
+                                });
+                            }
                         }
                     }
+
                 }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
+            });
 
         viewPager = findViewById(R.id.view_pager);
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), uriMap);
         viewPager.setAdapter(sectionsPagerAdapter);
 
         tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        tabs.setupWithViewPager(viewPager);*/
 
 
     }
@@ -127,7 +165,6 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                //wallPaperAdapter.getFilter().filter(newText);
                 WallPaperAdapter wallpaperAdapter = ((PlaceholderFragment)sectionsPagerAdapter.getmCurrentFragment()).getWallPaperAdapter();
                 wallpaperAdapter.getFilter().filter(newText);
 
@@ -138,6 +175,7 @@ public class MainActivity2 extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){

@@ -115,7 +115,6 @@ public class WallPaperActivity extends AppCompatActivity {
 
                 int downloads = wallpaper.getDownloads();
                 wallpaper.setDownloads(downloads + 1);
-                Log.i("TEST", "Doenst crash here...");
 
                 databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
