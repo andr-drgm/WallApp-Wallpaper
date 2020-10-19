@@ -4,7 +4,7 @@
 
         <SwitchPreferenceCompat
             app:key="autoChange"
-            app:title="[Beta] Random wallpaper everyday"
+            app:title="Random wallpaper everyday"
             app:summary="Set random wallpaper everyday"/>
 
     </PreferenceCategory>

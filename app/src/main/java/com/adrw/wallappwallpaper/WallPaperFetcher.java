@@ -140,8 +140,8 @@ public class WallPaperFetcher {
 
                 wallPaperAdapter.notifyDataSetChanged();
 
-
-                SetupChangeWallpaper(urlList);
+                //TODO Fix Random Wallpaper
+                //SetupChangeWallpaper(urlList);
             }
 
             @Override
@@ -174,12 +174,12 @@ public class WallPaperFetcher {
             // Set the alarm to start at approximately 2:00 p.m.
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 16);
+            calendar.set(Calendar.HOUR_OF_DAY, 1);
 
             // With setInexactRepeating(), you have to use one of the AlarmManager interval
             // constants--in this case, AlarmManager.INTERVAL_DAY.
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    1000*30*1, pendingIntent);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
 
             Log.i("TEST", "Random url: " + randomUrl);
 
