@@ -76,7 +76,7 @@ public class PlaceholderFragment extends Fragment {
 
         switch (tabName) {
             // All wallpapers
-            case ALLTAB:
+            case ALL_TAB:
                 try {
                     wallPaperFetcher.PopulateServer(wallPaperAdapter);
                 } catch (Exception e) {
@@ -85,7 +85,7 @@ public class PlaceholderFragment extends Fragment {
 
                 break;
             // Popular tab
-            case POPULARTAB:
+            case POPULAR_TAB:
 
                 try {
                     wallPaperFetcher.PopulateServerSorted(wallPaperAdapter);
@@ -95,7 +95,7 @@ public class PlaceholderFragment extends Fragment {
 
                 break;
             // Liked ( WIP )
-            case LIKEDTAB:
+            case LIKED_TAB:
 
                 try {
                     wallPaperFetcher.PopulateServerLiked(wallPaperAdapter);
@@ -239,9 +239,9 @@ public class PlaceholderFragment extends Fragment {
     }
 
     private enum TabName {
-        ALLTAB,
-        POPULARTAB,
-        LIKEDTAB,
+        ALL_TAB,
+        POPULAR_TAB,
+        LIKED_TAB,
     }
 
 
