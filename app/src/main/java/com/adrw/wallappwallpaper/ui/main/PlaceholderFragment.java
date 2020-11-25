@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -73,7 +73,6 @@ public class PlaceholderFragment extends Fragment {
         TabName tabName = TabName.values()[tabIndex];
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        Log.i("TEST", auth.getCurrentUser().getUid() + " f" + tabIndex);
 
         switch (tabName) {
             // All wallpapers

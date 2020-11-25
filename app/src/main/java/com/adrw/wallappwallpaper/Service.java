@@ -4,30 +4,33 @@ import java.util.List;
 
 public class Service {
 
-    private IWallPaperDB wallPaperDB;
-    private WallPaperValidator wallPaperValidator;
+    private final IWallPaperDB wallPaperDB;
+    private final WallPaperValidator wallPaperValidator;
 
-    public Service(IWallPaperDB myDatabase)
-    {
+    public Service(IWallPaperDB myDatabase) {
         wallPaperDB = myDatabase;
         wallPaperValidator = new WallPaperValidator();
     }
 
-    public Service()
-    {
+    public Service() {
         wallPaperDB = new WallPaperDB();
         wallPaperValidator = new WallPaperValidator();
 
     }
 
-    public void Clear(){
+    public void Clear() {
         wallPaperDB.clear();
     }
 
-    public void AddWallPaper(WallPaper wallPaper){
+    public void AddWallPaper(WallPaper wallPaper) {
         wallPaperDB.Add(wallPaper);
     }
-    public List<WallPaper> GetAllWallPapers(){
+
+    public void AddWallPaper(List<WallPaper> wallPapers) {
+        wallPapers.forEach(wallPaperDB::Add);
+    }
+
+    public List<WallPaper> GetAllWallPapers() {
         return this.wallPaperDB.GetAllWallPapers();
     }
 

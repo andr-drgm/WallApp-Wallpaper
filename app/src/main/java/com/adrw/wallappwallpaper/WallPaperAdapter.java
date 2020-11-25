@@ -81,24 +81,40 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         this.wallPaperDataFull = new ArrayList<>(wallPapers);
     }
 
-    public List<WallPaper> GetWallPaperDataFull(){
+    public List<WallPaper> GetWallPaperDataFull() {
         return this.wallPaperDataFull;
     }
 
-    public List<WallPaper> GetWallpaperList(){
+    public List<WallPaper> GetWallpaperList() {
         return this.wallPaperDataFull;
     }
 
-    @NonNull
-    @Override
-    public WallPaperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Filter likedFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            IWallPaperDB filteredDb = new WallPaperDB();
 
-        View testDataView = (View) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.wallpaper_row, parent, false);
+            wallPaperDataFull
+                    .stream()
+                    .filter(v -> likedMap.containsKey(v))
+                    .forEach(filteredDb::Add);
 
+            FilterResults results = new FilterResults();
+            results.values = filteredDb.GetAllWallPapers();
 
-        return new WallPaperViewHolder(testDataView);
-    }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            wallpaperData.clear();
+            // ...
+            if (results.values != null) {
+                wallpaperData.GetAllWallPapers().addAll((List) results.values);
+                notifyDataSetChanged();
+            }
+        }
+    };
 
     public void SaveData(HashMap<WallPaper, Boolean> arrayList, Context context)
     {
@@ -206,35 +222,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         return downloadFilter;
     }
     public Filter getLikedFilter(){return likedFilter;}
-
-    public Filter likedFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            IWallPaperDB filteredDb = new WallPaperDB();
-            for(WallPaper wallPaper: wallPaperDataFull){
-                if( likedMap.containsKey(wallPaper)){
-                    filteredDb.Add(wallPaper);
-
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredDb.GetAllWallPapers();
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            wallpaperData.clear();
-            // ...
-            if(results.values != null) {
-                wallpaperData.GetAllWallPapers().addAll((List) results.values);
-                notifyDataSetChanged();
-            }
-        }
-    };
-
     public Filter downloadFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -243,16 +230,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
             {
                 filteredDb.GetAllWallPapers().addAll(wallPaperDataFull);
             }
-            else{
+            else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 int downloads = Integer.parseInt(filterPattern);
-                for(WallPaper wallPaper: wallPaperDataFull){
 
-                    if( wallPaper.getDownloads() >= downloads){
-                        filteredDb.Add(wallPaper);
-
-                    }
-                }
+                wallPaperDataFull.stream()
+                        .filter(v -> v.getDownloads() >= downloads)
+                        .forEach(filteredDb::Add);
 
             }
 
@@ -266,17 +250,27 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         protected void publishResults(CharSequence constraint, FilterResults results) {
             wallpaperData.clear();
             // ...
-            wallpaperData.GetAllWallPapers().addAll((List)results.values);
+            wallpaperData.GetAllWallPapers().addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
+
+    @NonNull
+    @Override
+    public WallPaperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View testDataView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.wallpaper_row, parent, false);
+
+
+        return new WallPaperViewHolder(testDataView);
+    }
 
     public Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             IWallPaperDB filteredDb = new WallPaperDB();
-            if(constraint == null || constraint.toString().length() == 0)
-            {
+            if (constraint == null || constraint.toString().length() == 0) {
                 filteredDb.GetAllWallPapers().addAll(wallPaperDataFull);
 
             }

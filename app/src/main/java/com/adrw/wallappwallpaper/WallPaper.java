@@ -37,6 +37,7 @@ public class WallPaper implements Serializable,Cloneable {
         this.description = description;
         this.title = title;
         this.name = name;
+        this.downloads = 0;
     }
 
     public WallPaper(String imagePath, String author, String description, String title, String name, int downloads){

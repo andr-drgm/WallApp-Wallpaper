@@ -12,15 +12,15 @@ import androidx.preference.PreferenceManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 // TODO: needs serious refactoring since the populate function is the same thing copy-pasted 3 times...
 
@@ -38,23 +38,15 @@ public class WallPaperFetcher {
 
     public void PopulateServerSorted(final WallPaperAdapter wallPaperAdapter){
         // Get data from firebase or something...
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseRef = database.getReference("wallpapers");
-
-
-        databaseRef.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("wallpapers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 wallPaperService.Clear();
-
-                List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
-                for(WallPaper wallPaper: wallpapers){
-                    //wallPaper.parseUri();
-                    wallPaperService.AddWallPaper(wallPaper);
-                    urlList.add(wallPaper.getImagePath());
-                }
-
-                Collections.sort(wallPaperService.GetAllWallPapers(), (lhs, rhs) -> Integer.compare(rhs.getDownloads(), lhs.getDownloads()));
+                getDataFromDatabase(snapshot).forEach(v -> {
+                    wallPaperService.AddWallPaper(v);
+                    urlList.add(v.getImagePath());
+                });
+                wallPaperService.GetAllWallPapers().sort((lhs, rhs) -> Integer.compare(rhs.getDownloads(), lhs.getDownloads()));
 
                 wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
                 wallPaperAdapter.notifyDataSetChanged();
@@ -66,6 +58,7 @@ public class WallPaperFetcher {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
 
     }
@@ -73,28 +66,19 @@ public class WallPaperFetcher {
     public void PopulateServer(final WallPaperAdapter wallPaperAdapter) throws Exception
     {
         // Get data from firebase or something...
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase.getInstance().getReference("wallpapers").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                wallPaperService.Clear();
+                getDataFromDatabase(snapshot).forEach(v -> {
+                    wallPaperService.AddWallPaper(v);
+                    urlList.add(v.getImagePath());
+                });
+                wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
+                wallPaperAdapter.notifyDataSetChanged();
 
-        DatabaseReference databaseRef = database.getReference("wallpapers");
-
-        databaseRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    wallPaperService.Clear();
-
-                    List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
-                    for (WallPaper wallPaper : wallpapers) {
-                        //wallPaper.parseUri();
-
-                        wallPaperService.AddWallPaper(wallPaper);
-                        urlList.add(wallPaper.getImagePath());
-                    }
-
-                    wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
-                    wallPaperAdapter.notifyDataSetChanged();
-
-                    SetupChangeWallpaper(urlList);
-                }
+                SetupChangeWallpaper(urlList);
+            }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -104,40 +88,29 @@ public class WallPaperFetcher {
 
     }
 
-    private List<WallPaper> getDataFromDatabase(DataSnapshot snapshot){
-        List<WallPaper> wallpaperList = new ArrayList<>();
+    private List<WallPaper> getDataFromDatabase(DataSnapshot snapshot) {
+        List<DataSnapshot> snapShotList = StreamSupport.stream(snapshot.getChildren().spliterator(), false)
+                .collect(Collectors.toList());
 
-        for(DataSnapshot wallpaperShot : snapshot.getChildren())
-        {
-            WallPaper wallpaper = wallpaperShot.getValue(WallPaper.class);
-            wallpaperList.add(wallpaper);
-
-        }
-
-        return wallpaperList;
+        return snapShotList.stream()
+                .map(v -> v.getValue(WallPaper.class))
+                .collect(Collectors.toList());
     }
 
     public void PopulateServerLiked(final WallPaperAdapter wallPaperAdapter) throws Exception
     {
         // Get data from firebase or something...
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseRef = database.getReference("wallpapers");
-
-        databaseRef.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("wallpapers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 wallPaperService.Clear();
 
-                List<WallPaper> wallpapers = getDataFromDatabase(snapshot);
-                for(WallPaper wallPaper: wallpapers){
-                    //wallPaper.parseUri();
-                    wallPaperService.AddWallPaper(wallPaper);
-                    urlList.add(wallPaper.getImagePath());
-                }
-
+                getDataFromDatabase(snapshot).forEach(v -> {
+                    wallPaperService.AddWallPaper(v);
+                    urlList.add(v.getImagePath());
+                });
                 wallPaperAdapter.setWallPaperDataFull(wallPaperService.GetAllWallPapers());
                 wallPaperAdapter.getLikedFilter().filter("");
-
                 wallPaperAdapter.notifyDataSetChanged();
 
                 //TODO Fix Random Wallpaper
@@ -155,7 +128,6 @@ public class WallPaperFetcher {
 
     void SetupChangeWallpaper(List<String> urlList)
     {
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean autoChangeSet = sharedPreferences.getBoolean("autoChange", false);
 
