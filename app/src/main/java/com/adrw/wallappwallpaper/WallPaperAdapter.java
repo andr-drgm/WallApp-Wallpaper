@@ -20,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adrw.wallappwallpaper.ui.main.PlaceholderFragment;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.storage.FirebaseStorage;
@@ -67,10 +70,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
         wallpaperData = dataSet;
         wallPaperDataFull = new ArrayList<>(wallpaperData.GetAllWallPapers());
         this.likedMap = likedMap;
-        //uriMap = new HashMap<>();
         this.cachedFragments = cachedFragments;
         this.uriMap = uriMap;
-
     }
 
     public void setLikedMap(HashMap<WallPaper, Boolean> likedMap){
@@ -134,29 +135,39 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.Wall
 
     @Override
     public void onBindViewHolder(final WallPaperViewHolder holder, final int position) {
-
         final WallPaper currentWallPaper = wallpaperData.get(position);
+
+        // Glide settings?
+        RequestOptions reqOpt = RequestOptions
+                .fitCenterTransform()
+                .transform(new RoundedCorners(5))
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // It will cache your image after loaded for first time
+                .override(holder.imageView.getWidth(), holder.imageView.getHeight()); // Overrides size of downloaded image and converts it's bitmaps to your desired image size;
 
         holder.likeCheckBox.setChecked(likedMap.containsKey(currentWallPaper));
         holder.wallpaperTitle.setText(currentWallPaper.getTitle());
 
-            if (!uriMap.containsKey(currentWallPaper.getImagePath())) {
-                final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
-                Task<Uri> testTask = ref.getDownloadUrl();
+        if (!uriMap.containsKey(currentWallPaper.getImagePath())) {
+            final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(currentWallPaper.getImagePath());
+            Task<Uri> testTask = ref.getDownloadUrl();
 
-                testTask.addOnSuccessListener(uri -> {
-                    Glide
-                            .with(holder.dataView.getContext())
-                            .load(uri)
+            testTask.addOnSuccessListener(uri -> {
+                Glide
+                        .with(holder.dataView.getContext())
+                        .load(uri)
+                        //.thumbnail(.25f)
+                        .apply(reqOpt)
                             .into(holder.imageView);
 
                     holder.progressBar.setVisibility(View.GONE);
                     uriMap.put(currentWallPaper.getImagePath(), uri);
                 });
             } else {
-                Glide
-                        .with(holder.dataView.getContext())
-                        .load(uriMap.get(currentWallPaper.getImagePath()))
+            Glide
+                    .with(holder.dataView.getContext())
+                    .load(uriMap.get(currentWallPaper.getImagePath()))
+                    //.thumbnail(.25f)
+                    .apply(reqOpt)
                         .into(holder.imageView);
                 holder.progressBar.setVisibility(View.GONE);
 

@@ -26,9 +26,9 @@ import java.util.stream.StreamSupport;
 
 public class WallPaperFetcher {
 
-    Service wallPaperService;
-    List<String> urlList;
-    Context context;
+    private final Service wallPaperService;
+    private final List<String> urlList;
+    private final Context context;
 
     public WallPaperFetcher(Service wallPaperService, Context context) {
         this.wallPaperService = wallPaperService;

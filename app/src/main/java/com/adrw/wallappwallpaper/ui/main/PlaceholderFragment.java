@@ -82,33 +82,25 @@ public class PlaceholderFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
             // Popular tab
             case POPULAR_TAB:
-
                 try {
                     wallPaperFetcher.PopulateServerSorted(wallPaperAdapter);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
             // Liked ( WIP )
             case LIKED_TAB:
-
                 try {
                     wallPaperFetcher.PopulateServerLiked(wallPaperAdapter);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
                 break;
 
-
         }
-
 
         return root;
     }

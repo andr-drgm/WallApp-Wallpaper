@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -108,8 +107,6 @@ public class WallPaperActivity extends AppCompatActivity {
             builder.setTitle("Change wallpaper");
 
             builder.setPositiveButton("Set wallpaper", (dialog, which) -> {
-
-
                 // Update database for new download value
                 final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("wallpapers");
 
@@ -117,22 +114,13 @@ public class WallPaperActivity extends AppCompatActivity {
                 wallpaper.setDownloads(downloads + 1);
 
                 databaseRef.child(wallpaper.getName()).setValue(wallpaper).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.i("TEST", "Successfully updated wallpaper");
-                    } else {
-                        Log.i("TEST", "Failed updating wallpaper");
-                    }
                 });
-
 
                 // Get image from database storage
                 final StorageReference ref1 = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
                 Task<Uri> testTask1 = ref1.getDownloadUrl();
-
                 testTask1.addOnSuccessListener(uri -> {
-
                     setWallpaperButton.setText(R.string.loading_set_wallpaper);
-
                     Glide.with(getApplicationContext())
                             .asBitmap()
                             .load(uri)
@@ -140,68 +128,41 @@ public class WallPaperActivity extends AppCompatActivity {
                             .into(new CustomTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    Log.i("TEST", "res ready ");
                                     Uri myImageUri = getImageUri(resource, getApplicationContext());
-                                    Log.i("TEST", "wha " + myImageUri);
-
-                                    Intent intent1 = new Intent();
-                                    intent1.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
-//                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                    intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    intent1.setDataAndType(myImageUri, "image/*");
-                                    intent1.putExtra("mimeType", "image/*");
+                                    Intent intent1 = getWallpaperSetterIntent(myImageUri);
                                     startActivity(Intent.createChooser(intent1, "Set as:"));
                                 }
 
                                 @Override
                                 public void onLoadCleared(@Nullable Drawable placeholder) {
                                 }
-
                             });
                 });
-
-                // Go to home screen
-//                        Intent startMain = new Intent(Intent.ACTION_MAIN);
-//                        startMain.addCategory(Intent.CATEGORY_HOME);
-//                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(startMain);
-
             });
 
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
             builder.show();
-
         });
+    }
 
-//        BACK BUTTON
-//        Button backButton = findViewById(R.id.wall_back_button);
-//        backButton.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                //Context context = v.getContext();
-//                //Intent intent = new Intent(Intent.ACTION_MAIN);
-//                //intent.addCategory(Intent.CATEGORY_HOME);
-//                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                //context.startActivity(intent);
-//                //startActivityForResult(new Intent(getApplicationContext(), MainActivity.class), 0);
-//                onBackPressed();
-//            }
-//        });
+    private Intent getWallpaperSetterIntent(Uri myImageUri) {
+        Intent intent1 = new Intent();
+        intent1.setAction(WallpaperManager.ACTION_CROP_AND_SET_WALLPAPER);
+//                                                intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent1.setDataAndType(myImageUri, "image/*");
+        intent1.putExtra("mimeType", "image/*");
+
+        return intent1;
     }
 
     @Override
     public void onBackPressed() {
-        //Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("liked", likedMap);
-
         SaveData(likedMap);
         super.onBackPressed();
-        //startActivity(intent);
     }
 
-    public void SaveData(HashMap<WallPaper, Boolean> arrayList)
-    {
+    public void SaveData(HashMap<WallPaper, Boolean> arrayList) {
         SharedPreferences sharedPreferences = getSharedPreferences("wallApp:likedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -227,14 +188,6 @@ public class WallPaperActivity extends AppCompatActivity {
 
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(),
                 inImage, "Title", null);
-/*        Log.i("TEST", "dude what?: " );
-
-        ContentValues values=new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE,"Title");
-        values.put(MediaStore.Images.Media.DESCRIPTION,"From WallApp");
-        Uri path=getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);*/
-
-        Log.i("TEST", "path: " + path);
 
         return Uri.parse(path);
     }

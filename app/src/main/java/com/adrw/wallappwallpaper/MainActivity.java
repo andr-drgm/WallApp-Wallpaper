@@ -34,7 +34,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     TabLayout tabs;
     ViewPager viewPager;
@@ -60,7 +60,6 @@ public class MainActivity2 extends AppCompatActivity {
                     DatabaseReference databaseRef = database.getReference("wallpapers");
                     HashMap<String, Uri> uriMap = new HashMap<>();
 
-
                     databaseRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,9 +70,7 @@ public class MainActivity2 extends AppCompatActivity {
                                     if (!uriMap.containsKey(wallpaper.getImagePath())) {
                                         final StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(wallpaper.getImagePath());
                                         Task<Uri> testTask = ref.getDownloadUrl();
-                                        testTask.addOnSuccessListener(uri -> {
-                                            uriMap.put(wallpaper.getImagePath(), uri);
-                                        });
+                                        testTask.addOnSuccessListener(uri -> uriMap.put(wallpaper.getImagePath(), uri));
                                     }
                                 }
                             }
