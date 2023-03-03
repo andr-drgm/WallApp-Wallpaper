@@ -1,7 +1,7 @@
 # WallApp - Wallpapers
 
 [![GitHub contributors](https://img.shields.io/github/contributors/andr-drgm/WallApp-Wallpaper?style=flat-square)](https://github.com/andr-drgm/WallApp-Wallpaper/graphs/contributors)
-[![GitHub license](https://img.shields.io/github/license/<username>/<repo-name>?style=flat-square)](https://github.com/<username>/<repo-name>/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/andr-drgm/WallApp-Wallpaper?style=flat-square)](https://github.com/<username>/<repo-name>/blob/master/LICENSE)
 
 [![forthebadge](https://forthebadge.com/images/badges/built-for-android.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
