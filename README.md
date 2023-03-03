@@ -10,7 +10,7 @@
 
 WallApp - Wallpapers is a mobile application that features a collection of wallpapers made by local artists from Romania. The app allows users to set a wallpaper as their device background, follow the creator of the wallpaper on Instagram, and like wallpapers to save them for later.
 
-This app was created in 2020 by [Your Name] and [Your Friend's Name], using Java for the Android platform.
+This app was created in 2020 by Andrei Dragomir and Dan Horea, using Java for the Android platform.
 
 ## Screenshots
 
